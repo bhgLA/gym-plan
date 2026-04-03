@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Plan de Fuerza — Abril 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0f0e0d;--bg2:#181714;--bg3:#211f1c;--card:#1c1a17;
+    --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.18);
+    --text:#e8e4dc;--text2:#a09890;--text3:#6b6358;
+    --accent:#c8a96e;--accent2:#e2c18a;--accent-dim:rgba(200,169,110,0.12);
+    --green:#7ab87a;--green-dim:rgba(122,184,122,0.12);--green-solid:rgba(122,184,122,0.22);
+    --red:#c97a6a;--red-dim:rgba(201,122,106,0.12);
+    --blue:#6a9ec9;--blue-dim:rgba(106,158,201,0.12);
+    --orange:#d4855a;--orange-dim:rgba(212,133,90,0.12);
+    --purple:#9b7ec8;--purple-dim:rgba(155,126,200,0.12);
+    --radius:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+  .header{background:var(--bg2);border-bottom:1px solid var(--border);padding:36px 48px 28px;position:relative;overflow:hidden;}
+  .header::before{content:'';position:absolute;top:-60px;right:-40px;width:320px;height:320px;background:radial-gradient(circle,rgba(200,169,110,0.08) 0%,transparent 70%);pointer-events:none;}
+  .header h1{font-family:'DM Serif Display',serif;font-size:38px;color:var(--accent2);line-height:1.1;}
+  .header .subtitle{font-size:13px;color:var(--text2);margin-top:6px;letter-spacing:0.04em;text-transform:uppercase;}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;}
+  .badge{padding:5px 12px;border-radius:100px;font-size:12px;font-weight:500;letter-spacing:0.02em;border:1px solid;}
+  .badge.gold{background:var(--accent-dim);border-color:rgba(200,169,110,0.3);color:var(--accent2);}
+  .badge.green{background:var(--green-dim);border-color:rgba(122,184,122,0.3);color:var(--green);}
+  .badge.red{background:var(--red-dim);border-color:rgba(201,122,106,0.3);color:var(--red);}
+  .badge.blue{background:var(--blue-dim);border-color:rgba(106,158,201,0.3);color:var(--blue);}
+  .badge.orange{background:var(--orange-dim);border-color:rgba(212,133,90,0.3);color:var(--orange);}
+  .badge.purple{background:var(--purple-dim);border-color:rgba(155,126,200,0.3);color:var(--purple);}
+
+  .gym-btn-wrap{padding:20px 48px 0;}
+  .gym-btn{display:inline-flex;align-items:center;gap:10px;background:var(--accent-dim);border:1px solid rgba(200,169,110,0.35);color:var(--accent2);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:12px 22px;border-radius:10px;cursor:pointer;transition:all 0.2s;letter-spacing:0.02em;}
+  .gym-btn:hover{background:rgba(200,169,110,0.2);border-color:rgba(200,169,110,0.5);}
+
+  .main{padding:32px 48px;max-width:1100px;margin:0 auto;}
+  .injury-alert{background:var(--red-dim);border:1px solid rgba(201,122,106,0.25);border-radius:var(--radius);padding:18px 22px;margin-bottom:28px;display:flex;gap:14px;align-items:flex-start;}
+  .injury-alert .icon{font-size:20px;flex-shrink:0;margin-top:2px;}
+  .injury-alert h3{font-size:13px;color:var(--red);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:6px;}
+  .injury-alert p{font-size:13px;color:var(--text2);line-height:1.6;}
+
+  .week-nav{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap;}
+  .week-btn{padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;}
+  .week-btn:hover{border-color:var(--border2);color:var(--text);}
+  .week-btn.active{background:var(--accent-dim);border-color:rgba(200,169,110,0.4);color:var(--accent2);font-weight:600;}
+  .week-content{display:none;}
+  .week-content.active{display:block;}
+  .week-header{background:var(--bg3);border-radius:var(--radius);padding:20px 24px;margin-bottom:20px;border:1px solid var(--border);display:flex;gap:24px;align-items:center;flex-wrap:wrap;}
+  .week-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--accent2);}
+  .week-focus{font-size:13px;color:var(--text2);line-height:1.5;}
+
+  .days-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:20px;}
+  .day-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color 0.2s;}
+  .day-card:hover{border-color:var(--border2);}
+  .day-card.core-card{border-color:rgba(155,126,200,0.2);}
+  .day-header{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
+  .day-name{font-weight:600;font-size:14px;color:var(--text);}
+  .day-header-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+  .day-type{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.05em;padding:3px 8px;border-radius:4px;}
+  .day-type.empuje{background:var(--orange-dim);color:var(--orange);}
+  .day-type.jale{background:var(--blue-dim);color:var(--blue);}
+  .day-type.piernas{background:var(--green-dim);color:var(--green);}
+  .day-type.core{background:var(--purple-dim);color:var(--purple);}
+  .day-type.opcional{border:1px dashed rgba(200,169,110,0.3);color:var(--text3);}
+  .start-day-btn{font-size:11px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:4px 10px;border-radius:5px;cursor:pointer;background:var(--accent-dim);border:1px solid rgba(200,169,110,0.3);color:var(--accent);font-family:'DM Sans',sans-serif;transition:all 0.15s;white-space:nowrap;}
+  .start-day-btn:hover{background:rgba(200,169,110,0.2);}
+
+  /* Section divider inside exercise list */
+  .ex-section{padding:8px 18px 4px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);border-top:1px solid var(--border);margin-top:4px;}
+  .ex-section.first{border-top:none;margin-top:0;padding-top:12px;}
+  .ex-section.core-section{color:var(--purple);background:rgba(155,126,200,0.05);}
+
+  .exercises-list{padding:0 0 6px;}
+  .exercise-item{display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 18px;border-bottom:1px solid var(--border);align-items:start;}
+  .exercise-item:last-child{border-bottom:none;}
+  .ex-name{font-size:13px;color:var(--text);font-weight:400;line-height:1.4;}
+  .ex-name .safe-note{display:block;font-size:11px;color:var(--text3);margin-top:2px;}
+  .ex-sets{font-size:12px;color:var(--text2);white-space:nowrap;text-align:right;font-weight:500;}
+  .ex-sets .weight{display:block;font-size:11px;color:var(--accent);text-align:right;margin-top:1px;}
+  .ex-warning{color:var(--red);font-size:10px;text-transform:uppercase;letter-spacing:0.04em;}
+
+  .notes-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;}
+  .notes-box h4{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;font-weight:600;}
+  .notes-box ul{list-style:none;}
+  .notes-box ul li{font-size:13px;color:var(--text2);padding:4px 0 4px 16px;position:relative;line-height:1.5;}
+  .notes-box ul li::before{content:'—';position:absolute;left:0;color:var(--text3);}
+  .section-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;font-weight:600;margin-bottom:14px;}
+  .prog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+  .prog-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 14px;}
+  .prog-card .ex{font-size:12px;color:var(--text2);margin-bottom:6px;}
+  .prog-card .current{font-size:13px;color:var(--text);font-weight:500;}
+  .prog-card .target{font-size:11px;color:var(--green);margin-top:3px;}
+
+  /* GYM MODE */
+  #gym-mode{display:none;position:fixed;inset:0;z-index:1000;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  #gym-mode.open{display:block;}
+  .gym-topbar{position:sticky;top:0;z-index:10;background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .gym-topbar-left{display:flex;align-items:center;gap:12px;}
+  .gym-back-btn{background:transparent;border:1px solid var(--border);color:var(--text2);font-size:13px;font-family:'DM Sans',sans-serif;padding:8px 14px;border-radius:8px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px;}
+  .gym-back-btn:hover{border-color:var(--border2);color:var(--text);}
+  .gym-day-title{font-weight:600;font-size:15px;color:var(--text);}
+  .gym-progress-pill{font-size:12px;font-weight:600;padding:5px 12px;border-radius:100px;background:var(--green-dim);border:1px solid rgba(122,184,122,0.25);color:var(--green);white-space:nowrap;}
+  .gym-reset-btn{background:transparent;border:1px solid var(--border);color:var(--text3);font-size:12px;font-family:'DM Sans',sans-serif;padding:7px 12px;border-radius:8px;cursor:pointer;transition:all 0.15s;}
+  .gym-reset-btn:hover{color:var(--red);border-color:rgba(201,122,106,0.3);}
+  .gym-progress-bar-wrap{background:var(--bg2);padding:0 0 1px;}
+  .gym-progress-bar-track{height:3px;background:var(--border);}
+  .gym-progress-bar-fill{height:3px;background:var(--green);transition:width 0.4s ease;width:0%;}
+  .gym-week-picker{padding:14px 20px 6px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .gym-week-picker::-webkit-scrollbar{display:none;}
+  .gym-week-tab{flex-shrink:0;padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+  .gym-week-tab:hover{color:var(--text2);border-color:var(--border2);}
+  .gym-week-tab.active{background:var(--bg3);border-color:var(--border2);color:var(--text2);font-weight:500;}
+  .gym-day-picker{padding:0 20px 12px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .gym-day-picker::-webkit-scrollbar{display:none;}
+  .gym-day-tab{flex-shrink:0;padding:8px 18px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.15s;white-space:nowrap;}
+  .gym-day-tab:hover{border-color:var(--border2);color:var(--text);}
+  .gym-day-tab.active{background:var(--accent-dim);border-color:rgba(200,169,110,0.4);color:var(--accent2);font-weight:600;}
+  .gym-exercises{padding:8px 20px 120px;}
+  .gym-ex-block{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:border-color 0.25s;}
+  .gym-ex-block.done{border-color:rgba(122,184,122,0.35);background:#141e14;}
+  .gym-ex-block.core-block{border-color:rgba(155,126,200,0.2);}
+  .gym-ex-block.core-block.done{border-color:rgba(122,184,122,0.35);background:#141e14;}
+  .gym-section-label{padding:10px 16px 4px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--text3);}
+  .gym-section-label.core-lbl{color:var(--purple);}
+  .gym-ex-header{padding:14px 16px 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .gym-ex-info{flex:1;min-width:0;}
+  .gym-ex-name{font-size:16px;font-weight:500;color:var(--text);line-height:1.3;}
+  .gym-ex-block.done .gym-ex-name{color:var(--text3);}
+  .gym-ex-meta{font-size:14px;color:var(--accent);margin-top:5px;font-weight:500;}
+  .gym-ex-note{font-size:12px;color:var(--text3);margin-top:4px;line-height:1.4;}
+  .gym-ex-skip{font-size:12px;color:var(--red);margin-top:4px;font-weight:600;}
+  .gym-series-row{border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .gym-serie-label{font-size:12px;color:var(--text3);margin-right:2px;}
+  .serie-check{width:48px;height:48px;border-radius:10px;border:1.5px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;user-select:none;-webkit-tap-highlight-color:transparent;flex-shrink:0;position:relative;}
+  .serie-check:active{transform:scale(0.9);}
+  .serie-check.checked{background:var(--green-solid);border-color:rgba(122,184,122,0.55);}
+  .serie-check .num{font-size:15px;font-weight:600;color:var(--text3);}
+  .serie-check.checked .num{display:none;}
+  .serie-check .chk{display:none;}
+  .serie-check.checked .chk{display:flex;align-items:center;justify-content:center;}
+  .gym-warmup-row{border-top:1px solid var(--border);padding:11px 16px;display:flex;align-items:center;gap:10px;}
+  .gym-warmup-badge{font-size:11px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;padding:3px 8px;border-radius:4px;background:var(--blue-dim);border:1px solid rgba(106,158,201,0.2);}
+  .gym-warmup-time{font-size:13px;color:var(--text2);}
+  .gym-done-banner{display:none;margin:0 20px 16px;background:var(--green-dim);border:1px solid rgba(122,184,122,0.3);border-radius:var(--radius);padding:22px 20px;text-align:center;}
+  .gym-done-banner.show{display:block;}
+  .gym-done-banner h3{font-family:'DM Serif Display',serif;font-size:24px;color:var(--green);margin-bottom:5px;}
+  .gym-done-banner p{font-size:13px;color:var(--text2);}
+
+  @media(max-width:680px){
+    .header,.main{padding:24px 20px;}
+    .gym-btn-wrap{padding:16px 20px 0;}
+    .header h1{font-size:28px;}
+    .days-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Plan de Fuerza<br>Abril 2026</h1>
+    <p class="subtitle">Recomposición corporal · Protocolo de recuperación activa</p>
+  </div>
+  <div class="badges">
+    <span class="badge gold">Objetivo: Recomposición corporal</span>
+    <span class="badge green">3 días base + core dedicado</span>
+    <span class="badge blue">Ciclo indoor = descanso activo</span>
+    <span class="badge red">Protocolo ingle: dolor activo</span>
+    <span class="badge purple">Core en cada sesión + día D</span>
+    <span class="badge orange">Sesiones 75–90 min máx.</span>
+  </div>
+</div>
+
+<div class="gym-btn-wrap">
+  <button class="gym-btn" onclick="openGym()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v16M18 4v16M2 8h4M18 8h4M2 16h4M18 16h4"/></svg>
+    Modo Gym — sesión de hoy
+  </button>
+</div>
+
+<div class="main">
+  <div class="injury-alert">
+    <div class="icon">⚠</div>
+    <div>
+      <h3>Lesiones activas — Protocolo de seguridad</h3>
+      <p><strong style="color:var(--red)">Ingle derecha (sobrecarga, 1 semana):</strong> Eliminamos prensa, sentadilla con barra y búlgaras en S1–S2. Hip thrust con carga reducida y rango parcial. Reintroducción gradual en S3–S4 solo si sin dolor.
+      <br><br>Core: todos los ejercicios seleccionados son seguros para la ingle — no hay aducción ni compresión de la zona afectada. Detente si sientes tensión.</p>
+    </div>
+  </div>
+
+  <div class="week-nav">
+    <button class="week-btn active" onclick="showWeek('s1',this)">Semana 1 · 1–6 abr</button>
+    <button class="week-btn" onclick="showWeek('s2',this)">Semana 2 · 7–13 abr</button>
+    <button class="week-btn" onclick="showWeek('s3',this)">Semana 3 · 14–20 abr</button>
+    <button class="week-btn" onclick="showWeek('s4',this)">Semana 4 · 21–27 abr</button>
+    <button class="week-btn" onclick="showWeek('prog',this)">Progresión</button>
+  </div>
+
+  <!-- ===== S1 ===== -->
+  <div class="week-content active" id="s1">
+    <div class="week-header"><div><div class="week-title">Semana 1 — Vuelta prudente</div><div class="week-focus">Reactivación muscular · Técnica limpia · Sin carga en ingle · RPE máx. 7/10 · Core: antirotación y estabilidad</div></div><span class="badge red">Ingle: evitar completamente</span></div>
+    <div class="days-grid">
+
+      <!-- DÍA A -->
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día A — Empuje + Hombros + Core</span><div class="day-header-right"><span class="day-type empuje">Empuje</span><button class="start-day-btn" onclick="openGym('s1','A')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Calentamiento</div>
+          <div class="exercise-item"><div class="ex-name">Rotaciones hombro + pectoral (mancuernas vacías)</div><div class="ex-sets">5 min</div></div>
+          <div class="ex-section">Empuje</div>
+          <div class="exercise-item"><div class="ex-name">Press pecho vertical máquina<span class="safe-note">Agarre neutro si molesta hombro</span></div><div class="ex-sets">3 × 12<span class="weight">60–70 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Press hombro mancuernas (sentado)<span class="safe-note">Codos sin pasar de 90°</span></div><div class="ex-sets">3 × 10<span class="weight">8 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Laterales mancuernas<span class="safe-note">Sin forzar muñeca — codo ligeramente flexionado</span></div><div class="ex-sets">3 × 12<span class="weight">4–5 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Pullface cable (face pull)</div><div class="ex-sets">3 × 15<span class="weight">60–70 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Tríceps polea (agarre recto)</div><div class="ex-sets">3 × 12<span class="weight">Carga media</span></div></div>
+          <div class="ex-section core-section">Core — 5 min al final</div>
+          <div class="exercise-item"><div class="ex-name">Pallof press polea<span class="safe-note">Antirotación — mantén pelvis neutra</span></div><div class="ex-sets">3 × 10 /lado<span class="weight">35 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dead bug<span class="safe-note">Espalda baja pegada al suelo — movimiento lento y controlado</span></div><div class="ex-sets">3 × 8 /lado<span class="weight">Peso corporal</span></div></div>
+        </div>
+      </div>
+
+      <!-- DÍA B -->
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día B — Jale + Espalda + Core</span><div class="day-header-right"><span class="day-type jale">Jale</span><button class="start-day-btn" onclick="openGym('s1','B')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Calentamiento</div>
+          <div class="exercise-item"><div class="ex-name">Retracción escapular + Cat-cow</div><div class="ex-sets">5 min</div></div>
+          <div class="ex-section">Jale</div>
+          <div class="exercise-item"><div class="ex-name">Jalón polea (agarre pronado)<span class="safe-note">Pecho arriba, escápulas bien</span></div><div class="ex-sets">3 × 12<span class="weight">70 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo sentado polea</div><div class="ex-sets">3 × 12<span class="weight">70 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo unilateral mancuerna<span class="safe-note">Apoyo rodilla en banco</span></div><div class="ex-sets">3 × 10 /lado<span class="weight">12 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dominadas asistidas máquina</div><div class="ex-sets">3 × 6–8<span class="weight">40 lb assist.</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Bíceps mancuernas (alternado)</div><div class="ex-sets">3 × 12<span class="weight">8 kg</span></div></div>
+          <div class="ex-section core-section">Core — 5 min al final</div>
+          <div class="exercise-item"><div class="ex-name">Bird dog<span class="safe-note">Brazo y pierna opuesta — no rotar la cadera</span></div><div class="ex-sets">3 × 10 /lado<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha isométrica<span class="safe-note">Cuerpo recto — no hundir las caderas</span></div><div class="ex-sets">3 × 20–30 s<span class="weight">Peso corporal</span></div></div>
+        </div>
+      </div>
+
+      <!-- DÍA C -->
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día C — Piernas + Core</span><div class="day-header-right"><span class="day-type piernas">Piernas</span><button class="start-day-btn" onclick="openGym('s1','C')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Calentamiento</div>
+          <div class="exercise-item"><div class="ex-name">Movilidad cadera + glúteo (sin aducción forzada)</div><div class="ex-sets">8 min</div></div>
+          <div class="ex-section">Piernas</div>
+          <div class="exercise-item"><div class="ex-name">Hip thrust barra (recorrido 70%)<span class="safe-note">Si hay molestia, parar. Sin tensión en ingle</span></div><div class="ex-sets">3 × 10<span class="weight">50 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Cuádriceps máquina rehabilitación<span class="safe-note">Rango 90°→30°. Bilateral</span></div><div class="ex-sets">3 × 15<span class="weight">50 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Femoral máquina (leg curl)</div><div class="ex-sets">3 × 12<span class="weight">5 tabletas</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Patada glúteo polea<span class="safe-note">Lado no afectado primero. Sin rotación excesiva</span></div><div class="ex-sets">3 × 12 /lado<span class="weight">Carga moderada</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Aductores máquina<span class="safe-note" style="color:var(--red)">⚠ OMITIR esta semana</span></div><div class="ex-sets"><span class="ex-warning">SKIP</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Goblet squat (rango parcial)<span class="safe-note">Solo si no hay dolor al probar sin peso</span></div><div class="ex-sets">3 × 10<span class="weight">12 kg</span></div></div>
+          <div class="ex-section core-section">Core — 5 min al final</div>
+          <div class="exercise-item"><div class="ex-name">Crunch en polea (de rodillas)<span class="safe-note">Contrae el abdomen, no tires con el cuello</span></div><div class="ex-sets">3 × 15<span class="weight">30–40 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha lateral (apoyo codo)<span class="safe-note">Caderas arriba — oblicuos trabajando</span></div><div class="ex-sets">3 × 20 s /lado<span class="weight">Peso corporal</span></div></div>
+        </div>
+      </div>
+
+      <!-- DÍA D — CORE DEDICADO -->
+      <div class="day-card core-card">
+        <div class="day-header"><span class="day-name">Día D — Core dedicado + Full body suave</span><div class="day-header-right"><span class="day-type core">Core</span><button class="start-day-btn" onclick="openGym('s1','D')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first core-section">Core completo — bloque principal</div>
+          <div class="exercise-item"><div class="ex-name">Pallof press polea<span class="safe-note">Antirotación — progresión base</span></div><div class="ex-sets">3 × 12 /lado<span class="weight">30 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dead bug<span class="safe-note">Control lumbar — lumbar en el suelo todo el tiempo</span></div><div class="ex-sets">3 × 10 /lado<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Crunch en polea (de rodillas)</div><div class="ex-sets">3 × 15<span class="weight">35 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha isométrica</div><div class="ex-sets">3 × 30 s<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha lateral<span class="safe-note">Ambos lados</span></div><div class="ex-sets">3 × 20 s /lado<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Bird dog</div><div class="ex-sets">3 × 10 /lado<span class="weight">Peso corporal</span></div></div>
+          <div class="ex-section">Full body suave (complementario)</div>
+          <div class="exercise-item"><div class="ex-name">Press pecho máquina</div><div class="ex-sets">2 × 12<span class="weight">60 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Jalón polea agarre cerrado</div><div class="ex-sets">2 × 12<span class="weight">70 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Hip thrust sin barra</div><div class="ex-sets">2 × 15<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo unilateral</div><div class="ex-sets">2 × 10 /lado<span class="weight">12 kg</span></div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="notes-box"><h4>Notas semana 1</h4><ul>
+      <li>RPE máximo 7/10 en todo. Core: nunca a fallo — prioriza técnica sobre cantidad.</li>
+      <li>Dead bug: si la espalda baja se despega del suelo, reduce el rango de movimiento. Es mejor hacerlo pequeño y bien que grande y mal.</li>
+      <li>El día D es el bloque de core completo — intenta hacerlo aunque sea sesión corta (45 min). Es compatible con el ciclo indoor el mismo día si lo haces antes.</li>
+      <li>Laterales mancuernas: agarre neutro (pulgar arriba) si hay tensión en muñeca.</li>
+    </ul></div>
+  </div>
+
+  <!-- ===== S2 ===== -->
+  <div class="week-content" id="s2">
+    <div class="week-header"><div><div class="week-title">Semana 2 — Consolidación</div><div class="week-focus">+5–10% carga en upper · Core: añadimos carga progresiva · Evaluamos ingle</div></div><span class="badge orange">Progresión carga suave</span></div>
+    <div class="days-grid">
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día A — Empuje + Hombros + Core</span><div class="day-header-right"><span class="day-type empuje">Empuje</span><button class="start-day-btn" onclick="openGym('s2','A')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Empuje</div>
+          <div class="exercise-item"><div class="ex-name">Press pecho vertical máquina</div><div class="ex-sets">4 × 10<span class="weight">70–80 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Press hombro mancuernas (sentado)</div><div class="ex-sets">3 × 10<span class="weight">10 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Press hombro barra rígida<span class="safe-note">Alternamos con mancuernas</span></div><div class="ex-sets">2 × 10<span class="weight">15 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Laterales mancuernas (controlado)</div><div class="ex-sets">3 × 12<span class="weight">5 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Pullface cable</div><div class="ex-sets">3 × 15<span class="weight">70–80 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Tríceps mancuerna o polea</div><div class="ex-sets">3 × 12<span class="weight">10 kg / polea</span></div></div>
+          <div class="ex-section core-section">Core</div>
+          <div class="exercise-item"><div class="ex-name">Pallof press polea<span class="safe-note">Subimos carga respecto a S1</span></div><div class="ex-sets">3 × 12 /lado<span class="weight">40 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dead bug con mancuerna<span class="safe-note">Mancuerna ligera en mano opuesta a la pierna que extiende</span></div><div class="ex-sets">3 × 8 /lado<span class="weight">2–3 kg</span></div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día B — Jale + Espalda + Core</span><div class="day-header-right"><span class="day-type jale">Jale</span><button class="start-day-btn" onclick="openGym('s2','B')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Jale</div>
+          <div class="exercise-item"><div class="ex-name">Jalón polea (ancho)</div><div class="ex-sets">4 × 10<span class="weight">75 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo sentado polea</div><div class="ex-sets">3 × 10<span class="weight">75–80 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo unilateral mancuerna</div><div class="ex-sets">3 × 10 /lado<span class="weight">14 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dominadas asistidas máquina</div><div class="ex-sets">3 × 6–8<span class="weight">35–40 lb assist.</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Peso muerto máquina (RDL)<span class="safe-note">Bisagra de cadera, sin redondear espalda baja</span></div><div class="ex-sets">3 × 10<span class="weight">45 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Bíceps mancuernas</div><div class="ex-sets">3 × 12<span class="weight">8 kg</span></div></div>
+          <div class="ex-section core-section">Core</div>
+          <div class="exercise-item"><div class="ex-name">Bird dog con pausa 2 s arriba<span class="safe-note">Mantén posición 2 segundos antes de bajar</span></div><div class="ex-sets">3 × 10 /lado<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha isométrica</div><div class="ex-sets">3 × 30–40 s<span class="weight">Peso corporal</span></div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día C — Piernas + Core</span><div class="day-header-right"><span class="day-type piernas">Piernas</span><button class="start-day-btn" onclick="openGym('s2','C')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Piernas</div>
+          <div class="exercise-item"><div class="ex-name">Hip thrust barra (recorrido 80%)<span class="safe-note">Subimos solo si S1 fue bien</span></div><div class="ex-sets">3 × 10<span class="weight">55 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Cuádriceps máquina rehab (rango parcial)</div><div class="ex-sets">4 × 12<span class="weight">55–60 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Femoral máquina</div><div class="ex-sets">3 × 12<span class="weight">5 tabletas</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Patada glúteo polea</div><div class="ex-sets">3 × 15 /lado</div></div>
+          <div class="exercise-item"><div class="ex-name">Goblet squat (evaluando rango)<span class="safe-note">Si sin dolor → 14 kg rango completo</span></div><div class="ex-sets">3 × 10<span class="weight">12–14 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Aductores máquina (peso muy bajo)<span class="safe-note">Solo si sin dolor en ingle al probar. 1 set de 10.</span></div><div class="ex-sets">1 × 10<span class="weight">Peso mínimo</span></div></div>
+          <div class="ex-section core-section">Core</div>
+          <div class="exercise-item"><div class="ex-name">Crunch en polea (de rodillas)<span class="safe-note">Más carga que S1</span></div><div class="ex-sets">3 × 15<span class="weight">40–45 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha lateral<span class="safe-note">Aguanta más tiempo que S1</span></div><div class="ex-sets">3 × 25 s /lado<span class="weight">Peso corporal</span></div></div>
+        </div>
+      </div>
+
+      <div class="day-card core-card">
+        <div class="day-header"><span class="day-name">Día D — Core dedicado + Full body suave</span><div class="day-header-right"><span class="day-type core">Core</span><button class="start-day-btn" onclick="openGym('s2','D')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first core-section">Core completo — progresión S2</div>
+          <div class="exercise-item"><div class="ex-name">Pallof press polea</div><div class="ex-sets">3 × 12 /lado<span class="weight">40 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dead bug con mancuerna</div><div class="ex-sets">3 × 10 /lado<span class="weight">2–3 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Crunch en polea (de rodillas)</div><div class="ex-sets">4 × 15<span class="weight">40 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha isométrica</div><div class="ex-sets">3 × 40 s<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha lateral</div><div class="ex-sets">3 × 25 s /lado<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Ab wheel (rueda abdominal)<span class="safe-note">Si no tienes rueda: sustituye por plancha con deslizamiento de codos</span></div><div class="ex-sets">3 × 8–10<span class="weight">Peso corporal</span></div></div>
+          <div class="ex-section">Full body suave</div>
+          <div class="exercise-item"><div class="ex-name">Press pecho máquina</div><div class="ex-sets">2 × 12<span class="weight">65 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Jalón polea agarre cerrado</div><div class="ex-sets">2 × 12<span class="weight">70 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Hip thrust sin barra</div><div class="ex-sets">2 × 15<span class="weight">20 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo unilateral</div><div class="ex-sets">2 × 10 /lado<span class="weight">14 kg</span></div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="notes-box"><h4>Notas semana 2</h4><ul>
+      <li>Ab wheel: empieza solo con 5–8 repeticiones de rango corto (solo llevas la rueda un palmo hacia delante). No vayas al suelo todavía.</li>
+      <li>Ingle: al final de S2, evalúa si puedes hacer S3 con más carga en piernas. Si persiste el dolor, mantenemos protocolo una semana más.</li>
+      <li>RPE 7–8/10 para upper body. Core: esfuerzo real pero sin compensar con espalda baja.</li>
+      <li>Añadimos peso muerto en máquina al Día B. Empieza con 45 kg para asentar la técnica.</li>
+    </ul></div>
+  </div>
+
+  <!-- ===== S3 ===== -->
+  <div class="week-content" id="s3">
+    <div class="week-header"><div><div class="week-title">Semana 3 — Reintroducción progresiva</div><div class="week-focus">Si la ingle permite: prensa suave, goblet completo, aductores · Upper: carga real · Core: añadimos rotación controlada</div></div><span class="badge green">Semana de progresión</span></div>
+    <div class="days-grid">
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día A — Empuje + Hombros + Core</span><div class="day-header-right"><span class="day-type empuje">Empuje</span><button class="start-day-btn" onclick="openGym('s3','A')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Empuje</div>
+          <div class="exercise-item"><div class="ex-name">Press pecho vertical máquina</div><div class="ex-sets">4 × 8–10<span class="weight">80–90 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Press hombro mancuernas</div><div class="ex-sets">3 × 10<span class="weight">10 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Press hombro máquina</div><div class="ex-sets">3 × 10<span class="weight">50 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Laterales mancuernas</div><div class="ex-sets">4 × 12<span class="weight">5–6 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Pullface cable</div><div class="ex-sets">3 × 15<span class="weight">80–90 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Tríceps mancuerna (una de 10 kg)</div><div class="ex-sets">3 × 12</div></div>
+          <div class="ex-section core-section">Core</div>
+          <div class="exercise-item"><div class="ex-name">Pallof press polea con rotación<span class="safe-note">Igual que Pallof pero al final giras el torso hacia el cable</span></div><div class="ex-sets">3 × 10 /lado<span class="weight">35 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dead bug con mancuerna + pausa</div><div class="ex-sets">3 × 10 /lado<span class="weight">3 kg</span></div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día B — Jale + Espalda + Core</span><div class="day-header-right"><span class="day-type jale">Jale</span><button class="start-day-btn" onclick="openGym('s3','B')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Jale</div>
+          <div class="exercise-item"><div class="ex-name">Jalón polea</div><div class="ex-sets">4 × 8<span class="weight">80 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo sentado polea</div><div class="ex-sets">4 × 10<span class="weight">80 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo unilateral mancuerna</div><div class="ex-sets">3 × 10 /lado<span class="weight">14 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dominadas asistidas máquina</div><div class="ex-sets">3 × 8<span class="weight">35 lb assist.</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Peso muerto máquina</div><div class="ex-sets">3 × 8<span class="weight">50 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Bíceps mancuernas</div><div class="ex-sets">3 × 10<span class="weight">8 kg</span></div></div>
+          <div class="ex-section core-section">Core</div>
+          <div class="exercise-item"><div class="ex-name">Bird dog con mancuerna en mano<span class="safe-note">Añadimos carga ligera en el brazo extendido</span></div><div class="ex-sets">3 × 10 /lado<span class="weight">2 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha con toque de hombro<span class="safe-note">Desde plancha, toca hombro contrario alternando — sin balancear caderas</span></div><div class="ex-sets">3 × 10 /lado<span class="weight">Peso corporal</span></div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día C — Piernas + Core</span><div class="day-header-right"><span class="day-type piernas">Piernas</span><button class="start-day-btn" onclick="openGym('s3','C')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Piernas</div>
+          <div class="exercise-item"><div class="ex-name">Hip thrust barra<span class="safe-note">Recorrido completo si sin dolor</span></div><div class="ex-sets">4 × 8<span class="weight">60 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Prensa cuádriceps (prudente)<span class="safe-note">Si ingle permite: 120–140 lb. Si hay dolor → omitir</span></div><div class="ex-sets">3 × 12<span class="weight">120–140 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Cuádriceps máquina rehab (rango completo)</div><div class="ex-sets">3 × 12<span class="weight">60–70 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Femoral máquina</div><div class="ex-sets">3 × 12<span class="weight">5 tabletas</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Goblet squat rango completo</div><div class="ex-sets">3 × 10<span class="weight">16 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Aductores máquina</div><div class="ex-sets">3 × 12<span class="weight">Carga baja</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Patada glúteo polea</div><div class="ex-sets">3 × 15 /lado</div></div>
+          <div class="ex-section core-section">Core</div>
+          <div class="exercise-item"><div class="ex-name">Crunch en polea (de rodillas)</div><div class="ex-sets">4 × 15<span class="weight">45–50 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha lateral con elevación de cadera<span class="safe-note">Desde plancha lateral, baja y sube la cadera controlado</span></div><div class="ex-sets">3 × 10 /lado<span class="weight">Peso corporal</span></div></div>
+        </div>
+      </div>
+
+      <div class="day-card core-card">
+        <div class="day-header"><span class="day-name">Día D — Core dedicado + Full body suave</span><div class="day-header-right"><span class="day-type core">Core</span><button class="start-day-btn" onclick="openGym('s3','D')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first core-section">Core completo — S3: añadimos rotación y carga</div>
+          <div class="exercise-item"><div class="ex-name">Pallof press con rotación</div><div class="ex-sets">3 × 12 /lado<span class="weight">40 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dead bug con mancuerna</div><div class="ex-sets">3 × 10 /lado<span class="weight">3 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Crunch en polea (de rodillas)</div><div class="ex-sets">4 × 15<span class="weight">45 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Ab wheel (rueda abdominal)<span class="safe-note">Rango completo si puedes mantener lumbar</span></div><div class="ex-sets">3 × 10–12<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha con toque de hombro</div><div class="ex-sets">3 × 12 /lado<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha lateral con elevación de cadera</div><div class="ex-sets">3 × 10 /lado<span class="weight">Peso corporal</span></div></div>
+          <div class="ex-section">Full body suave</div>
+          <div class="exercise-item"><div class="ex-name">Press hombro máquina</div><div class="ex-sets">2 × 10<span class="weight">50 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Jalón polea</div><div class="ex-sets">2 × 10<span class="weight">75 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Hip thrust sin barra</div><div class="ex-sets">2 × 15<span class="weight">20 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo sentado polea</div><div class="ex-sets">2 × 10<span class="weight">70 lb</span></div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="notes-box"><h4>Notas semana 3</h4><ul>
+      <li>La prensa cuádriceps solo si la ingle está sin dolor activo. Carga máxima 140 lb. Sin prisa.</li>
+      <li>Ab wheel: si llegas al suelo sin perder la lumbar, ya estás en un nivel avanzado. No es obligatorio el rango completo.</li>
+      <li>Upper body: RPE 8/10. Core: RPE 7/10 — el core se entrena con volumen, no con dolor.</li>
+      <li>Búlgaras no vuelven hasta S4 como mínimo, con 6–8 kg para evaluar la ingle.</li>
+    </ul></div>
+  </div>
+
+  <!-- ===== S4 ===== -->
+  <div class="week-content" id="s4">
+    <div class="week-header"><div><div class="week-title">Semana 4 — Carga real + evaluación mayo</div><div class="week-focus">Cargas reales en upper · Piernas según evolución ingle · Core: intensidad completa</div></div><span class="badge gold">Cierre de ciclo</span></div>
+    <div class="days-grid">
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día A — Empuje (intensidad) + Core</span><div class="day-header-right"><span class="day-type empuje">Empuje</span><button class="start-day-btn" onclick="openGym('s4','A')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Empuje</div>
+          <div class="exercise-item"><div class="ex-name">Press pecho vertical máquina</div><div class="ex-sets">4 × 8<span class="weight">85–90 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Press hombro mancuernas</div><div class="ex-sets">4 × 8<span class="weight">10 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Press hombro máquina</div><div class="ex-sets">3 × 8<span class="weight">55 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Laterales mancuernas</div><div class="ex-sets">4 × 12<span class="weight">6 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Pullface cable</div><div class="ex-sets">3 × 12<span class="weight">80–90 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Tríceps (mancuerna + polea superset)</div><div class="ex-sets">3 × 10–12</div></div>
+          <div class="ex-section core-section">Core</div>
+          <div class="exercise-item"><div class="ex-name">Pallof press con rotación<span class="safe-note">Carga máxima del mes</span></div><div class="ex-sets">4 × 12 /lado<span class="weight">40–45 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dead bug con mancuerna + extensión completa</div><div class="ex-sets">3 × 12 /lado<span class="weight">3–4 kg</span></div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día B — Jale (intensidad) + Core</span><div class="day-header-right"><span class="day-type jale">Jale</span><button class="start-day-btn" onclick="openGym('s4','B')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Jale</div>
+          <div class="exercise-item"><div class="ex-name">Jalón polea</div><div class="ex-sets">4 × 8<span class="weight">80 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo sentado polea</div><div class="ex-sets">4 × 8<span class="weight">80 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo unilateral mancuerna</div><div class="ex-sets">3 × 10 /lado<span class="weight">14 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dominadas asistidas (reducir asistencia)</div><div class="ex-sets">3 × 8<span class="weight">30–35 lb assist.</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Peso muerto máquina</div><div class="ex-sets">4 × 8<span class="weight">50–55 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Bíceps mancuernas (curl concentrado)</div><div class="ex-sets">3 × 10<span class="weight">8 kg</span></div></div>
+          <div class="ex-section core-section">Core</div>
+          <div class="exercise-item"><div class="ex-name">Bird dog con mancuerna + pausa 3 s</div><div class="ex-sets">3 × 12 /lado<span class="weight">2–3 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha con toque de hombro<span class="safe-note">Más reps que S3 — mantén estabilidad total</span></div><div class="ex-sets">3 × 15 /lado<span class="weight">Peso corporal</span></div></div>
+        </div>
+      </div>
+
+      <div class="day-card">
+        <div class="day-header"><span class="day-name">Día C — Piernas + Core</span><div class="day-header-right"><span class="day-type piernas">Piernas</span><button class="start-day-btn" onclick="openGym('s4','C')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first">Piernas</div>
+          <div class="exercise-item"><div class="ex-name">Hip thrust barra</div><div class="ex-sets">4 × 8<span class="weight">65–70 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Prensa cuádriceps<span class="safe-note">Si ingle estable: podemos subir hacia 160 lb</span></div><div class="ex-sets">3 × 10<span class="weight">140–160 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Goblet squat</div><div class="ex-sets">3 × 10<span class="weight">16–20 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Búlgaras (reintroducción MUY suave)<span class="safe-note">Solo si sin dolor ingle. 1 set test con 6 kg primero</span></div><div class="ex-sets">2–3 × 8 /pierna<span class="weight">6–8 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Femoral máquina</div><div class="ex-sets">3 × 12</div></div>
+          <div class="exercise-item"><div class="ex-name">Aductores máquina</div><div class="ex-sets">3 × 12<span class="weight">Carga moderada</span></div></div>
+          <div class="ex-section core-section">Core</div>
+          <div class="exercise-item"><div class="ex-name">Crunch en polea (de rodillas)<span class="safe-note">Carga máxima del mes</span></div><div class="ex-sets">4 × 15<span class="weight">50–55 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha lateral con elevación de cadera</div><div class="ex-sets">3 × 12 /lado<span class="weight">Peso corporal</span></div></div>
+        </div>
+      </div>
+
+      <div class="day-card core-card">
+        <div class="day-header"><span class="day-name">Día D — Core dedicado + Full body suave</span><div class="day-header-right"><span class="day-type core">Core</span><button class="start-day-btn" onclick="openGym('s4','D')">Iniciar</button></div></div>
+        <div class="exercises-list">
+          <div class="ex-section first core-section">Core completo — S4: intensidad de cierre</div>
+          <div class="exercise-item"><div class="ex-name">Pallof press con rotación</div><div class="ex-sets">4 × 12 /lado<span class="weight">45 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Dead bug con mancuerna</div><div class="ex-sets">4 × 12 /lado<span class="weight">4 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Crunch en polea (de rodillas)</div><div class="ex-sets">4 × 15<span class="weight">50 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Ab wheel (rueda abdominal)<span class="safe-note">Rango completo — 3 sets máximos del mes</span></div><div class="ex-sets">3 × 12–15<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha con toque de hombro</div><div class="ex-sets">3 × 15 /lado<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Plancha lateral con elevación de cadera</div><div class="ex-sets">3 × 12 /lado<span class="weight">Peso corporal</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Rotación con cable (Woodchop)<span class="safe-note">Cable en alto, giras el torso jalando en diagonal hacia abajo — novedad de S4</span></div><div class="ex-sets">3 × 12 /lado<span class="weight">25–30 lb</span></div></div>
+          <div class="ex-section">Full body suave</div>
+          <div class="exercise-item"><div class="ex-name">Press hombro máquina</div><div class="ex-sets">2 × 10<span class="weight">55 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Jalón polea</div><div class="ex-sets">2 × 10<span class="weight">80 lb</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Hip thrust sin barra</div><div class="ex-sets">2 × 15<span class="weight">20 kg</span></div></div>
+          <div class="exercise-item"><div class="ex-name">Remo sentado polea</div><div class="ex-sets">2 × 10<span class="weight">75 lb</span></div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="notes-box"><h4>Notas semana 4 + preparación mayo</h4><ul>
+      <li>Woodchop con cable: nuevo ejercicio de S4. Empieza ligero (25 lb) — es rotación real y quieres hacerla bien antes de cargar.</li>
+      <li>Fin de abril: anota qué ejercicios de piernas puedes hacer sin dolor. Eso marca el punto de partida de mayo.</li>
+      <li>Core en mayo: si llegas a S4 sin problemas, mayo añadiremos hanging knee raises, dragon flags progresivos y más trabajo rotacional.</li>
+      <li>Upper body en abril: habrás ganado control motor, técnica y fuerza en press pecho, jalón y remos.</li>
+    </ul></div>
+  </div>
+
+  <!-- PROG -->
+  <div class="week-content" id="prog">
+    <div class="week-header"><div><div class="week-title">Guía de progresión — Abril 2026</div><div class="week-focus">Partimos de tus récords 2026 con margen de seguridad. Objetivo: técnica perfecta antes de añadir carga.</div></div></div>
+    <div class="notes-box"><h4>Lógica del core este mes</h4><ul>
+      <li><strong style="color:var(--purple)">Antirotación</strong> (Pallof press): base de todo. Trabajas el core sin comprometer la columna. Progresión: más carga y añadimos rotación al final del movimiento.</li>
+      <li><strong style="color:var(--purple)">Estabilidad lumbar</strong> (Dead bug, Bird dog): enseñas a la zona lumbar a mantenerse neutra mientras mueven extremidades. Progresión: añadimos carga y pausas.</li>
+      <li><strong style="color:var(--purple)">Flexión con carga</strong> (Crunch en polea, Ab wheel): trabajo directo del recto abdominal. La polea es más segura que el crunch en suelo porque controlas el rango. Ab wheel es avanzado — no hay prisa.</li>
+      <li><strong style="color:var(--purple)">Estabilidad lateral</strong> (Plancha lateral, elevación de cadera): oblicuos y cuadrado lumbar. Fundamental para la cintura.</li>
+      <li><strong style="color:var(--purple)">Rotación</strong> (Woodchop, Pallof con rotación): llega en S3–S4 cuando la base ya está. La rotación sin base = lesión de espalda baja.</li>
+    </ul></div>
+    <div class="section-title">Cargas de arranque vs récord — fuerza</div>
+    <div class="prog-grid">
+      <div class="prog-card"><div class="ex">Press pecho vertical</div><div class="current">Récord: 90 lb × 8</div><div class="target">Inicio: 70–80 lb · Meta: 90 lb cómodo</div></div>
+      <div class="prog-card"><div class="ex">Jalón polea</div><div class="current">Récord: 80 lb × 10</div><div class="target">Inicio: 70 lb · Meta: 80 lb × 12</div></div>
+      <div class="prog-card"><div class="ex">Remo sentado</div><div class="current">Récord: 80 lb</div><div class="target">Inicio: 70–75 lb · Meta: 80 lb × 12</div></div>
+      <div class="prog-card"><div class="ex">Hip thrust barra</div><div class="current">Récord: 80 kg × 6</div><div class="target">Inicio: 50 kg · Meta S4: 65–70 kg</div></div>
+      <div class="prog-card"><div class="ex">Prensa cuádriceps</div><div class="current">Récord: 180 lb × 10 ⚠</div><div class="target">S3 (si OK): 120–140 lb · S4: 160 lb</div></div>
+      <div class="prog-card"><div class="ex">Peso muerto máquina</div><div class="current">Récord: 60 kg × 8</div><div class="target">Inicio: 45 kg · Meta: 55 kg S4</div></div>
+      <div class="prog-card"><div class="ex">Dominadas asistidas</div><div class="current">Récord: 40 lb asist. × 3</div><div class="target">Inicio: 40 lb · Meta: 30 lb asist. × 8</div></div>
+      <div class="prog-card"><div class="ex">Pullface cable</div><div class="current">Récord: 90 lb × 8</div><div class="target">Inicio: 70–80 lb · Meta: 90 lb cómodo</div></div>
+      <div class="prog-card"><div class="ex">Goblet squat</div><div class="current">Récord: 20 kg × 10</div><div class="target">Inicio: 12 kg (ingle) · Meta: 20 kg S4</div></div>
+      <div class="prog-card"><div class="ex">Búlgaras mancuernas</div><div class="current">Récord: 10 kg ⚠</div><div class="target">Reintroducción S4: 6–8 kg test</div></div>
+    </div>
+    <div class="section-title" style="margin-top:20px">Progresión core — abril</div>
+    <div class="prog-grid">
+      <div class="prog-card"><div class="ex">Pallof press</div><div class="current">S1: 35 lb antirotación</div><div class="target">S4: 45 lb + rotación al final</div></div>
+      <div class="prog-card"><div class="ex">Dead bug</div><div class="current">S1: peso corporal</div><div class="target">S4: 4 kg en mano + pausa arriba</div></div>
+      <div class="prog-card"><div class="ex">Crunch polea</div><div class="current">S1: 30–40 lb</div><div class="target">S4: 50–55 lb</div></div>
+      <div class="prog-card"><div class="ex">Ab wheel</div><div class="current">S2: rango corto, 8 rep</div><div class="target">S4: rango completo, 15 rep</div></div>
+      <div class="prog-card"><div class="ex">Plancha isométrica</div><div class="current">S1: 20–30 s</div><div class="target">S4: 50–60 s</div></div>
+      <div class="prog-card"><div class="ex">Plancha lateral</div><div class="current">S1: 20 s estática</div><div class="target">S4: 12 elevaciones de cadera</div></div>
+      <div class="prog-card"><div class="ex">Bird dog</div><div class="current">S1: peso corporal</div><div class="target">S4: 3 kg + pausa 3 s arriba</div></div>
+      <div class="prog-card"><div class="ex">Woodchop cable</div><div class="current">Novedad S4</div><div class="target">25–30 lb · base para mayo</div></div>
+    </div>
+    <div class="notes-box" style="margin-top:20px"><h4>Estructura semanal recomendada</h4><ul>
+      <li><strong style="color:var(--text)">Lunes</strong> → Día A (Empuje + Core antirotación)</li>
+      <li><strong style="color:var(--text)">Miércoles</strong> → Día B (Jale + Core estabilidad) o Ciclo indoor</li>
+      <li><strong style="color:var(--text)">Viernes</strong> → Día C (Piernas + Core flexión)</li>
+      <li><strong style="color:var(--text)">Domingo</strong> → Día D (Core completo + Full body suave) — el más importante para el core</li>
+      <li>Nunca dos días de piernas consecutivos. El ciclo indoor ideal entre Día B y Día C.</li>
+    </ul></div>
+  </div>
+</div>
+
+<!-- GYM MODE -->
+<div id="gym-mode">
+  <div class="gym-topbar">
+    <div class="gym-topbar-left">
+      <button class="gym-back-btn" onclick="closeGym()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Volver
+      </button>
+      <span class="gym-day-title" id="gym-title">Sesión</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="gym-progress-pill" id="gym-pill">0 / 0 series</span>
+      <button class="gym-reset-btn" onclick="resetSession()">Reiniciar</button>
+    </div>
+  </div>
+  <div class="gym-progress-bar-wrap"><div class="gym-progress-bar-track"><div class="gym-progress-bar-fill" id="gym-bar"></div></div></div>
+  <div class="gym-week-picker" id="gym-week-picker"></div>
+  <div class="gym-day-picker" id="gym-day-picker"></div>
+  <div class="gym-done-banner" id="gym-done-banner"><h3>¡Sesión completada!</h3><p>Todas las series marcadas. Buen trabajo hoy.</p></div>
+  <div class="gym-exercises" id="gym-exercises"></div>
+</div>
+
+<script>
+const WEEKS=[{id:'s1',label:'Semana 1'},{id:'s2',label:'Semana 2'},{id:'s3',label:'Semana 3'},{id:'s4',label:'Semana 4'}];
+
+const DAYS={
+  s1:{
+    A:{title:'Día A — Empuje + Core',isCore:false,exercises:[
+      {name:'Calentamiento: Rotaciones hombro + pectoral',sets:0,reps:'5 min',weight:'',note:'',warmup:true},
+      {name:'Press pecho vertical máquina',sets:3,reps:'× 12',weight:'60–70 lb',note:'Agarre neutro si molesta hombro'},
+      {name:'Press hombro mancuernas (sentado)',sets:3,reps:'× 10',weight:'8 kg',note:'Codos sin pasar de 90°'},
+      {name:'Laterales mancuernas',sets:3,reps:'× 12',weight:'4–5 kg',note:'Sin forzar muñeca — codo ligeramente flexionado'},
+      {name:'Pullface cable (face pull)',sets:3,reps:'× 15',weight:'60–70 lb',note:'Excelente para salud del manguito'},
+      {name:'Tríceps polea (agarre recto)',sets:3,reps:'× 12',weight:'Carga media',note:''},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Pallof press polea',sets:3,reps:'× 10 /lado',weight:'35 lb',note:'Antirotación — mantén pelvis neutra',isCore:true},
+      {name:'Dead bug',sets:3,reps:'× 8 /lado',weight:'Peso corporal',note:'Espalda baja pegada al suelo todo el tiempo',isCore:true},
+    ]},
+    B:{title:'Día B — Jale + Core',exercises:[
+      {name:'Calentamiento: Retracción escapular + Cat-cow',sets:0,reps:'5 min',weight:'',note:'',warmup:true},
+      {name:'Jalón polea (agarre pronado)',sets:3,reps:'× 12',weight:'70 lb',note:'Pecho arriba, escápulas bien'},
+      {name:'Remo sentado polea',sets:3,reps:'× 12',weight:'70 lb',note:''},
+      {name:'Remo unilateral mancuerna',sets:3,reps:'× 10 /lado',weight:'12 kg',note:'Apoyo rodilla en banco'},
+      {name:'Dominadas asistidas máquina',sets:3,reps:'× 6–8',weight:'40 lb assist.',note:''},
+      {name:'Bíceps mancuernas (alternado)',sets:3,reps:'× 12',weight:'8 kg',note:''},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Bird dog',sets:3,reps:'× 10 /lado',weight:'Peso corporal',note:'Brazo y pierna opuesta — no rotar la cadera',isCore:true},
+      {name:'Plancha isométrica',sets:3,reps:'× 20–30 s',weight:'Peso corporal',note:'Cuerpo recto — no hundir las caderas',isCore:true},
+    ]},
+    C:{title:'Día C — Piernas + Core',exercises:[
+      {name:'Calentamiento: Movilidad cadera + glúteo',sets:0,reps:'8 min',weight:'',note:'Sin aducción forzada',warmup:true},
+      {name:'Hip thrust barra (recorrido 70%)',sets:3,reps:'× 10',weight:'50 kg',note:'Si hay molestia, parar. Sin tensión en ingle'},
+      {name:'Cuádriceps máquina rehabilitación',sets:3,reps:'× 15',weight:'50 lb',note:'Rango 90°→30°. Bilateral'},
+      {name:'Femoral máquina (leg curl)',sets:3,reps:'× 12',weight:'5 tabletas',note:''},
+      {name:'Patada glúteo polea',sets:3,reps:'× 12 /lado',weight:'Carga moderada',note:'Lado no afectado primero'},
+      {name:'Aductores máquina',sets:0,reps:'OMITIR',weight:'',note:'⚠ Eliminar esta semana — dolor activo en ingle',skip:true},
+      {name:'Goblet squat (rango parcial)',sets:3,reps:'× 10',weight:'12 kg',note:'Solo si no hay dolor al probar sin peso'},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Crunch en polea (de rodillas)',sets:3,reps:'× 15',weight:'30–40 lb',note:'Contrae el abdomen, no tires con el cuello',isCore:true},
+      {name:'Plancha lateral (apoyo codo)',sets:3,reps:'× 20 s /lado',weight:'Peso corporal',note:'Caderas arriba — oblicuos trabajando',isCore:true},
+    ]},
+    D:{title:'Día D — Core completo + Full body suave',exercises:[
+      {name:'— CORE PRINCIPAL —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Pallof press polea',sets:3,reps:'× 12 /lado',weight:'30 lb',note:'Antirotación base',isCore:true},
+      {name:'Dead bug',sets:3,reps:'× 10 /lado',weight:'Peso corporal',note:'Control lumbar — lumbar en el suelo todo el tiempo',isCore:true},
+      {name:'Crunch en polea (de rodillas)',sets:3,reps:'× 15',weight:'35 lb',note:'',isCore:true},
+      {name:'Plancha isométrica',sets:3,reps:'× 30 s',weight:'Peso corporal',note:'',isCore:true},
+      {name:'Plancha lateral',sets:3,reps:'× 20 s /lado',weight:'Peso corporal',note:'Ambos lados',isCore:true},
+      {name:'Bird dog',sets:3,reps:'× 10 /lado',weight:'Peso corporal',note:'',isCore:true},
+      {name:'— Full body suave —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Press pecho máquina',sets:2,reps:'× 12',weight:'60 lb',note:''},
+      {name:'Jalón polea agarre cerrado',sets:2,reps:'× 12',weight:'70 lb',note:''},
+      {name:'Hip thrust sin barra',sets:2,reps:'× 15',weight:'Peso corporal',note:''},
+      {name:'Remo unilateral',sets:2,reps:'× 10 /lado',weight:'12 kg',note:''},
+    ]},
+  },
+  s2:{
+    A:{title:'Día A — Empuje + Core',exercises:[
+      {name:'Press pecho vertical máquina',sets:4,reps:'× 10',weight:'70–80 lb',note:''},
+      {name:'Press hombro mancuernas (sentado)',sets:3,reps:'× 10',weight:'10 kg',note:''},
+      {name:'Press hombro barra rígida',sets:2,reps:'× 10',weight:'15 kg',note:'Alternamos con mancuernas'},
+      {name:'Laterales mancuernas (controlado)',sets:3,reps:'× 12',weight:'5 kg',note:''},
+      {name:'Pullface cable',sets:3,reps:'× 15',weight:'70–80 lb',note:''},
+      {name:'Tríceps mancuerna o polea',sets:3,reps:'× 12',weight:'10 kg / polea',note:''},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Pallof press polea',sets:3,reps:'× 12 /lado',weight:'40 lb',note:'Más carga que S1',isCore:true},
+      {name:'Dead bug con mancuerna',sets:3,reps:'× 8 /lado',weight:'2–3 kg',note:'Mancuerna ligera en mano opuesta a la pierna que extiende',isCore:true},
+    ]},
+    B:{title:'Día B — Jale + Core',exercises:[
+      {name:'Jalón polea (ancho)',sets:4,reps:'× 10',weight:'75 lb',note:''},
+      {name:'Remo sentado polea',sets:3,reps:'× 10',weight:'75–80 lb',note:''},
+      {name:'Remo unilateral mancuerna',sets:3,reps:'× 10 /lado',weight:'14 kg',note:''},
+      {name:'Dominadas asistidas máquina',sets:3,reps:'× 6–8',weight:'35–40 lb assist.',note:''},
+      {name:'Peso muerto máquina (RDL)',sets:3,reps:'× 10',weight:'45 kg',note:'Bisagra de cadera, sin redondear espalda baja'},
+      {name:'Bíceps mancuernas',sets:3,reps:'× 12',weight:'8 kg',note:''},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Bird dog con pausa 2 s',sets:3,reps:'× 10 /lado',weight:'Peso corporal',note:'Mantén posición 2 segundos antes de bajar',isCore:true},
+      {name:'Plancha isométrica',sets:3,reps:'× 30–40 s',weight:'Peso corporal',note:'',isCore:true},
+    ]},
+    C:{title:'Día C — Piernas + Core',exercises:[
+      {name:'Hip thrust barra (recorrido 80%)',sets:3,reps:'× 10',weight:'55 kg',note:'Subimos solo si S1 fue bien'},
+      {name:'Cuádriceps máquina rehab (rango parcial)',sets:4,reps:'× 12',weight:'55–60 lb',note:''},
+      {name:'Femoral máquina',sets:3,reps:'× 12',weight:'5 tabletas',note:''},
+      {name:'Patada glúteo polea',sets:3,reps:'× 15 /lado',weight:'',note:''},
+      {name:'Goblet squat (evaluando rango)',sets:3,reps:'× 10',weight:'12–14 kg',note:'Si sin dolor → 14 kg rango completo'},
+      {name:'Aductores máquina (peso muy bajo)',sets:1,reps:'× 10',weight:'Peso mínimo',note:'Solo si sin dolor en ingle al probar'},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Crunch en polea (de rodillas)',sets:3,reps:'× 15',weight:'40–45 lb',note:'Más carga que S1',isCore:true},
+      {name:'Plancha lateral',sets:3,reps:'× 25 s /lado',weight:'Peso corporal',note:'Aguanta más tiempo que S1',isCore:true},
+    ]},
+    D:{title:'Día D — Core completo + Full body suave',exercises:[
+      {name:'— CORE PRINCIPAL —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Pallof press polea',sets:3,reps:'× 12 /lado',weight:'40 lb',note:'',isCore:true},
+      {name:'Dead bug con mancuerna',sets:3,reps:'× 10 /lado',weight:'2–3 kg',note:'',isCore:true},
+      {name:'Crunch en polea (de rodillas)',sets:4,reps:'× 15',weight:'40 lb',note:'',isCore:true},
+      {name:'Plancha isométrica',sets:3,reps:'× 40 s',weight:'Peso corporal',note:'',isCore:true},
+      {name:'Plancha lateral',sets:3,reps:'× 25 s /lado',weight:'Peso corporal',note:'',isCore:true},
+      {name:'Ab wheel (rueda abdominal)',sets:3,reps:'× 8–10',weight:'Peso corporal',note:'Rango corto — solo un palmo hacia delante al principio',isCore:true},
+      {name:'— Full body suave —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Press pecho máquina',sets:2,reps:'× 12',weight:'65 lb',note:''},
+      {name:'Jalón polea agarre cerrado',sets:2,reps:'× 12',weight:'70 lb',note:''},
+      {name:'Hip thrust sin barra',sets:2,reps:'× 15',weight:'20 kg',note:''},
+      {name:'Remo unilateral',sets:2,reps:'× 10 /lado',weight:'14 kg',note:''},
+    ]},
+  },
+  s3:{
+    A:{title:'Día A — Empuje + Core',exercises:[
+      {name:'Press pecho vertical máquina',sets:4,reps:'× 8–10',weight:'80–90 lb',note:''},
+      {name:'Press hombro mancuernas',sets:3,reps:'× 10',weight:'10 kg',note:''},
+      {name:'Press hombro máquina',sets:3,reps:'× 10',weight:'50 lb',note:''},
+      {name:'Laterales mancuernas',sets:4,reps:'× 12',weight:'5–6 kg',note:''},
+      {name:'Pullface cable',sets:3,reps:'× 15',weight:'80–90 lb',note:''},
+      {name:'Tríceps mancuerna (una de 10 kg)',sets:3,reps:'× 12',weight:'10 kg',note:''},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Pallof press con rotación',sets:3,reps:'× 10 /lado',weight:'35 lb',note:'Al final del movimiento, gira el torso hacia el cable',isCore:true},
+      {name:'Dead bug con mancuerna + pausa',sets:3,reps:'× 10 /lado',weight:'3 kg',note:'',isCore:true},
+    ]},
+    B:{title:'Día B — Jale + Core',exercises:[
+      {name:'Jalón polea',sets:4,reps:'× 8',weight:'80 lb',note:''},
+      {name:'Remo sentado polea',sets:4,reps:'× 10',weight:'80 lb',note:''},
+      {name:'Remo unilateral mancuerna',sets:3,reps:'× 10 /lado',weight:'14 kg',note:''},
+      {name:'Dominadas asistidas máquina',sets:3,reps:'× 8',weight:'35 lb assist.',note:''},
+      {name:'Peso muerto máquina',sets:3,reps:'× 8',weight:'50 kg',note:''},
+      {name:'Bíceps mancuernas',sets:3,reps:'× 10',weight:'8 kg',note:''},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Bird dog con mancuerna en mano',sets:3,reps:'× 10 /lado',weight:'2 kg',note:'Añadimos carga ligera en el brazo extendido',isCore:true},
+      {name:'Plancha con toque de hombro',sets:3,reps:'× 10 /lado',weight:'Peso corporal',note:'Desde plancha, toca hombro contrario alternando — sin balancear caderas',isCore:true},
+    ]},
+    C:{title:'Día C — Piernas + Core',exercises:[
+      {name:'Hip thrust barra',sets:4,reps:'× 8',weight:'60 kg',note:'Recorrido completo si sin dolor'},
+      {name:'Prensa cuádriceps (prudente)',sets:3,reps:'× 12',weight:'120–140 lb',note:'Si ingle permite. Si hay dolor → omitir'},
+      {name:'Cuádriceps máquina rehab (rango completo)',sets:3,reps:'× 12',weight:'60–70 lb',note:''},
+      {name:'Femoral máquina',sets:3,reps:'× 12',weight:'5 tabletas',note:''},
+      {name:'Goblet squat rango completo',sets:3,reps:'× 10',weight:'16 kg',note:''},
+      {name:'Aductores máquina',sets:3,reps:'× 12',weight:'Carga baja',note:''},
+      {name:'Patada glúteo polea',sets:3,reps:'× 15 /lado',weight:'',note:''},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Crunch en polea (de rodillas)',sets:4,reps:'× 15',weight:'45–50 lb',note:'',isCore:true},
+      {name:'Plancha lateral con elevación de cadera',sets:3,reps:'× 10 /lado',weight:'Peso corporal',note:'Desde plancha lateral, baja y sube la cadera controlado',isCore:true},
+    ]},
+    D:{title:'Día D — Core completo + Full body suave',exercises:[
+      {name:'— CORE PRINCIPAL —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Pallof press con rotación',sets:3,reps:'× 12 /lado',weight:'40 lb',note:'',isCore:true},
+      {name:'Dead bug con mancuerna',sets:3,reps:'× 10 /lado',weight:'3 kg',note:'',isCore:true},
+      {name:'Crunch en polea (de rodillas)',sets:4,reps:'× 15',weight:'45 lb',note:'',isCore:true},
+      {name:'Ab wheel (rueda abdominal)',sets:3,reps:'× 10–12',weight:'Peso corporal',note:'Rango completo si puedes mantener lumbar',isCore:true},
+      {name:'Plancha con toque de hombro',sets:3,reps:'× 12 /lado',weight:'Peso corporal',note:'',isCore:true},
+      {name:'Plancha lateral con elevación de cadera',sets:3,reps:'× 10 /lado',weight:'Peso corporal',note:'',isCore:true},
+      {name:'— Full body suave —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Press hombro máquina',sets:2,reps:'× 10',weight:'50 lb',note:''},
+      {name:'Jalón polea',sets:2,reps:'× 10',weight:'75 lb',note:''},
+      {name:'Hip thrust sin barra',sets:2,reps:'× 15',weight:'20 kg',note:''},
+      {name:'Remo sentado polea',sets:2,reps:'× 10',weight:'70 lb',note:''},
+    ]},
+  },
+  s4:{
+    A:{title:'Día A — Empuje + Core',exercises:[
+      {name:'Press pecho vertical máquina',sets:4,reps:'× 8',weight:'85–90 lb',note:''},
+      {name:'Press hombro mancuernas',sets:4,reps:'× 8',weight:'10 kg',note:''},
+      {name:'Press hombro máquina',sets:3,reps:'× 8',weight:'55 lb',note:''},
+      {name:'Laterales mancuernas',sets:4,reps:'× 12',weight:'6 kg',note:''},
+      {name:'Pullface cable',sets:3,reps:'× 12',weight:'80–90 lb',note:''},
+      {name:'Tríceps (mancuerna + polea superset)',sets:3,reps:'× 10–12',weight:'',note:''},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Pallof press con rotación',sets:4,reps:'× 12 /lado',weight:'40–45 lb',note:'Carga máxima del mes',isCore:true},
+      {name:'Dead bug con mancuerna + extensión completa',sets:3,reps:'× 12 /lado',weight:'3–4 kg',note:'',isCore:true},
+    ]},
+    B:{title:'Día B — Jale + Core',exercises:[
+      {name:'Jalón polea',sets:4,reps:'× 8',weight:'80 lb',note:''},
+      {name:'Remo sentado polea',sets:4,reps:'× 8',weight:'80 lb',note:''},
+      {name:'Remo unilateral mancuerna',sets:3,reps:'× 10 /lado',weight:'14 kg',note:''},
+      {name:'Dominadas asistidas (reducir asistencia)',sets:3,reps:'× 8',weight:'30–35 lb assist.',note:''},
+      {name:'Peso muerto máquina',sets:4,reps:'× 8',weight:'50–55 kg',note:''},
+      {name:'Bíceps mancuernas (curl concentrado)',sets:3,reps:'× 10',weight:'8 kg',note:''},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Bird dog con mancuerna + pausa 3 s',sets:3,reps:'× 12 /lado',weight:'2–3 kg',note:'',isCore:true},
+      {name:'Plancha con toque de hombro',sets:3,reps:'× 15 /lado',weight:'Peso corporal',note:'Más reps que S3 — mantén estabilidad total',isCore:true},
+    ]},
+    C:{title:'Día C — Piernas + Core',exercises:[
+      {name:'Hip thrust barra',sets:4,reps:'× 8',weight:'65–70 kg',note:''},
+      {name:'Prensa cuádriceps',sets:3,reps:'× 10',weight:'140–160 lb',note:'Si ingle estable: podemos subir hacia 160 lb'},
+      {name:'Goblet squat',sets:3,reps:'× 10',weight:'16–20 kg',note:''},
+      {name:'Búlgaras (reintroducción MUY suave)',sets:3,reps:'× 8 /pierna',weight:'6–8 kg',note:'Solo si sin dolor ingle. 1 set test con 6 kg primero'},
+      {name:'Femoral máquina',sets:3,reps:'× 12',weight:'',note:''},
+      {name:'Aductores máquina',sets:3,reps:'× 12',weight:'Carga moderada',note:''},
+      {name:'— CORE —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Crunch en polea (de rodillas)',sets:4,reps:'× 15',weight:'50–55 lb',note:'Carga máxima del mes',isCore:true},
+      {name:'Plancha lateral con elevación de cadera',sets:3,reps:'× 12 /lado',weight:'Peso corporal',note:'',isCore:true},
+    ]},
+    D:{title:'Día D — Core completo + Full body suave',exercises:[
+      {name:'— CORE PRINCIPAL —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Pallof press con rotación',sets:4,reps:'× 12 /lado',weight:'45 lb',note:'',isCore:true},
+      {name:'Dead bug con mancuerna',sets:4,reps:'× 12 /lado',weight:'4 kg',note:'',isCore:true},
+      {name:'Crunch en polea (de rodillas)',sets:4,reps:'× 15',weight:'50 lb',note:'',isCore:true},
+      {name:'Ab wheel (rueda abdominal)',sets:3,reps:'× 12–15',weight:'Peso corporal',note:'Rango completo — 3 sets máximos del mes',isCore:true},
+      {name:'Plancha con toque de hombro',sets:3,reps:'× 15 /lado',weight:'Peso corporal',note:'',isCore:true},
+      {name:'Plancha lateral con elevación de cadera',sets:3,reps:'× 12 /lado',weight:'Peso corporal',note:'',isCore:true},
+      {name:'Woodchop con cable',sets:3,reps:'× 12 /lado',weight:'25–30 lb',note:'Cable en alto, giras el torso jalando en diagonal hacia abajo',isCore:true},
+      {name:'— Full body suave —',sets:0,reps:'',weight:'',note:'',section:true},
+      {name:'Press hombro máquina',sets:2,reps:'× 10',weight:'55 lb',note:''},
+      {name:'Jalón polea',sets:2,reps:'× 10',weight:'80 lb',note:''},
+      {name:'Hip thrust sin barra',sets:2,reps:'× 15',weight:'20 kg',note:''},
+      {name:'Remo sentado polea',sets:2,reps:'× 10',weight:'75 lb',note:''},
+    ]},
+  },
+};
+
+let gymWeek='s1',gymDay='A';
+let checked={};
+
+function stateKey(w,d,ei,si){return w+'_'+d+'_'+ei+'_'+si;}
+function totalSeries(w,d){const day=DAYS[w]?.[d];if(!day)return 0;return day.exercises.reduce((acc,ex)=>acc+(ex.skip||ex.warmup||ex.section?0:ex.sets),0);}
+function completedSeries(w,d){const day=DAYS[w]?.[d];if(!day)return 0;let c=0;day.exercises.forEach((ex,ei)=>{if(ex.skip||ex.warmup||ex.section)return;for(let si=0;si<ex.sets;si++){if(checked[stateKey(w,d,ei,si)])c++;}});return c;}
+
+function updateProgress(){
+  const total=totalSeries(gymWeek,gymDay);
+  const done=completedSeries(gymWeek,gymDay);
+  document.getElementById('gym-pill').textContent=done+' / '+total+' series';
+  document.getElementById('gym-bar').style.width=total?(done/total*100)+'%':'0%';
+  document.getElementById('gym-done-banner').classList.toggle('show',total>0&&done===total);
+}
+
+function renderGym(){
+  const day=DAYS[gymWeek]?.[gymDay];
+  document.getElementById('gym-title').textContent=day?day.title:'Sesión';
+  document.getElementById('gym-week-picker').innerHTML=WEEKS.map(w=>`<button class="gym-week-tab${gymWeek===w.id?' active':''}" onclick="setGymWeek('${w.id}')">${w.label}</button>`).join('');
+  const days=DAYS[gymWeek]?Object.keys(DAYS[gymWeek]):[];
+  document.getElementById('gym-day-picker').innerHTML=days.map(d=>`<button class="gym-day-tab${gymDay===d?' active':''}" onclick="setGymDay('${d}')">Día ${d}</button>`).join('');
+
+  const container=document.getElementById('gym-exercises');
+  if(!day){container.innerHTML='<p style="color:var(--text3);padding:20px;font-size:13px">Sin sesión disponible.</p>';updateProgress();return;}
+
+  container.innerHTML=day.exercises.map((ex,ei)=>{
+    if(ex.section){
+      const isCore=ex.name.includes('CORE');
+      return `<div class="gym-section-label${isCore?' core-lbl':''}">${isCore?'— Core —':'— Fuerza —'}</div>`;
+    }
+    if(ex.warmup){
+      return `<div class="gym-ex-block"><div class="gym-ex-header"><div class="gym-ex-info"><div class="gym-ex-name">${ex.name}</div>${ex.note?`<div class="gym-ex-note">${ex.note}</div>`:''}</div></div><div class="gym-warmup-row"><span class="gym-warmup-badge">Calentamiento</span><span class="gym-warmup-time">${ex.reps}</span></div></div>`;
+    }
+    if(ex.skip){
+      return `<div class="gym-ex-block" style="opacity:0.4"><div class="gym-ex-header"><div class="gym-ex-info"><div class="gym-ex-name">${ex.name}</div><div class="gym-ex-skip">${ex.note}</div></div></div></div>`;
+    }
+    const allDone=Array.from({length:ex.sets},(_,si)=>checked[stateKey(gymWeek,gymDay,ei,si)]).every(Boolean);
+    const metaStr=`${ex.sets} series ${ex.reps}${ex.weight?' · '+ex.weight:''}`;
+    const seriesBtns=Array.from({length:ex.sets},(_,si)=>{
+      const isDone=!!checked[stateKey(gymWeek,gymDay,ei,si)];
+      return `<div class="serie-check${isDone?' checked':''}" onclick="toggleSerie(${ei},${si})"><span class="num">${si+1}</span><span class="chk"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7ab87a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span></div>`;
+    }).join('');
+    const coreClass=ex.isCore?' core-block':'';
+    return `<div class="gym-ex-block${allDone?' done':''}${coreClass}"><div class="gym-ex-header"><div class="gym-ex-info"><div class="gym-ex-name">${ex.name}</div><div class="gym-ex-meta">${metaStr}</div>${ex.note?`<div class="gym-ex-note">${ex.note}</div>`:''}</div></div><div class="gym-series-row"><span class="gym-serie-label">Series</span>${seriesBtns}</div></div>`;
+  }).join('');
+  updateProgress();
+}
+
+function toggleSerie(ei,si){const key=stateKey(gymWeek,gymDay,ei,si);checked[key]=!checked[key];renderGym();}
+function setGymWeek(w){gymWeek=w;gymDay=Object.keys(DAYS[w]||{})[0]||'A';renderGym();}
+function setGymDay(d){gymDay=d;renderGym();}
+function resetSession(){const keys=Object.keys(checked).filter(k=>k.startsWith(gymWeek+'_'+gymDay+'_'));keys.forEach(k=>delete checked[k]);renderGym();}
+
+function openGym(week,day){
+  if(week)gymWeek=week;
+  if(day)gymDay=day;
+  renderGym();
+  document.getElementById('gym-mode').classList.add('open');
+  document.getElementById('gym-mode').scrollTop=0;
+  document.body.style.overflow='hidden';
+}
+function closeGym(){document.getElementById('gym-mode').classList.remove('open');document.body.style.overflow='';}
+function showWeek(id,btn){document.querySelectorAll('.week-content').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.week-btn').forEach(el=>el.classList.remove('active'));document.getElementById(id).classList.add('active');btn.classList.add('active');}
+</script>
+</body>
+</html>
