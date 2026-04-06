@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Plan Nutrición · Bego · Abril 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink:       #e91e8c;
+    --pink-dark:  #b5156c;
+    --pink-soft:  #f8a8d4;
+    --pink-bg:    #fff0f7;
+    --pink-card:  #fce4f3;
+    --rose:       #fdf0f8;
+    --text:       #1a0a12;
+    --text2:      #7a4060;
+    --text3:      #b07090;
+    --green:      #2e7d32;
+    --green-bg:   #e8f5e9;
+    --orange:     #e65100;
+    --orange-bg:  #fff3e0;
+    --blue:       #1565c0;
+    --blue-bg:    #e3f2fd;
+    --yellow-bg:  #fffde7;
+    --radius:     18px;
+    --radius-sm:  10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #fdf5fa;
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 100px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, var(--pink-dark) 0%, var(--pink) 60%, #f472b6 100%);
+    padding: 48px 20px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; left: -40px;
+    width: 180px; height: 180px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 50%;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; right: -30px;
+    width: 140px; height: 140px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 50%;
+  }
+  .header-emoji { font-size: 36px; display: block; margin-bottom: 8px; }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: #fff;
+    line-height: 1.2;
+    position: relative;
+  }
+  .header p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.82);
+    margin-top: 6px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .header-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 14px;
+    position: relative;
+  }
+  .hbadge {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+
+  /* ── DAY TABS ── */
+  .tabs-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #fff;
+    border-bottom: 1px solid #f0d0e8;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs-wrap::-webkit-scrollbar { display: none; }
+  .tabs {
+    display: flex;
+    padding: 0 12px;
+    gap: 4px;
+    min-width: max-content;
+  }
+  .tab-btn {
+    padding: 14px 14px 12px;
+    border: none;
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text3);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .tab-btn .tab-icon { font-size: 16px; }
+  .tab-btn.active {
+    color: var(--pink);
+    border-bottom-color: var(--pink);
+    font-weight: 600;
+  }
+  .tab-btn.rest { }
+  .tab-btn.rest.active { color: var(--text2); border-bottom-color: var(--text2); }
+
+  /* ── MAIN CONTENT ── */
+  .main { padding: 16px 14px; max-width: 480px; margin: 0 auto; }
+
+  /* Day page */
+  .day-page { display: none; }
+  .day-page.active { display: block; }
+
+  /* Day hero */
+  .day-hero {
+    background: linear-gradient(135deg, var(--pink-dark), var(--pink));
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 14px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .day-hero.rest {
+    background: linear-gradient(135deg, #7b1fa2, #ab47bc);
+  }
+  .day-hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  .day-hero p {
+    font-size: 12px;
+    opacity: 0.85;
+    margin-top: 4px;
+  }
+  .day-macro-pill {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 12px;
+    padding: 10px 14px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .day-macro-pill .kcal { font-size: 20px; font-weight: 700; }
+  .day-macro-pill .kcal-label { font-size: 10px; opacity: 0.8; }
+
+  /* Macro pills row */
+  .macro-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .macro-pill {
+    background: #fff;
+    border-radius: var(--radius-sm);
+    padding: 10px 8px;
+    text-align: center;
+    border: 1px solid #f0d0e8;
+  }
+  .macro-pill .mp-val { font-size: 17px; font-weight: 700; color: var(--pink); }
+  .macro-pill .mp-label { font-size: 10px; color: var(--text3); margin-top: 2px; font-weight: 500; }
+
+  /* Meal card */
+  .meal-card {
+    background: #fff;
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+    border: 1px solid #f0d0e8;
+    overflow: hidden;
+  }
+  .meal-header {
+    padding: 14px 16px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .meal-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .meal-icon.breakfast { background: #fff8e1; }
+  .meal-icon.snack     { background: #f3e5f5; }
+  .meal-icon.lunch     { background: #e8f5e9; }
+  .meal-icon.post      { background: #e3f2fd; }
+  .meal-icon.dinner    { background: #fce4ec; }
+  .meal-icon.pre       { background: #fff3e0; }
+
+  .meal-title-wrap { flex: 1; }
+  .meal-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .meal-time  { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .meal-chevron { font-size: 18px; color: var(--text3); transition: transform 0.25s; }
+  .meal-card.open .meal-chevron { transform: rotate(180deg); }
+
+  .meal-body {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid #fce4f3;
+  }
+  .meal-card.open .meal-body { display: block; }
+
+  /* Option tabs inside card */
+  .opt-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+    margin-top: 12px;
+  }
+  .opt-btn {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1.5px solid var(--pink-soft);
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text3);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .opt-btn.active {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: #fff;
+  }
+  .opt-content { display: none; }
+  .opt-content.active { display: block; }
+
+  /* Food items list */
+  .food-list { list-style: none; }
+  .food-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid #fce4f3;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .food-item:last-child { border-bottom: none; }
+  .food-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--pink-soft);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .food-amount { color: var(--pink); font-weight: 600; margin-right: 2px; }
+
+  /* Special cards */
+  .pre-card {
+    background: var(--orange-bg);
+    border: 1px solid #ffccbc;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .pre-card h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .post-card {
+    background: var(--blue-bg);
+    border: 1px solid #bbdefb;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .post-card h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .creatina-note {
+    background: var(--green-bg);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--green);
+    font-weight: 600;
+    margin-top: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .rest-note {
+    background: var(--yellow-bg);
+    border: 1px solid #fff176;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #5d4037;
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+
+  /* ── SUPLEMENTACIÓN PAGE ── */
+  .suppl-card {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid #f0d0e8;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .suppl-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .suppl-name { font-size: 14px; font-weight: 700; color: var(--pink-dark); }
+  .suppl-dose { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .suppl-when { font-size: 12px; color: var(--text3); margin-top: 4px; }
+  .suppl-function { font-size: 12px; color: var(--text2); margin-top: 6px; line-height: 1.5; }
+  .priority-stars { font-size: 11px; color: var(--pink); margin-top: 4px; }
+
+  /* ── MACROS PAGE ── */
+  .macros-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--pink-dark);
+    margin-bottom: 14px;
+  }
+  .macro-week-card {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #f0d0e8;
+  }
+  .mwc-day { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .mwc-bars { display: flex; flex-direction: column; gap: 8px; }
+  .mwc-bar-row { display: flex; align-items: center; gap: 8px; }
+  .mwc-bar-label { font-size: 11px; color: var(--text3); width: 60px; flex-shrink: 0; }
+  .mwc-bar-wrap { flex: 1; height: 8px; background: #fce4f3; border-radius: 100px; overflow: hidden; }
+  .mwc-bar-fill { height: 100%; border-radius: 100px; }
+  .mwc-bar-val { font-size: 11px; font-weight: 700; width: 40px; text-align: right; flex-shrink: 0; }
+  .bar-pink { background: var(--pink); }
+  .bar-green { background: #43a047; }
+  .bar-orange { background: #fb8c00; }
+  .kcal-badge-big {
+    display: inline-block;
+    background: var(--pink);
+    color: #fff;
+    border-radius: 100px;
+    padding: 3px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  /* info box */
+  .info-box {
+    background: var(--pink-bg);
+    border: 1px solid #f8a8d4;
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+  .info-box strong { color: var(--pink-dark); }
+
+  /* section label */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin: 20px 0 10px;
+  }
+
+  /* bottom nav */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #fff;
+    border-top: 1px solid #f0d0e8;
+    display: flex;
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+    z-index: 100;
+  }
+  .bnav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    color: var(--text3);
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .bnav-btn .bnav-icon { font-size: 22px; }
+  .bnav-btn.active { color: var(--pink); font-weight: 700; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <span class="header-emoji">🌸</span>
+  <h1>Plan Nutricional<br>Abril 2026</h1>
+  <p>Bego · Recomposición corporal</p>
+  <div class="header-badges">
+    <span class="hbadge">59 kg · 1,72 m</span>
+    <span class="hbadge">Entreno mediodía</span>
+    <span class="hbadge">3-4 días/semana</span>
+    <span class="hbadge">Ciclado de carbos</span>
+  </div>
+</div>
+
+<!-- ══ PÁGINA: PLAN SEMANAL ══ -->
+<div class="page active" id="page-plan">
+
+  <!-- DAY TABS -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showDay('lun', this)">
+        <span class="tab-icon">🏋️</span>Lunes
+      </button>
+      <button class="tab-btn" onclick="showDay('mar', this)">
+        <span class="tab-icon">🏋️</span>Martes
+      </button>
+      <button class="tab-btn rest" onclick="showDay('mie', this)">
+        <span class="tab-icon">🚶</span>Miérc.
+      </button>
+      <button class="tab-btn" onclick="showDay('jue', this)">
+        <span class="tab-icon">🏋️</span>Jueves
+      </button>
+      <button class="tab-btn" onclick="showDay('vie', this)">
+        <span class="tab-icon">🏋️</span>Viernes
+      </button>
+      <button class="tab-btn rest" onclick="showDay('sab', this)">
+        <span class="tab-icon">🛋️</span>Sábado
+      </button>
+      <button class="tab-btn rest" onclick="showDay('dom', this)">
+        <span class="tab-icon">🛋️</span>Domingo
+      </button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- ── LUNES ── -->
+    <div class="day-page active" id="day-lun">
+      <div class="day-hero">
+        <div>
+          <h2>Lunes</h2>
+          <p>🏋️ Día de entreno · Hidratos altos</p>
+        </div>
+        <div class="day-macro-pill">
+          <div class="kcal">1.850</div>
+          <div class="kcal-label">kcal</div>
+        </div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="mp-val">155g</div><div class="mp-label">Proteína</div></div>
+        <div class="macro-pill"><div class="mp-val">185g</div><div class="mp-label">Carbos</div></div>
+        <div class="macro-pill"><div class="mp-val">55g</div><div class="mp-label">Grasa</div></div>
+      </div>
+
+      <!-- DESAYUNO -->
+      <div class="meal-card open">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon breakfast">☕</div>
+          <div class="meal-title-wrap">
+            <div class="meal-title">Desayuno</div>
+            <div class="meal-time">7:30 – 8:30h</div>
+          </div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <div class="opt-tabs">
+            <button class="opt-btn active" onclick="switchOpt(this, 'lun-des')">Opción A</button>
+            <button class="opt-btn" onclick="switchOpt(this, 'lun-des')">Opción B</button>
+          </div>
+          <div class="opt-content active">
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180ml</span> kéfir desnatado</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> papaya / kiwi / pomelo</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">25gr</span> avena integral en copos</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">5gr</span> cacahuete desgrasado en polvo</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10gr</span> cacao puro en polvo</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10gr</span> semillas de lino molidas</span></li>
+              <li class="food-item"><div class="food-dot"></div><span>Canela al gusto</span></li>
+            </ul>
+          </div>
+          <div class="opt-content">
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span>Tortita: <span class="food-amount">5 claras</span> + <span class="food-amount">25gr</span> harina de avena</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> papaya / kiwi / pomelo</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">125ml</span> kéfir desnatado (por encima de la tortita)</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10gr</span> cacao puro en polvo</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10gr</span> semillas de lino molidas</span></li>
+              <li class="food-item"><div class="food-dot"></div><span>Canela al gusto</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDIA MAÑANA -->
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon snack">🍎</div>
+          <div class="meal-title-wrap">
+            <div class="meal-title">Media Mañana</div>
+            <div class="meal-time">10:30 – 11h</div>
+          </div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list" style="margin-top:12px">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> fiambre de pollo o pavo</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">2</span> tortitas de arroz integral</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> arándanos / frambuesas / frutos rojos</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">3</span> nueces + <span class="food-amount">4</span> almendras</span></li>
+            <li class="food-item"><div class="food-dot"></div><span>Infusión de té verde o matcha</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PREENTRENO + COMIDA -->
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon lunch">🍽️</div>
+          <div class="meal-title-wrap">
+            <div class="meal-title">Preentreno + Comida</div>
+            <div class="meal-time">~11:30h preentreno · 13:30-14h comida</div>
+          </div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="pre-card">
+            <h4>🟠 Preentreno <span style="font-weight:400;text-transform:none;font-size:11px">(elige según cuánto tiempo antes entrenas)</span></h4>
+            <p style="font-size:12px;font-weight:700;color:var(--orange);margin-bottom:6px">Si entrenas en menos de 1 hora:</p>
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">2</span> tortitas de arroz blanco</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">60gr</span> queso cottage light</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> plátano + <span class="food-amount">5gr</span> tahini + canela</span></li>
+            </ul>
+            <p style="font-size:12px;font-weight:700;color:var(--orange);margin:10px 0 6px">Si faltan 30-60 minutos:</p>
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">130gr</span> plátano + <span class="food-amount">2</span> ciruelas pasas</span></li>
+            </ul>
+          </div>
+          <p style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px">Comida principal</p>
+          <div class="opt-tabs">
+            <button class="opt-btn active" onclick="switchOpt(this, 'lun-com')">Opción A</button>
+            <button class="opt-btn" onclick="switchOpt(this, 'lun-com')">Opción B</button>
+          </div>
+          <div class="opt-content active">
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180gr</span> ternera magra</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">110gr</span> arroz integral / rojo / negro</span></li>
+              <li class="food-item"><div class="food-dot"></div><span>Verdura libre a elegir</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml</span> AOVE</span></li>
+            </ul>
+          </div>
+          <div class="opt-content">
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">200gr</span> pescado blanco (bacalao / merluza)</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">110gr</span> arroz integral</span></li>
+              <li class="food-item"><div class="food-dot"></div><span>Verdura libre a elegir</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml</span> AOVE</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- POSTENTRENO / MERIENDA -->
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon post">💪</div>
+          <div class="meal-title-wrap">
+            <div class="meal-title">Postentreno / Merienda</div>
+            <div class="meal-time">30-60 min post entreno · ~15-16h</div>
+          </div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="post-card">
+            <h4>🔵 Postentreno</h4>
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150ml</span> yogur griego light</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">50gr</span> granada + <span class="food-amount">100gr</span> piña</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10gr</span> copos de avena normales</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">5gr</span> cacao puro en polvo</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">5gr</span> pistachos o crema de pistacho</span></li>
+              <li class="food-item"><div class="food-dot"></div><span>Canela al gusto</span></li>
+            </ul>
+            <div class="creatina-note">💊 5gr monohidrato creatina junto al postentreno</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CENA -->
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-title-wrap">
+            <div class="meal-title">Cena</div>
+            <div class="meal-time">20:30 – 21h</div>
+          </div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body" style="margin-top:12px">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">120gr</span> pollo o pavo</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">40gr</span> queso cottage light</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">3</span> huevos de codorniz (plancha o cocidos)</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">50gr</span> quinoa cocida</span></li>
+            <li class="food-item"><div class="food-dot"></div><span>Verdura (añadir remolacha)</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">30gr</span> aguacate</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">5gr</span> semillas de calabaza</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml</span> aceite de lino</span></li>
+          </ul>
+        </div>
+      </div>
+    </div><!-- fin lunes -->
+
+    <!-- ── MARTES ── -->
+    <div class="day-page" id="day-mar">
+      <div class="day-hero">
+        <div><h2>Martes</h2><p>🏋️ Día de entreno · Hidratos altos</p></div>
+        <div class="day-macro-pill"><div class="kcal">1.850</div><div class="kcal-label">kcal</div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="mp-val">152g</div><div class="mp-label">Proteína</div></div>
+        <div class="macro-pill"><div class="mp-val">188g</div><div class="mp-label">Carbos</div></div>
+        <div class="macro-pill"><div class="mp-val">52g</div><div class="mp-label">Grasa</div></div>
+      </div>
+      <div class="meal-card open">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon breakfast">☕</div>
+          <div class="meal-title-wrap"><div class="meal-title">Desayuno</div><div class="meal-time">7:30 – 8:30h</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <div class="opt-tabs">
+            <button class="opt-btn active" onclick="switchOpt(this, 'mar-des')">Opción A</button>
+            <button class="opt-btn" onclick="switchOpt(this, 'mar-des')">Opción B</button>
+          </div>
+          <div class="opt-content active">
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180ml</span> kéfir desnatado</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> papaya / kiwi / pomelo</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">25gr</span> avena integral en copos + <span class="food-amount">10gr</span> cacao puro + <span class="food-amount">10gr</span> semillas lino + canela</span></li>
+            </ul>
+          </div>
+          <div class="opt-content">
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span>Tortita: <span class="food-amount">5 claras</span> + <span class="food-amount">25gr</span> harina avena</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> papaya / kiwi / pomelo</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">125ml</span> kéfir + <span class="food-amount">10gr</span> cacao + <span class="food-amount">10gr</span> semillas lino + canela</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon snack">🍎</div>
+          <div class="meal-title-wrap"><div class="meal-title">Media Mañana</div><div class="meal-time">10:30 – 11h</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body"><ul class="food-list" style="margin-top:12px">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> fiambre pollo o pavo + <span class="food-amount">2</span> tortitas arroz integral</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> arándanos / frambuesas / frutos rojos</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">3</span> nueces + <span class="food-amount">4</span> almendras · Té verde o matcha</span></li>
+        </ul></div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon lunch">🍽️</div>
+          <div class="meal-title-wrap"><div class="meal-title">Preentreno + Comida</div><div class="meal-time">~11:30h pre · 13:30h comida</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="pre-card">
+            <h4>🟠 Preentreno</h4>
+            <p style="font-size:12px;font-weight:700;color:var(--orange);margin-bottom:6px">Menos de 1 hora antes:</p>
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">2</span> tortitas arroz blanco + <span class="food-amount">60gr</span> cottage + <span class="food-amount">100gr</span> plátano + tahini + canela</span></li>
+            </ul>
+            <p style="font-size:12px;font-weight:700;color:var(--orange);margin:8px 0 6px">30-60 min antes:</p>
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">130gr</span> plátano + <span class="food-amount">2</span> ciruelas pasas</span></li>
+            </ul>
+          </div>
+          <div class="opt-tabs">
+            <button class="opt-btn active" onclick="switchOpt(this, 'mar-com')">Opción A</button>
+            <button class="opt-btn" onclick="switchOpt(this, 'mar-com')">Opción B</button>
+          </div>
+          <div class="opt-content active">
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">200gr</span> pescado blanco</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> pasta de lenteja roja + verdura + <span class="food-amount">10ml</span> AOVE</span></li>
+            </ul>
+          </div>
+          <div class="opt-content">
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180gr</span> pollo o pavo</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> pasta de lenteja roja + verdura + <span class="food-amount">10ml</span> AOVE</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon post">💪</div>
+          <div class="meal-title-wrap"><div class="meal-title">Postentreno / Merienda</div><div class="meal-time">30-60 min post · ~15-16h</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="post-card"><h4>🔵 Postentreno</h4>
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150ml</span> yogur griego light</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">50gr</span> uvas moradas + <span class="food-amount">100gr</span> piña</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10gr</span> copos avena + <span class="food-amount">5gr</span> cacao puro + <span class="food-amount">5gr</span> pistachos + canela</span></li>
+            </ul>
+            <div class="creatina-note">💊 5gr monohidrato creatina</div>
+          </div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-title-wrap"><div class="meal-title">Cena</div><div class="meal-time">20:30 – 21h</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body" style="margin-top:12px"><ul class="food-list">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">140gr</span> marisco o moluscos (o 2 latas atún natural)</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">3</span> huevos de codorniz + verdura (remolacha)</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">30gr</span> aguacate + <span class="food-amount">100gr</span> boniato (crudo) + <span class="food-amount">5gr</span> semillas calabaza + <span class="food-amount">10ml</span> aceite lino</span></li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- ── MIÉRCOLES ── -->
+    <div class="day-page" id="day-mie">
+      <div class="day-hero rest">
+        <div><h2>Miércoles</h2><p>🚶 Descanso activo · Hidratos reducidos</p></div>
+        <div class="day-macro-pill"><div class="kcal">1.600</div><div class="kcal-label">kcal</div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="mp-val">148g</div><div class="mp-label">Proteína</div></div>
+        <div class="macro-pill"><div class="mp-val">130g</div><div class="mp-label">Carbos</div></div>
+        <div class="macro-pill"><div class="mp-val">58g</div><div class="mp-label">Grasa</div></div>
+      </div>
+      <div class="rest-note">⚠️ <span>Día sin entreno: los carbos de la comida se sustituyen por <strong>40gr de quinoa cocida</strong>. Sin preentreno ni postentreno.</span></div>
+      <div class="meal-card open">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon breakfast">☕</div>
+          <div class="meal-title-wrap"><div class="meal-title">Desayuno</div><div class="meal-time">7:30 – 8:30h</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <div class="opt-tabs">
+            <button class="opt-btn active" onclick="switchOpt(this, 'mie-des')">Opción A</button>
+            <button class="opt-btn" onclick="switchOpt(this, 'mie-des')">Opción B</button>
+          </div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180ml</span> kéfir desnatado + <span class="food-amount">150gr</span> papaya/kiwi/pomelo</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">25gr</span> avena + <span class="food-amount">5gr</span> cacahuete polvo + <span class="food-amount">10gr</span> cacao + <span class="food-amount">10gr</span> semillas lino + canela</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span>Tortita <span class="food-amount">5 claras</span> + <span class="food-amount">25gr</span> harina avena + <span class="food-amount">125ml</span> kéfir</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> fruta + <span class="food-amount">10gr</span> cacao + <span class="food-amount">10gr</span> semillas lino + canela</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon snack">🍎</div>
+          <div class="meal-title-wrap"><div class="meal-title">Media Mañana</div><div class="meal-time">10:30 – 11h</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body"><ul class="food-list" style="margin-top:12px">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> fiambre pollo/pavo + <span class="food-amount">2</span> tortitas arroz integral</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> frutos rojos + <span class="food-amount">3</span> nueces + <span class="food-amount">4</span> almendras + té verde</span></li>
+        </ul></div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon lunch">🍽️</div>
+          <div class="meal-title-wrap"><div class="meal-title">Comida</div><div class="meal-time">13:30 – 14h</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="opt-tabs">
+            <button class="opt-btn active" onclick="switchOpt(this, 'mie-com')">Opción A</button>
+            <button class="opt-btn" onclick="switchOpt(this, 'mie-com')">Opción B</button>
+          </div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180gr</span> ternera magra (o burger)</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">40gr</span> quinoa cocida + verdura + <span class="food-amount">10ml</span> AOVE</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">200gr</span> pescado blanco</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">40gr</span> quinoa cocida + verdura + <span class="food-amount">10ml</span> AOVE</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon snack">🍓</div>
+          <div class="meal-title-wrap"><div class="meal-title">Merienda</div><div class="meal-time">16:30 – 17h</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body"><ul class="food-list" style="margin-top:12px">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> yogur griego light</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> papaya / arándanos / fresas</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">5gr</span> semillas lino + <span class="food-amount">10gr</span> semillas calabaza + <span class="food-amount">10gr</span> cacao puro</span></li>
+        </ul></div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-title-wrap"><div class="meal-title">Cena</div><div class="meal-time">20:30 – 21h</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body" style="margin-top:12px"><ul class="food-list">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> salmón salvaje + <span class="food-amount">100gr</span> queso cottage light</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">50gr</span> quinoa cocida + verdura (remolacha)</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">30gr</span> aguacate + <span class="food-amount">5gr</span> semillas calabaza + <span class="food-amount">10ml</span> aceite lino</span></li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- ── JUEVES ── -->
+    <div class="day-page" id="day-jue">
+      <div class="day-hero">
+        <div><h2>Jueves</h2><p>🏋️ Día de entreno · Hidratos altos</p></div>
+        <div class="day-macro-pill"><div class="kcal">1.850</div><div class="kcal-label">kcal</div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="mp-val">155g</div><div class="mp-label">Proteína</div></div>
+        <div class="macro-pill"><div class="mp-val">182g</div><div class="mp-label">Carbos</div></div>
+        <div class="macro-pill"><div class="mp-val">54g</div><div class="mp-label">Grasa</div></div>
+      </div>
+      <div class="meal-card open">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon breakfast">☕</div><div class="meal-title-wrap"><div class="meal-title">Desayuno</div><div class="meal-time">7:30 – 8:30h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body">
+          <div class="opt-tabs"><button class="opt-btn active" onclick="switchOpt(this,'jue-des')">Opción A</button><button class="opt-btn" onclick="switchOpt(this,'jue-des')">Opción B</button></div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180ml</span> kéfir + <span class="food-amount">150gr</span> papaya/kiwi/pomelo</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">25gr</span> avena + <span class="food-amount">5gr</span> cacahuete polvo + <span class="food-amount">10gr</span> cacao + canela</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span>Tortita <span class="food-amount">5 claras</span> + <span class="food-amount">25gr</span> harina avena + <span class="food-amount">150gr</span> fruta + <span class="food-amount">125ml</span> kéfir + cacao + canela</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon snack">🍎</div><div class="meal-title-wrap"><div class="meal-title">Media Mañana</div><div class="meal-time">10:30 – 11h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body"><ul class="food-list" style="margin-top:12px">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> fiambre pollo/pavo + <span class="food-amount">2</span> tortitas arroz integral</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> frutos rojos + <span class="food-amount">3</span> nueces + <span class="food-amount">4</span> almendras + matcha</span></li>
+        </ul></div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon lunch">🍽️</div><div class="meal-title-wrap"><div class="meal-title">Preentreno + Comida</div><div class="meal-time">~11:30h pre · 13:30h comida</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="pre-card"><h4>🟠 Preentreno</h4>
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span>&lt;1h: <span class="food-amount">2</span> tortitas blancas + <span class="food-amount">60gr</span> cottage + <span class="food-amount">100gr</span> plátano + tahini + canela</span></li>
+              <li class="food-item"><div class="food-dot"></div><span>30-60min: <span class="food-amount">130gr</span> plátano + <span class="food-amount">2</span> ciruelas pasas</span></li>
+            </ul>
+          </div>
+          <div class="opt-tabs"><button class="opt-btn active" onclick="switchOpt(this,'jue-com')">Opción A</button><button class="opt-btn" onclick="switchOpt(this,'jue-com')">Opción B</button></div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180gr</span> pollo o pavo + <span class="food-amount">110gr</span> arroz integral/rojo/negro + verdura + <span class="food-amount">10ml</span> AOVE</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">200gr</span> merluza/bacalao + <span class="food-amount">110gr</span> arroz integral + verdura + <span class="food-amount">10ml</span> AOVE</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon post">💪</div><div class="meal-title-wrap"><div class="meal-title">Postentreno / Merienda</div><div class="meal-time">30-60 min post · ~15-16h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="post-card"><h4>🔵 Postentreno</h4>
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150ml</span> yogur griego light + <span class="food-amount">50gr</span> uvas moradas + <span class="food-amount">100gr</span> piña</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10gr</span> avena + <span class="food-amount">5gr</span> cacao + <span class="food-amount">5gr</span> pistachos + canela</span></li>
+            </ul>
+            <div class="creatina-note">💊 5gr monohidrato creatina</div>
+          </div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon dinner">🌙</div><div class="meal-title-wrap"><div class="meal-title">Cena</div><div class="meal-time">20:30 – 21h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body" style="margin-top:12px"><ul class="food-list">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> pescado blanco + <span class="food-amount">3</span> huevos codorniz</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> boniato (crudo) + verdura + <span class="food-amount">30gr</span> aguacate + <span class="food-amount">10ml</span> aceite lino</span></li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- ── VIERNES ── -->
+    <div class="day-page" id="day-vie">
+      <div class="day-hero">
+        <div><h2>Viernes</h2><p>🏋️ Día de entreno · Hidratos altos</p></div>
+        <div class="day-macro-pill"><div class="kcal">1.850</div><div class="kcal-label">kcal</div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="mp-val">153g</div><div class="mp-label">Proteína</div></div>
+        <div class="macro-pill"><div class="mp-val">186g</div><div class="mp-label">Carbos</div></div>
+        <div class="macro-pill"><div class="mp-val">54g</div><div class="mp-label">Grasa</div></div>
+      </div>
+      <div class="meal-card open">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon breakfast">☕</div><div class="meal-title-wrap"><div class="meal-title">Desayuno</div><div class="meal-time">7:30 – 8:30h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body">
+          <div class="opt-tabs"><button class="opt-btn active" onclick="switchOpt(this,'vie-des')">Opción A</button><button class="opt-btn" onclick="switchOpt(this,'vie-des')">Opción B</button></div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180ml</span> kéfir + <span class="food-amount">150gr</span> fruta + <span class="food-amount">25gr</span> avena + <span class="food-amount">10gr</span> cacao + semillas lino + canela</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span>Tortita <span class="food-amount">5 claras</span> + <span class="food-amount">25gr</span> harina avena + <span class="food-amount">150gr</span> fruta + <span class="food-amount">125ml</span> kéfir + cacao + canela</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon snack">🍎</div><div class="meal-title-wrap"><div class="meal-title">Media Mañana</div><div class="meal-time">10:30 – 11h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body"><ul class="food-list" style="margin-top:12px">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> fiambre pollo/pavo + <span class="food-amount">2</span> tortitas arroz integral + <span class="food-amount">150gr</span> frutos rojos + nueces + almendras + té</span></li>
+        </ul></div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon lunch">🍽️</div><div class="meal-title-wrap"><div class="meal-title">Preentreno + Comida</div><div class="meal-time">~11:30h pre · 13:30h comida</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="pre-card"><h4>🟠 Preentreno</h4>
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span>&lt;1h: <span class="food-amount">2</span> tortitas blancas + <span class="food-amount">60gr</span> cottage + <span class="food-amount">100gr</span> plátano + tahini + canela</span></li>
+              <li class="food-item"><div class="food-dot"></div><span>30-60min: <span class="food-amount">130gr</span> plátano + <span class="food-amount">2</span> ciruelas pasas</span></li>
+            </ul>
+          </div>
+          <div class="opt-tabs"><button class="opt-btn active" onclick="switchOpt(this,'vie-com')">Opción A</button><button class="opt-btn" onclick="switchOpt(this,'vie-com')">Opción B</button></div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180gr</span> ternera magra (o burger) + <span class="food-amount">100gr</span> pasta lenteja roja + verdura + <span class="food-amount">10ml</span> AOVE</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">200gr</span> pescado blanco + <span class="food-amount">100gr</span> pasta lenteja roja + verdura + <span class="food-amount">10ml</span> AOVE</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon post">💪</div><div class="meal-title-wrap"><div class="meal-title">Postentreno / Merienda</div><div class="meal-time">30-60 min post · ~15-16h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="post-card"><h4>🔵 Postentreno</h4>
+            <ul class="food-list">
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150ml</span> yogur griego light + <span class="food-amount">50gr</span> granada + <span class="food-amount">100gr</span> piña</span></li>
+              <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10gr</span> avena + <span class="food-amount">5gr</span> cacao + <span class="food-amount">5gr</span> pistachos + canela</span></li>
+            </ul>
+            <div class="creatina-note">💊 5gr monohidrato creatina</div>
+          </div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon dinner">🌙</div><div class="meal-title-wrap"><div class="meal-title">Cena</div><div class="meal-time">20:30 – 21h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body" style="margin-top:12px"><ul class="food-list">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">120gr</span> pollo o pavo + <span class="food-amount">40gr</span> cottage + <span class="food-amount">3</span> huevos codorniz</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">50gr</span> quinoa cocida + verdura + <span class="food-amount">30gr</span> aguacate + <span class="food-amount">5gr</span> semillas calabaza + <span class="food-amount">10ml</span> aceite lino</span></li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- ── SÁBADO ── -->
+    <div class="day-page" id="day-sab">
+      <div class="day-hero rest">
+        <div><h2>Sábado</h2><p>🛋️ Descanso · Hidratos moderados</p></div>
+        <div class="day-macro-pill"><div class="kcal">1.680</div><div class="kcal-label">kcal</div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="mp-val">145g</div><div class="mp-label">Proteína</div></div>
+        <div class="macro-pill"><div class="mp-val">145g</div><div class="mp-label">Carbos</div></div>
+        <div class="macro-pill"><div class="mp-val">60g</div><div class="mp-label">Grasa</div></div>
+      </div>
+      <div class="meal-card open">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon breakfast">☕</div><div class="meal-title-wrap"><div class="meal-title">Desayuno</div><div class="meal-time">8:00 – 9:00h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body">
+          <div class="opt-tabs"><button class="opt-btn active" onclick="switchOpt(this,'sab-des')">Sin entreno</button><button class="opt-btn" onclick="switchOpt(this,'sab-des')">Con entreno</button></div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180ml</span> kéfir + <span class="food-amount">150gr</span> papaya/kiwi/pomelo/manzana cocinada</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">20gr</span> avena + <span class="food-amount">10gr</span> cacahuete polvo + <span class="food-amount">5gr</span> cacao + <span class="food-amount">10gr</span> semillas lino + canela</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180ml</span> kéfir + <span class="food-amount">150gr</span> plátano y/o uvas moradas</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">25gr</span> avena + <span class="food-amount">10gr</span> cacahuete polvo + canela</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon snack">🍎</div><div class="meal-title-wrap"><div class="meal-title">Media Mañana</div><div class="meal-time">10:30 – 11h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body">
+          <div class="opt-tabs"><button class="opt-btn active" onclick="switchOpt(this,'sab-med')">Sin entreno</button><button class="opt-btn" onclick="switchOpt(this,'sab-med')">Postentreno</button></div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> fiambre pollo/pavo + <span class="food-amount">150gr</span> frutos rojos + <span class="food-amount">3</span> nueces + <span class="food-amount">4</span> almendras</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> fiambre pollo/pavo + <span class="food-amount">3</span> tortitas arroz blanco</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> piña o naranja + <span class="food-amount">3</span> nueces</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon lunch">🍽️</div><div class="meal-title-wrap"><div class="meal-title">Comida</div><div class="meal-time">13:30 – 14h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="opt-tabs"><button class="opt-btn active" onclick="switchOpt(this,'sab-com')">Opción A</button><button class="opt-btn" onclick="switchOpt(this,'sab-com')">Opción B</button></div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> pollo o pavo + <span class="food-amount">2</span> huevos codorniz</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">40gr</span> quinoa cocida + verdura + <span class="food-amount">10ml</span> AOVE + <span class="food-amount">5gr</span> sésamo/tahini</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> marisco / moluscos / pescado blanco + <span class="food-amount">2</span> huevos codorniz</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">40gr</span> quinoa cocida + verdura + <span class="food-amount">10ml</span> AOVE</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon snack">🍓</div><div class="meal-title-wrap"><div class="meal-title">Merienda</div><div class="meal-time">16:30 – 17h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body"><ul class="food-list" style="margin-top:12px">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> yogur griego light + <span class="food-amount">150gr</span> papaya/arándanos/fresas</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">5gr</span> semillas lino + <span class="food-amount">10gr</span> semillas calabaza + <span class="food-amount">10gr</span> cacao puro</span></li>
+        </ul></div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon dinner">🌙</div><div class="meal-title-wrap"><div class="meal-title">Cena</div><div class="meal-time">20:30 – 21h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body" style="margin-top:12px"><ul class="food-list">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> pescado azul (salmón salvaje / caballa / sardinas)</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">50gr</span> queso cottage light + <span class="food-amount">20gr</span> aguacate + verdura + <span class="food-amount">10ml</span> aceite lino</span></li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- ── DOMINGO ── -->
+    <div class="day-page" id="day-dom">
+      <div class="day-hero rest">
+        <div><h2>Domingo</h2><p>🛋️ Descanso completo · Hidratos bajos</p></div>
+        <div class="day-macro-pill"><div class="kcal">1.580</div><div class="kcal-label">kcal</div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="mp-val">142g</div><div class="mp-label">Proteína</div></div>
+        <div class="macro-pill"><div class="mp-val">120g</div><div class="mp-label">Carbos</div></div>
+        <div class="macro-pill"><div class="mp-val">60g</div><div class="mp-label">Grasa</div></div>
+      </div>
+      <div class="rest-note">⚠️ <span>Día de descanso completo: hidratos mínimos. Sin preentreno ni postentreno.</span></div>
+      <div class="meal-card open">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon breakfast">☕</div><div class="meal-title-wrap"><div class="meal-title">Desayuno</div><div class="meal-time">8:30 – 9:30h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body">
+          <div class="opt-tabs"><button class="opt-btn active" onclick="switchOpt(this,'dom-des')">Opción A</button><button class="opt-btn" onclick="switchOpt(this,'dom-des')">Opción B</button></div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180ml</span> kéfir + <span class="food-amount">150gr</span> papaya/kiwi/pomelo o manzana cocinada</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">20gr</span> avena + <span class="food-amount">10gr</span> cacahuete polvo + <span class="food-amount">5gr</span> cacao + <span class="food-amount">10gr</span> semillas lino + canela</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span>Tortita <span class="food-amount">5 claras</span> + <span class="food-amount">25gr</span> harina avena + <span class="food-amount">150gr</span> fruta + <span class="food-amount">125ml</span> kéfir + canela</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon snack">🍎</div><div class="meal-title-wrap"><div class="meal-title">Media Mañana</div><div class="meal-time">10:30 – 11h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body"><ul class="food-list" style="margin-top:12px">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100gr</span> fiambre pollo/pavo + <span class="food-amount">2</span> tortitas arroz integral + <span class="food-amount">150gr</span> frutos rojos + nueces + almendras</span></li>
+        </ul></div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon lunch">🍽️</div><div class="meal-title-wrap"><div class="meal-title">Comida</div><div class="meal-time">13:30 – 14h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body" style="padding-top:12px">
+          <div class="opt-tabs"><button class="opt-btn active" onclick="switchOpt(this,'dom-com')">Opción A</button><button class="opt-btn" onclick="switchOpt(this,'dom-com')">Opción B</button></div>
+          <div class="opt-content active"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> pollo o pavo + <span class="food-amount">2</span> huevos codorniz + verdura abundante</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">40gr</span> quinoa cocida + <span class="food-amount">10ml</span> AOVE</span></li>
+          </ul></div>
+          <div class="opt-content"><ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> pescado blanco + <span class="food-amount">2</span> huevos codorniz + verdura abundante</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">40gr</span> quinoa cocida + <span class="food-amount">10ml</span> AOVE</span></li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon snack">🍓</div><div class="meal-title-wrap"><div class="meal-title">Merienda</div><div class="meal-time">16:30 – 17h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body"><ul class="food-list" style="margin-top:12px">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> yogur griego light + <span class="food-amount">150gr</span> papaya/arándanos/fresas</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">5gr</span> semillas lino + <span class="food-amount">10gr</span> semillas calabaza + <span class="food-amount">10gr</span> cacao puro</span></li>
+        </ul></div>
+      </div>
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)"><div class="meal-icon dinner">🌙</div><div class="meal-title-wrap"><div class="meal-title">Cena</div><div class="meal-time">20:30 – 21h</div></div><div class="meal-chevron">⌄</div></div>
+        <div class="meal-body" style="margin-top:12px"><ul class="food-list">
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150gr</span> pescado azul (salmón salvaje / caballa / sardinas)</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">50gr</span> queso cottage light + <span class="food-amount">20gr</span> aguacate + verdura + <span class="food-amount">10ml</span> aceite lino</span></li>
+        </ul></div>
+      </div>
+    </div>
+
+  </div><!-- fin main plan -->
+</div><!-- fin page-plan -->
+
+<!-- ══ PÁGINA: SUPLEMENTACIÓN ══ -->
+<div class="page" id="page-suppl">
+  <div class="header" style="padding:36px 20px 24px">
+    <span class="header-emoji">💊</span>
+    <h1>Suplementación</h1>
+    <p>Abril 2026 · Protocolo Cris Uceda</p>
+  </div>
+  <div class="main">
+    <div class="info-box"><strong>Recuerda:</strong> La suplementación no es un extra, es parte del plan. Intégrala en tu rutina como si fuera parte del entrenamiento.</div>
+
+    <div class="suppl-card">
+      <div class="suppl-icon">🌿</div>
+      <div>
+        <div class="suppl-name">Curcumina</div>
+        <div class="suppl-dose">1 cápsula × 2 al día</div>
+        <div class="suppl-when">⏰ 30 min antes de comida y cena · Con agua + limón + vinagre sidra manzana</div>
+        <div class="suppl-function">Antiinflamatoria · Digestiva · Antiedad · Antiinflamatorio articular</div>
+        <div class="priority-stars">★★★★★ Prioridad máxima</div>
+      </div>
+    </div>
+    <div class="suppl-card">
+      <div class="suppl-icon">✨</div>
+      <div>
+        <div class="suppl-name">Colágeno Marino</div>
+        <div class="suppl-dose">2 cápsulas · Q10 + VitC + Zinc</div>
+        <div class="suppl-when">⏰ En el desayuno</div>
+        <div class="suppl-function">Piel · Flacidez · Articulaciones · Antiaging · Clave para tu objetivo estético</div>
+        <div class="priority-stars">★★★★☆ Alta prioridad</div>
+      </div>
+    </div>
+    <div class="suppl-card">
+      <div class="suppl-icon">🐟</div>
+      <div>
+        <div class="suppl-name">Omega 3</div>
+        <div class="suppl-dose">1 cápsula × 2 al día</div>
+        <div class="suppl-when">⏰ Justo antes de comida y cena</div>
+        <div class="suppl-function">Antiinflamatorio · Favorece pérdida de grasa · Cerebro · Piel</div>
+        <div class="priority-stars">★★★★★ Prioridad máxima</div>
+      </div>
+    </div>
+    <div class="suppl-card">
+      <div class="suppl-icon">🌙</div>
+      <div>
+        <div class="suppl-name">Magnesio (D3 + K2 + B6)</div>
+        <div class="suppl-dose">2 cápsulas</div>
+        <div class="suppl-when">⏰ Justo antes de cenar, junto al Omega 3</div>
+        <div class="suppl-function">Sistema nervioso · Reduce ansiedad · Hueso · Mejora la calidad del sueño</div>
+        <div class="priority-stars">★★★★★ Prioridad máxima</div>
+      </div>
+    </div>
+    <div class="suppl-card">
+      <div class="suppl-icon">💪</div>
+      <div>
+        <div class="suppl-name">Monohidrato de Creatina</div>
+        <div class="suppl-dose">5 gramos · Solo días de entreno</div>
+        <div class="suppl-when">⏰ Después del entreno, junto al postentreno (con hidratos)</div>
+        <div class="suppl-function">Músculo · Fuerza · Composición corporal · Se absorbe mejor con carbos</div>
+        <div class="priority-stars">★★★★★ Prioridad máxima</div>
+      </div>
+    </div>
+    <div class="suppl-card">
+      <div class="suppl-icon">🌱</div>
+      <div>
+        <div class="suppl-name">Espino Amarillo (Omega 7)</div>
+        <div class="suppl-dose">2 cápsulas al día</div>
+        <div class="suppl-when">⏰ En comida o en cena</div>
+        <div class="suppl-function">Piel · Mucosas · Antiinflamatorio · Complementa al Omega 3</div>
+        <div class="priority-stars">★★★☆☆ Complementario</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PÁGINA: MACROS ══ -->
+<div class="page" id="page-macros">
+  <div class="header" style="padding:36px 20px 24px">
+    <span class="header-emoji">📊</span>
+    <h1>Macros y Calorías</h1>
+    <p>Desglose semanal · Abril 2026</p>
+  </div>
+  <div class="main">
+    <div class="info-box">
+      <strong>TDEE estimado:</strong> ~2.050 kcal/día · Déficit moderado de 200-300 kcal en días de descanso para favorecer la pérdida de grasa sin sacrificar músculo.
+    </div>
+
+    <div class="section-label">Días de entreno (L · M · J · V)</div>
+    <div class="macro-week-card">
+      <div class="kcal-badge-big">1.850 kcal</div>
+      <div class="mwc-bars">
+        <div class="mwc-bar-row">
+          <div class="mwc-bar-label">Proteína</div>
+          <div class="mwc-bar-wrap"><div class="mwc-bar-fill bar-pink" style="width:85%"></div></div>
+          <div class="mwc-bar-val" style="color:var(--pink)">~155g</div>
+        </div>
+        <div class="mwc-bar-row">
+          <div class="mwc-bar-label">Carbos</div>
+          <div class="mwc-bar-wrap"><div class="mwc-bar-fill bar-green" style="width:100%"></div></div>
+          <div class="mwc-bar-val" style="color:#43a047">~185g</div>
+        </div>
+        <div class="mwc-bar-row">
+          <div class="mwc-bar-label">Grasa</div>
+          <div class="mwc-bar-wrap"><div class="mwc-bar-fill bar-orange" style="width:45%"></div></div>
+          <div class="mwc-bar-val" style="color:#fb8c00">~54g</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Sábado (transición)</div>
+    <div class="macro-week-card">
+      <div class="kcal-badge-big" style="background:#7b1fa2">1.680 kcal</div>
+      <div class="mwc-bars">
+        <div class="mwc-bar-row">
+          <div class="mwc-bar-label">Proteína</div>
+          <div class="mwc-bar-wrap"><div class="mwc-bar-fill bar-pink" style="width:80%"></div></div>
+          <div class="mwc-bar-val" style="color:var(--pink)">~145g</div>
+        </div>
+        <div class="mwc-bar-row">
+          <div class="mwc-bar-label">Carbos</div>
+          <div class="mwc-bar-wrap"><div class="mwc-bar-fill bar-green" style="width:78%"></div></div>
+          <div class="mwc-bar-val" style="color:#43a047">~145g</div>
+        </div>
+        <div class="mwc-bar-row">
+          <div class="mwc-bar-label">Grasa</div>
+          <div class="mwc-bar-wrap"><div class="mwc-bar-fill bar-orange" style="width:50%"></div></div>
+          <div class="mwc-bar-val" style="color:#fb8c00">~60g</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Días de descanso (X · D)</div>
+    <div class="macro-week-card">
+      <div class="kcal-badge-big" style="background:#7b1fa2">1.580 – 1.600 kcal</div>
+      <div class="mwc-bars">
+        <div class="mwc-bar-row">
+          <div class="mwc-bar-label">Proteína</div>
+          <div class="mwc-bar-wrap"><div class="mwc-bar-fill bar-pink" style="width:78%"></div></div>
+          <div class="mwc-bar-val" style="color:var(--pink)">~145g</div>
+        </div>
+        <div class="mwc-bar-row">
+          <div class="mwc-bar-label">Carbos</div>
+          <div class="mwc-bar-wrap"><div class="mwc-bar-fill bar-green" style="width:65%"></div></div>
+          <div class="mwc-bar-val" style="color:#43a047">~120g</div>
+        </div>
+        <div class="mwc-bar-row">
+          <div class="mwc-bar-label">Grasa</div>
+          <div class="mwc-bar-wrap"><div class="mwc-bar-fill bar-orange" style="width:50%"></div></div>
+          <div class="mwc-bar-val" style="color:#fb8c00">~60g</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Distribución de macros objetivo</div>
+    <div class="info-box">
+      <strong>Proteína:</strong> ~1,10g/kg de peso objetivo (~65kg) → 155-160g/día. Imprescindible para preservar y construir músculo mientras se pierde grasa.<br><br>
+      <strong>Carbohidratos:</strong> Ciclados. Altos los días que entrenas (energía y recuperación), reducidos los días que descansas (favorece oxidación de grasa).<br><br>
+      <strong>Grasas:</strong> Siempre saludables. AOVE, aguacate, aceite de lino, frutos secos, pescado azul. Clave para hormonas, piel y antiinflamación.
+    </div>
+
+    <div class="section-label">Reglas de ciclado de carbos</div>
+    <div class="meal-card">
+      <div class="meal-header" onclick="toggleMeal(this)">
+        <div class="meal-icon lunch">📋</div>
+        <div class="meal-title-wrap"><div class="meal-title">¿Cómo aplico el ciclado?</div></div>
+        <div class="meal-chevron">⌄</div>
+      </div>
+      <div class="meal-body" style="margin-top:12px">
+        <ul class="food-list">
+          <li class="food-item"><div class="food-dot"></div><span><strong>Días de entreno:</strong> Come el preentreno + la comida con arroz o pasta lenteja + el postentreno completo.</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><strong>Días sin entreno:</strong> En la comida sustituyes el arroz/pasta por 40gr de quinoa cocida. Sin preentreno ni postentreno.</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><strong>Si entrenas el fin de semana</strong> y haces el postentreno, en la comida añades 90gr quinoa. Si no hiciste postentreno, añades 120gr arroz blanco.</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><strong>Las cantidades importan.</strong> Pesa en crudo siempre que el plan lo indique así.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PÁGINA: NOTAS ══ -->
+<div class="page" id="page-notas">
+  <div class="header" style="padding:36px 20px 24px">
+    <span class="header-emoji">📌</span>
+    <h1>Notas y Consejos</h1>
+    <p>Abril 2026 · Claves del plan</p>
+  </div>
+  <div class="main">
+    <div class="section-label">Verduras permitidas</div>
+    <div class="info-box">Judías verdes, brócoli, coliflor, espinacas, acelgas, calabacín, pimiento, espárragos, pepino, lechuga, rúcula, tomate, berenjena, champiñones. <strong>Añade siempre remolacha en las cenas para optimizar la circulación y el rendimiento.</strong> La verdura extra siempre es bienvenida — te ayuda a saciarte sin sumar calorías.</div>
+
+    <div class="section-label">Especias recomendadas</div>
+    <div class="info-box">Comino · Orégano · Cúrcuma · Jengibre · Tomillo · Anís verde · Cardamomo · Hinojo · Canela. Todas tienen propiedades digestivas, antiinflamatorias y reguladoras hormonales. Para aliñar: <strong>vinagre de sidra de manzana sin filtrar, limón y tomate tamizado.</strong></div>
+
+    <div class="section-label">Lácteos</div>
+    <div class="info-box">Prioriza el <strong>kéfir desnatado</strong> y el <strong>yogur griego light</strong>. Nutren la microbiota, mejoran la digestión y dan empuje a la zona abdominal. Lo justo para que sumen sin estorbar.</div>
+
+    <div class="section-label">Fruta estratégica</div>
+    <div class="info-box">La fruta no está puesta por capricho. Está pensada para calmar la ansiedad, regular el sistema nervioso y dar energía sin picos de glucosa. Confía en ella y disfrútala.</div>
+
+    <div class="section-label">Legumbres</div>
+    <div class="info-box">De momento dejamos fuera las legumbres en grano. Priorizamos la <strong>pasta de lenteja roja</strong>, que es más digerible y evita la hinchazón mientras trabajamos la zona abdominal.</div>
+
+    <div class="section-label">Normas clave</div>
+    <div class="meal-card">
+      <div class="meal-header" onclick="toggleMeal(this)">
+        <div class="meal-icon lunch">⚡</div>
+        <div class="meal-title-wrap"><div class="meal-title">Las 5 reglas de oro</div></div>
+        <div class="meal-chevron">⌄</div>
+      </div>
+      <div class="meal-body" style="margin-top:12px">
+        <ul class="food-list">
+          <li class="food-item"><div class="food-dot" style="background:var(--pink)"></div><span><strong>Las cantidades importan.</strong> Pesa todo lo que el plan indica en gramos.</span></li>
+          <li class="food-item"><div class="food-dot" style="background:var(--pink)"></div><span><strong>El orden también.</strong> No improvises ni reordenes las comidas sin motivo.</span></li>
+          <li class="food-item"><div class="food-dot" style="background:var(--pink)"></div><span><strong>No te quedes con hambre.</strong> Si lo notas, añade más verdura o ajusta con Cris.</span></li>
+          <li class="food-item"><div class="food-dot" style="background:var(--pink)"></div><span><strong>La creatina va con el postentreno</strong> (con hidratos) para maximizar la absorción.</span></li>
+          <li class="food-item"><div class="food-dot" style="background:var(--pink)"></div><span><strong>El ciclo indoor es descanso activo</strong>, no entreno de fuerza. No modifica la ingesta como un día de entreno.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label">Variantes por semana (abril)</div>
+    <div class="meal-card">
+      <div class="meal-header" onclick="toggleMeal(this)">
+        <div class="meal-icon snack">🗓️</div>
+        <div class="meal-title-wrap"><div class="meal-title">Rotación para no aburrirte</div></div>
+        <div class="meal-chevron">⌄</div>
+      </div>
+      <div class="meal-body" style="margin-top:12px">
+        <ul class="food-list">
+          <li class="food-item"><div class="food-dot"></div><span><strong>S1 (1-6 abr):</strong> Ternera + arroz integral · Salmón + quinoa · Papaya + kiwi</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><strong>S2 (7-13 abr):</strong> Pescado blanco + pasta lenteja · Caballa · Pomelo + frambuesas</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><strong>S3 (14-20 abr):</strong> Ternera burger + boniato · Sardinas · Kiwi + fresas</span></li>
+          <li class="food-item"><div class="food-dot"></div><span><strong>S4 (21-27 abr):</strong> Pollo + arroz rojo · Salmón salvaje · Manzana cocinada + frutos rojos</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="bnav-btn active" onclick="showPage('plan', this)">
+    <span class="bnav-icon">📅</span>Plan
+  </button>
+  <button class="bnav-btn" onclick="showPage('suppl', this)">
+    <span class="bnav-icon">💊</span>Suplementos
+  </button>
+  <button class="bnav-btn" onclick="showPage('macros', this)">
+    <span class="bnav-icon">📊</span>Macros
+  </button>
+  <button class="bnav-btn" onclick="showPage('notas', this)">
+    <span class="bnav-icon">📌</span>Notas
+  </button>
+</div>
+
+<script>
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showDay(id, btn) {
+  document.querySelectorAll('.day-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('day-' + id).classList.add('active');
+  btn.classList.add('active');
+  // scroll tab into view
+  btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleMeal(header) {
+  header.parentElement.classList.toggle('open');
+}
+
+function switchOpt(btn, groupId) {
+  const card = btn.closest('.meal-body');
+  const buttons = card.querySelectorAll('.opt-btn');
+  const contents = card.querySelectorAll('.opt-content');
+  const idx = Array.from(buttons).indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  contents.forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  contents[idx].classList.add('active');
+}
+</script>
+</body>
+</html>
