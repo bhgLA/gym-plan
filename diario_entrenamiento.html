@@ -145,6 +145,25 @@
   /* DELETE BTN in entries */
   .delete-entry-btn{background:transparent;border:none;color:var(--text3);cursor:pointer;padding:4px;font-size:16px;line-height:1;transition:color 0.15s;flex-shrink:0;}
   .delete-entry-btn:hover{color:var(--red);}
+  /* Boton de volver al index*/
+  .back-btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(200,169,110,0.3);
+  background: rgba(200,169,110,0.08);
+  color: #e2c18a;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: rgba(200,169,110,0.18);
+  border-color: rgba(200,169,110,0.5);
+}
 
   @media(max-width:400px){
     .input-row.three{grid-template-columns:1fr 1fr;}
@@ -157,6 +176,8 @@
 <div class="header">
   <h1>Diario de<br>Entrenamiento</h1>
   <p class="subtitle">Abril 2026 · Registro personal</p>
+  <!-- BOTÓN VOLVER --> ← aquí
+  <a href="index.html" class="back-btn">← Volver al inicio</a>
 </div>
 
 <div class="tabs">
