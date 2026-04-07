@@ -150,6 +150,24 @@
   .gym-done-banner.show{display:block;}
   .gym-done-banner h3{font-family:'DM Serif Display',serif;font-size:24px;color:var(--green);margin-bottom:5px;}
   .gym-done-banner p{font-size:13px;color:var(--text2);}
+  .back-btn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(200,169,110,0.3);
+  background: rgba(200,169,110,0.08);
+  color: #e2c18a;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: rgba(200,169,110,0.18);
+  border-color: rgba(200,169,110,0.5);
+}
 
   @media(max-width:680px){
     .header,.main{padding:24px 20px;}
@@ -174,6 +192,8 @@
     <span class="badge purple">Core en cada sesión + día D</span>
     <span class="badge orange">Sesiones 75–90 min máx.</span>
   </div>
+  <!-- BOTÓN VOLVER -->
+  <a href="index.html" class="back-btn">← Volver al inicio</a>
 </div>
 
 <div class="gym-btn-wrap">
