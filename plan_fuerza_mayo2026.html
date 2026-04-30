@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Plan de Fuerza — Mayo 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0a0c10;
+    --bg2:      #111318;
+    --bg3:      #181b22;
+    --card:     #13161d;
+    --border:   rgba(255,255,255,0.07);
+    --border2:  rgba(255,255,255,0.14);
+    --text:     #dde3ef;
+    --text2:    #8a94aa;
+    --text3:    #515a6e;
+    --accent:   #7eb8c9;    /* azul acero */
+    --accent2:  #a8d8e8;
+    --ac-dim:   rgba(126,184,201,0.10);
+    --gold:     #c9a96e;
+    --gold-dim: rgba(201,169,110,0.10);
+    --green:    #6db88a;
+    --gr-dim:   rgba(109,184,138,0.10);
+    --red:      #c96a6a;
+    --red-dim:  rgba(201,106,106,0.10);
+    --orange:   #d4855a;
+    --or-dim:   rgba(212,133,90,0.10);
+    --purple:   #9b7ec9;
+    --pu-dim:   rgba(155,126,201,0.10);
+    --r: 10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--bg2);
+    padding: 32px 20px 24px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: 'MAYO';
+    position: absolute;
+    right: -10px; top: -12px;
+    font-family: 'Playfair Display', serif;
+    font-size: 100px;
+    color: rgba(126,184,201,0.05);
+    pointer-events: none;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: var(--accent2);
+    line-height: 1.1;
+    position: relative;
+  }
+
+  .header h1 em {
+    display: block;
+    font-style: italic;
+    color: var(--gold);
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 18px;
+  }
+
+  .chip {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+
+  .chip.blue  { background: var(--ac-dim);  border-color: rgba(126,184,201,0.25); color: var(--accent2); }
+  .chip.gold  { background: var(--gold-dim);border-color: rgba(201,169,110,0.25); color: var(--gold); }
+  .chip.green { background: var(--gr-dim);  border-color: rgba(109,184,138,0.25); color: var(--green); }
+  .chip.red   { background: var(--red-dim); border-color: rgba(201,106,106,0.25); color: var(--red); }
+  .chip.orange{ background: var(--or-dim);  border-color: rgba(212,133,90,0.25);  color: var(--orange); }
+  .chip.purple{ background: var(--pu-dim);  border-color: rgba(155,126,201,0.25); color: var(--purple); }
+
+  /* ─── ALERT ─── */
+  .alert {
+    margin: 16px 16px 0;
+    background: var(--red-dim);
+    border: 1px solid rgba(201,106,106,0.2);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  .alert strong { color: var(--red); display: block; margin-bottom: 4px; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; }
+
+  /* ─── MAIN ─── */
+  .main { padding: 16px; }
+
+  /* ─── WEEK NAV ─── */
+  .week-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .week-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text2);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 10px 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.18s;
+    touch-action: manipulation;
+  }
+
+  .week-btn:active { transform: scale(0.97); }
+  .week-btn.active {
+    background: var(--ac-dim);
+    border-color: rgba(126,184,201,0.35);
+    color: var(--accent2);
+  }
+
+  .week-btn span {
+    display: block;
+    font-size: 9px;
+    color: var(--text3);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  /* ─── WEEK CONTENT ─── */
+  .week-content { display: none; }
+  .week-content.active { display: block; }
+
+  /* ─── WEEK HEADER ─── */
+  .week-hd {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+
+  .week-hd .wtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--accent2);
+  }
+
+  .week-hd .wfocus {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* ─── DAY CARD ─── */
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .day-hd {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    gap: 8px;
+  }
+
+  .day-hd:active { background: rgba(255,255,255,0.02); }
+
+  .day-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    flex: 1;
+  }
+
+  .day-tag {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tag-push   { background: var(--or-dim);  color: var(--orange); }
+  .tag-pull   { background: var(--ac-dim);  color: var(--accent); }
+  .tag-full   { background: var(--pu-dim);  color: var(--purple); }
+  .tag-core   { background: var(--gold-dim);color: var(--gold); }
+  .tag-cardio { background: var(--gr-dim);  color: var(--green); }
+  .tag-fisio  { background: var(--red-dim); color: var(--red); }
+
+  .day-body { padding: 0 16px 14px; }
+
+  /* ─── EXERCISE ─── */
+  .ex-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 10px;
+  }
+
+  .ex-item:last-child { border-bottom: none; }
+
+  .ex-left { flex: 1; }
+
+  .ex-name {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .ex-note {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  .ex-note.warn { color: var(--red); }
+
+  .ex-right { text-align: right; flex-shrink: 0; }
+
+  .ex-sets {
+    font-size: 12px;
+    color: var(--text2);
+    font-weight: 600;
+  }
+
+  .ex-load {
+    font-size: 11px;
+    color: var(--gold);
+    margin-top: 2px;
+  }
+
+  /* ─── BLOCK LABEL ─── */
+  .block-label {
+    font-size: 10px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    padding: 10px 0 6px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+
+  .block-label:first-child { border-top: none; margin-top: 0; padding-top: 14px; }
+
+  /* ─── NOTES ─── */
+  .notes {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    margin-top: 4px;
+  }
+
+  .notes h4 {
+    font-size: 10px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .notes li {
+    font-size: 12px;
+    color: var(--text2);
+    padding: 4px 0 4px 14px;
+    position: relative;
+    line-height: 1.55;
+    list-style: none;
+  }
+
+  .notes li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  /* ─── PROG TAB ─── */
+  .prog-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .prog-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .prog-ex { font-size: 11px; color: var(--text2); margin-bottom: 5px; }
+  .prog-current { font-size: 13px; color: var(--text); font-weight: 600; }
+  .prog-target { font-size: 11px; color: var(--green); margin-top: 3px; }
+  .prog-target.warn { color: var(--orange); }
+
+  /* ─── COLLAPSIBLE ─── */
+  .day-body { display: none; }
+  .day-card.open .day-body { display: block; }
+
+  .chevron {
+    font-size: 12px;
+    color: var(--text3);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .day-card.open .chevron { transform: rotate(180deg); }
+
+  /* ─── FISIO SECTION ─── */
+  .fisio-card {
+    background: var(--red-dim);
+    border: 1px solid rgba(201,106,106,0.2);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .fisio-card h3 {
+    font-size: 11px;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .fisio-ex {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(201,106,106,0.1);
+    gap: 8px;
+  }
+
+  .fisio-ex:last-child { border-bottom: none; }
+  .fisio-ex .name { font-size: 12px; color: var(--text2); flex: 1; line-height: 1.4; }
+  .fisio-ex .sets { font-size: 11px; color: var(--red); font-weight: 600; text-align: right; flex-shrink: 0; }
+
+  /* ─── CICLO CARD ─── */
+  .ciclo-card {
+    background: var(--gr-dim);
+    border: 1px solid rgba(109,184,138,0.2);
+    border-radius: var(--r);
+    padding: 20px 16px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .ciclo-icon { font-size: 36px; margin-bottom: 10px; }
+  .ciclo-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--green); }
+  .ciclo-sub { font-size: 12px; color: var(--text2); margin-top: 6px; line-height: 1.5; }
+
+  .ciclo-zones {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  .zone {
+    background: rgba(0,0,0,0.2);
+    border-radius: 6px;
+    padding: 8px 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .zone .z-label { color: var(--text3); }
+  .zone .z-time  { font-size: 16px; font-weight: 700; color: var(--green); display: block; margin: 2px 0; }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 14px 0;
+  }
+
+  /* ─── STICKY WEEK NAV ─── */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ─── TOGGLE ANIMATION ─── */
+  .day-hd { user-select: none; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>Plan de Fuerza
+    <em>Mayo 2026</em>
+  </h1>
+  <p class="subtitle">Tren superior · Core intensivo · Protocolo aductor</p>
+  <div class="chips">
+    <span class="chip blue">Upper body sin límite</span>
+    <span class="chip gold">Core a tope</span>
+    <span class="chip green">Ciclo = cardio</span>
+    <span class="chip red">Ingle: protocolo fisio</span>
+    <span class="chip orange">60–75 min/sesión</span>
+    <span class="chip purple">Sin pierna cargada</span>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div class="alert">
+  <strong>⚠ Protocolo lesión activa — aductor + psoas derecho</strong>
+  Fisioterapia en curso. Piernas cargadas fuera hasta alta. Ejercicios de fisio (banda) se integran como activación al inicio de cada sesión. Hombro izquierdo operado: sin jalón ancho con carga máxima, sin rotación forzada. Muñeca derecha operada: agarre neutro si hay tensión.
+</div>
+
+<!-- STICKY NAV -->
+<div class="sticky-nav">
+  <div class="week-nav">
+    <button class="week-btn active" onclick="showWeek('s1',this)">S1<span>5–11 may</span></button>
+    <button class="week-btn" onclick="showWeek('s2',this)">S2<span>12–18 may</span></button>
+    <button class="week-btn" onclick="showWeek('s3',this)">S3<span>19–25 may</span></button>
+    <button class="week-btn" onclick="showWeek('s4',this)">S4<span>26–31 may</span></button>
+    <button class="week-btn" onclick="showWeek('fisio',this)">Fisio<span>protocolo</span></button>
+    <button class="week-btn" onclick="showWeek('prog',this)">Prog<span>cargas</span></button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════ SEMANA 1 ═══════════════ -->
+<div class="week-content active" id="s1">
+  <div class="week-hd">
+    <div class="wtitle">Semana 1 — Reactivación</div>
+    <div class="wfocus">Técnica limpia · Reencontrar la fuerza · RPE máx 7/10 · Core desde el día 1</div>
+  </div>
+
+  <!-- FISIO ACTIVACIÓN -->
+  <div class="fisio-card">
+    <h3>🩺 Activación fisio — Hacer ANTES de cada sesión (5–8 min)</h3>
+    <div class="fisio-ex"><div class="name">Sentadilla estática sin peso + banda sobre rodillas</div><div class="sets">2 × 30 seg</div></div>
+    <div class="fisio-ex"><div class="name">Pasos laterales con banda (ambos lados)</div><div class="sets">2 × 15 pasos</div></div>
+    <div class="fisio-ex"><div class="name">Puente de glúteo con banda (lento, controlado)</div><div class="sets">2 × 15 rep</div></div>
+  </div>
+
+  <!-- DÍA A -->
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día A — Empuje + Tríceps</div>
+      <span class="day-tag tag-push">Empuje</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Calentamiento — 5 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Rotaciones hombro (mancuerna vacía)</div><div class="ex-note">Movilidad antes de cargar</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pectoral en polea (cruces suaves)</div></div>
+        <div class="ex-right"><div class="ex-sets">1 × 15</div><div class="ex-load">Peso mínimo</div></div>
+      </div>
+
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press pecho vertical máquina</div><div class="ex-note">Agarre neutro. Pecho orgulloso.</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">70–80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro mancuernas (sentado)</div><div class="ex-note">Codos sin pasar de 90°. Hombro izq: rango cómodo</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">8–10 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pullface cable</div><div class="ex-note">Manguito rotador. No negociar este ejercicio.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15</div><div class="ex-load">70 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Laterales mancuernas</div><div class="ex-note">Muñeca dcha: agarre neutro (pulgar arriba)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">5 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Tríceps polea (cuerda o barra recta)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">Carga media</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Fondos banco (sin peso, piernas apoyadas)</div><div class="ex-note">Solo si muñeca dcha lo permite</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 12</div></div>
+      </div>
+
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press polea (antirotación)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12/lado</div><div class="ex-load">35 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Plancha (variación codos)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 30 seg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dead bug (lento y controlado)</div><div class="ex-note">Lumbar pegada al suelo. La reina del core profundo.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8/lado</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA B -->
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día B — Jale + Bíceps</div>
+      <span class="day-tag tag-pull">Jale</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Jalón polea agarre medio-cerrado</div><div class="ex-note">Hombro izq: evitar jalón ancho en S1. Agarre supino o neutro.</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">70 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo sentado polea (agarre neutro)</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">70–75 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo unilateral mancuerna</div><div class="ex-note">Apoyo rodilla banco. Muñeca dcha: agarre firme sin tensión.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div><div class="ex-load">12–14 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dominadas asistidas máquina</div><div class="ex-note">Hombro izq: rango cómodo, no forzar overhead al límite</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 6–8</div><div class="ex-load">40 lb asist.</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Peso muerto máquina (RDL)</div><div class="ex-note">Bisagra de cadera pura. Sin carga en ingle.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">45–50 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Bíceps mancuernas (alternado)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">8 kg</div></div>
+      </div>
+
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press polea</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div><div class="ex-load">35 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Crunch cable (polea alta)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15</div><div class="ex-load">Peso moderado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Plancha lateral (apoyo codo)</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 25 seg/lado</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA CICLO -->
+  <div class="ciclo-card">
+    <div class="ciclo-icon">🚴</div>
+    <div class="ciclo-title">Día C — Ciclo Indoor</div>
+    <div class="ciclo-sub">Cardio sin estrés de ingle. 45–60 min. Intensidad variable según clase.</div>
+    <div class="ciclo-zones">
+      <div class="zone"><div class="z-label">Caliente</div><span class="z-time">10'</span>Z1–Z2</div>
+      <div class="zone"><div class="z-label">Trabajo</div><span class="z-time">35'</span>Z2–Z3</div>
+      <div class="zone"><div class="z-label">Vuelta</div><span class="z-time">10'</span>Z1</div>
+    </div>
+  </div>
+
+  <!-- DÍA D -->
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día D — Upper Full + Core Intensivo</div>
+      <span class="day-tag tag-full">Full</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Upper body (circuito 2 vueltas)</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 10</div><div class="ex-load">45 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Jalón polea agarre supino</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 12</div><div class="ex-load">65 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press pecho máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 12</div><div class="ex-load">70 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo unilateral</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 10/lado</div><div class="ex-load">12 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pullface cable</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 15</div><div class="ex-load">70 lb</div></div>
+      </div>
+
+      <div class="block-label">Core intensivo — 15 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press con pausa (3 seg)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Crunch cable</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dead bug lento</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Plancha (tiempo)</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × max</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hollow hold</div><div class="ex-note">Zona lumbar neutra. Sin compensar con cuello.</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 20 seg</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h4>Notas semana 1</h4>
+    <ul>
+      <li>RPE máx 7/10. Aún no empujamos.</li>
+      <li>Protocolo fisio <strong>antes de cada sesión</strong>, incluso antes del ciclo.</li>
+      <li>Hombro izq: sin jalón ancho hasta S2. Agarre neutro o supino.</li>
+      <li>Muñeca dcha: si los fondos molestan, sustitúyelos por tríceps cuerda o kickback.</li>
+      <li>Estructura sugerida: A-Lun / Ciclo-Mié / B-Vie / D-Dom (opcional)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ SEMANA 2 ═══════════════ -->
+<div class="week-content" id="s2">
+  <div class="week-hd">
+    <div class="wtitle">Semana 2 — Consolidación</div>
+    <div class="wfocus">+5–10% carga upper · Core con resistencia · Evaluamos jalón ancho</div>
+  </div>
+
+  <div class="fisio-card">
+    <h3>🩺 Activación fisio — Antes de cada sesión</h3>
+    <div class="fisio-ex"><div class="name">Sentadilla estática + banda rodillas</div><div class="sets">3 × 30 seg</div></div>
+    <div class="fisio-ex"><div class="name">Pasos laterales banda</div><div class="sets">3 × 15</div></div>
+    <div class="fisio-ex"><div class="name">Puente glúteo banda</div><div class="sets">3 × 15</div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día A — Empuje + Hombros</div>
+      <span class="day-tag tag-push">Empuje</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press pecho vertical máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">80–90 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">10 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro barra rígida</div><div class="ex-note">Alternamos semanas con mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 10</div><div class="ex-load">15 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 10</div><div class="ex-load">50 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Laterales mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12</div><div class="ex-load">5–6 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pullface cable</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15</div><div class="ex-load">75–80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Tríceps mancuerna (10 kg)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div></div>
+      </div>
+
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press con rotación (introducción suave)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Ab wheel (rodillas) o crunch cable</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Plancha + toque hombro alternado</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8/lado</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día B — Jale + Espalda</div>
+      <span class="day-tag tag-pull">Jale</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Jalón ancho (agarre pronado)</div><div class="ex-note">S2: probamos jalón ancho con carga moderada. Si hombro izq protesta → volvemos a agarre cerrado.</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">75 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo sentado polea</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">75–80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo unilateral mancuerna</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div><div class="ex-load">14 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dominadas asistidas</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div><div class="ex-load">35–40 lb asist.</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Peso muerto máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div><div class="ex-load">50 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Bíceps mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">8 kg</div></div>
+      </div>
+
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press rotación</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Crunch cable</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dead bug con resistencia (banda)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8/lado</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ciclo-card">
+    <div class="ciclo-icon">🚴</div>
+    <div class="ciclo-title">Día C — Ciclo Indoor</div>
+    <div class="ciclo-sub">Puedes ir a más intensidad si el cuerpo lo pide. Sin dolor de ingle = luz verde.</div>
+    <div class="ciclo-zones">
+      <div class="zone"><div class="z-label">Caliente</div><span class="z-time">8'</span>Z1–Z2</div>
+      <div class="zone"><div class="z-label">Trabajo</div><span class="z-time">40'</span>Z2–Z3+</div>
+      <div class="zone"><div class="z-label">Vuelta</div><span class="z-time">8'</span>Z1</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día D — Full Upper Intensivo</div>
+      <span class="day-tag tag-full">Full</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Supersets (descanso 60s entre superset)</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">A1: Press pecho + A2: Jalón polea</div><div class="ex-note">Antagonistas. Superset clásico.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10 c/u</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">B1: Press hombro mancuernas + B2: Pullface</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10 c/u</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">C1: Remo unilateral + C2: Laterales</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10 c/u</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">D1: Tríceps polea + D2: Bíceps mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12 c/u</div></div>
+      </div>
+
+      <div class="block-label">Core — 15 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop (diagonal) — introducción S2</div><div class="ex-note">Rotación controlada. Sin impulso. Carga muy baja.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div><div class="ex-load">Peso mínimo</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press rotación</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hollow hold progresivo</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 25 seg</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h4>Notas semana 2</h4>
+    <ul>
+      <li>Supersets en D: más intensidad sin más tiempo. Respira.</li>
+      <li>Jalón ancho: primera vez en mayo, ir con cuidado. Si el hombro izq avisa, carga más baja o agarre supino.</li>
+      <li>Cable woodchop: la rotación es nueva. Carga simbólica. El objetivo es patrón motor, no quemación.</li>
+      <li>RPE 7–8 upper. Core: hasta donde llegues.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ SEMANA 3 ═══════════════ -->
+<div class="week-content" id="s3">
+  <div class="week-hd">
+    <div class="wtitle">Semana 3 — Carga real</div>
+    <div class="wfocus">RPE 8/10 upper · Core con carga · Condicional: pierna si fisio da alta parcial</div>
+  </div>
+
+  <div class="fisio-card">
+    <h3>🩺 Activación fisio — Antes de cada sesión</h3>
+    <div class="fisio-ex"><div class="name">Sentadilla estática + banda (3 series)</div><div class="sets">3 × 40 seg</div></div>
+    <div class="fisio-ex"><div class="name">Pasos laterales banda</div><div class="sets">3 × 20</div></div>
+    <div class="fisio-ex"><div class="name">Puente glúteo banda (pausa 2 seg arriba)</div><div class="sets">3 × 15</div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día A — Empuje Intenso</div>
+      <span class="day-tag tag-push">Empuje</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press pecho vertical máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">85–90 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">10 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">50–55 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Laterales mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12</div><div class="ex-load">6 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pullface cable</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 15</div><div class="ex-load">80–90 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Tríceps (mancuerna + polea superset)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10–12</div></div>
+      </div>
+
+      <div class="block-label">Core cargado — 12 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop diagonal (carga media)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12/lado</div><div class="ex-load">Carga media</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press rotación con pausa</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Ab wheel (desde rodillas → buscamos punta de pie)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día B — Jale Intenso</div>
+      <span class="day-tag tag-pull">Jale</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Jalón polea (ancho si hombro OK)</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo sentado polea</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo unilateral mancuerna</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div><div class="ex-load">14 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dominadas asistidas</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div><div class="ex-load">35 lb asist.</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Peso muerto máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">55 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Curl bíceps concentrado (unilateral)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div><div class="ex-load">8 kg</div></div>
+      </div>
+
+      <div class="block-label">Core — 12 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Crunch cable + plancha combo</div></div>
+        <div class="ex-right"><div class="ex-sets">3 rondas</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hollow hold</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 30 seg</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ciclo-card">
+    <div class="ciclo-icon">🚴</div>
+    <div class="ciclo-title">Día C — Ciclo Indoor</div>
+    <div class="ciclo-sub">Si tienes revisión fisio esta semana: resultado marca el camino de S4 para piernas.</div>
+    <div class="ciclo-zones">
+      <div class="zone"><div class="z-label">Caliente</div><span class="z-time">8'</span>Z1–Z2</div>
+      <div class="zone"><div class="z-label">Intervalos</div><span class="z-time">35'</span>Z3</div>
+      <div class="zone"><div class="z-label">Vuelta</div><span class="z-time">8'</span>Z1</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día D — Full Upper + Core Max</div>
+      <span class="day-tag tag-full">Full</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Tri-sets (3 ejercicios seguidos, 90s descanso)</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">A: Press pecho → Jalón → Pullface</div></div>
+        <div class="ex-right"><div class="ex-sets">3 rondas × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">B: Press hombro → Remo → Laterales</div></div>
+        <div class="ex-right"><div class="ex-sets">3 rondas × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">C: Bíceps → Tríceps → Dominadas parciales</div></div>
+        <div class="ex-right"><div class="ex-sets">3 rondas × 10</div></div>
+      </div>
+
+      <div class="block-label">Core — 15 min (máxima intensidad)</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop alta intensidad</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Ab wheel completo (si llega)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof rotación + Hollow hold circuit</div></div>
+        <div class="ex-right"><div class="ex-sets">2 rondas</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h4>Notas semana 3</h4>
+    <ul>
+      <li>Si revisión fisio da alta parcial → en S4 reintroducimos hip thrust y femoral. Nada más sin diagnóstico claro.</li>
+      <li>RPE 8/10 en todos los bloques upper. El cuerpo ya debería sentirse en ritmo.</li>
+      <li>Tri-sets del Día D son exigentes. Si la sesión se alarga, corta 1 ronda y no el Core.</li>
+      <li>Muñeca dcha en ab wheel: si protesta, sustituir por crunch cable.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ SEMANA 4 ═══════════════ -->
+<div class="week-content" id="s4">
+  <div class="week-hd">
+    <div class="wtitle">Semana 4 — Cierre de ciclo</div>
+    <div class="wfocus">Cargas máximas del mes · Core consolidado · Piernas si alta fisio · Preparamos junio</div>
+  </div>
+
+  <div class="fisio-card">
+    <h3>🩺 Activación fisio — Se mantiene aunque mejore</h3>
+    <div class="fisio-ex"><div class="name">Sentadilla estática + banda</div><div class="sets">3 × 40 seg</div></div>
+    <div class="fisio-ex"><div class="name">Pasos laterales banda</div><div class="sets">3 × 20</div></div>
+    <div class="fisio-ex"><div class="name">Puente glúteo banda</div><div class="sets">3 × 15</div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día A — Empuje (pico de carga)</div>
+      <span class="day-tag tag-push">Empuje</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press pecho vertical máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">90 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">10 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div><div class="ex-load">55 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Laterales mancuernas (con pausa arriba)</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12</div><div class="ex-load">6 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pullface cable</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">90 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Tríceps: superset mancuerna + polea</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div></div>
+      </div>
+
+      <div class="block-label">Core — 12 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop (máxima carga del mes)</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Ab wheel (punta de pie si llega)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hollow hold 35 seg</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 35 seg</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día B — Jale (pico de carga)</div>
+      <span class="day-tag tag-pull">Jale</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Jalón polea</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo sentado polea</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo unilateral mancuerna</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10/lado</div><div class="ex-load">14 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dominadas asistidas (reducir asistencia)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div><div class="ex-load">30 lb asist.</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Peso muerto máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">55–60 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Bíceps (superset martillo + curl)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div></div>
+      </div>
+
+      <div class="block-label">Piernas condicional (solo si alta fisio)</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hip thrust barra (50–60 kg)</div><div class="ex-note warn">⚠ Solo con alta parcial del fisio. Probar sin dolor primero.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Femoral máquina</div><div class="ex-note warn">⚠ Solo con alta parcial del fisio.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div></div>
+      </div>
+
+      <div class="block-label">Core — 12 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop + Pallof rotación</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Crunch cable (máxima carga tolerada)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ciclo-card">
+    <div class="ciclo-icon">🚴</div>
+    <div class="ciclo-title">Día C — Ciclo Indoor</div>
+    <div class="ciclo-sub">Última sesión de cardio del mes. Si tienes clase de spinning larga, perfecto. Disfrútala.</div>
+    <div class="ciclo-zones">
+      <div class="zone"><div class="z-label">Caliente</div><span class="z-time">8'</span>Z1</div>
+      <div class="zone"><div class="z-label">Trabajo</div><span class="z-time">45'</span>Z2–Z4</div>
+      <div class="zone"><div class="z-label">Vuelta</div><span class="z-time">5'</span>Z1</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Día D — Evaluación + Core Final</div>
+      <span class="day-tag tag-full">Full</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Upper body revisión de cargas</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Test press pecho: ¿cuánto aguantas con buena técnica?</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × max</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Test jalón: ¿jalón ancho con 80 lb fluido?</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × max</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dominadas asistidas: ¿menos asistencia posible?</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div></div>
+      </div>
+
+      <div class="block-label">Core final de mes — 20 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop completo</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Ab wheel</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof rotación</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Plancha máxima</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × max</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hollow hold</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 40 seg</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <h4>Cierre de mayo + arranque junio</h4>
+    <ul>
+      <li>Anota qué ejerce de pierna puedes hacer sin dolor. Eso es el punto de partida de junio.</li>
+      <li>Objetivo junio: reintroducir hip thrust, femoral y goblet squat con carga si el fisio da OK.</li>
+      <li>Upper body de mayo: si la técnica es limpia y las cargas se sienten cómodas, junio será el mes de récords.</li>
+      <li>Core: si en S4 aguantas 40 seg de hollow hold, el tren central está fuerte. Enhorabuena.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ PROTOCOLO FISIO ═══════════════ -->
+<div class="week-content" id="fisio">
+  <div class="week-hd">
+    <div class="wtitle">Protocolo Fisio</div>
+    <div class="wfocus">Aductor derecho + psoas · Ejercicios con banda · Revisión en 2–3 semanas</div>
+  </div>
+
+  <div class="fisio-card">
+    <h3>📋 Ejercicios banda — Hacer DIARIAMENTE (no solo en gym)</h3>
+    <div class="fisio-ex"><div class="name">Sentadilla isométrica estática + banda sobre rodillas<br><span style="font-size:10px;color:var(--text3)">Pies separados, rodillas alineadas, empujar banda hacia afuera</span></div><div class="sets">3 × 30–40 seg</div></div>
+    <div class="fisio-ex"><div class="name">Pasos laterales con banda (Monster walk)<br><span style="font-size:10px;color:var(--text3)">Banda por encima de rodillas, espalda recta, pasos controlados</span></div><div class="sets">3 × 15 pasos</div></div>
+    <div class="fisio-ex"><div class="name">Puente de glúteo con banda<br><span style="font-size:10px;color:var(--text3)">Lento subiendo, 2 seg arriba, lento bajando. Sin dolor ingle.</span></div><div class="sets">3 × 15 rep</div></div>
+  </div>
+
+  <div class="notes">
+    <h4>Reglas del protocolo</h4>
+    <ul>
+      <li><strong style="color:var(--red)">PROHIBIDO</strong> hasta alta fisio: prensa de cuádriceps, sentadilla con barra, búlgaras, zancadas, subida al cajón unilateral, aductores máquina.</li>
+      <li><strong style="color:var(--green)">PERMITIDO</strong> sin restricción: tren superior completo, core, ciclo indoor (si sin dolor), femoral máquina y hip thrust suave (evaluación sesión a sesión).</li>
+      <li>Si el ciclo genera molestia en ingle: reducir resistencia, no intensidad de pedaleo.</li>
+      <li>Los ejercicios de fisio se hacen ANTES de cada sesión + en casa en días de descanso.</li>
+      <li>Próxima revisión fisio: marcar en el diario. Todo lo que no está explícitamente permitido, está fuera.</li>
+    </ul>
+  </div>
+
+  <div class="fisio-card" style="margin-top:12px; background: rgba(155,126,201,0.07); border-color: rgba(155,126,201,0.2);">
+    <h3 style="color: #9b7ec9;">⚡ TENS nocturno — Relajación zona aductor</h3>
+    <div class="fisio-ex"><div class="name">Electrodos en la inserción del aductor derecho (zona inguinal, donde termina la braguita)<br><span style="font-size:10px;color:var(--text3)">Modo CONTINUO — no pulsos, no contracción muscular. Solo relajación de tejido.</span></div><div class="sets">20–30 min</div></div>
+    <div class="fisio-ex"><div class="name">Momento: por la noche viendo la tele<br><span style="font-size:10px;color:var(--text3)">Intensidad: se nota pero no duele. Si el músculo salta → bajar intensidad o cambiar modo.</span></div><div class="sets">Diario</div></div>
+  </div>
+
+  <div class="notes" style="margin-top:12px; border-color: rgba(109,184,138,0.2);">
+    <h4>Señales de alarma — Para y llama al fisio</h4>
+    <ul>
+      <li>Dolor punzante en ingle al pedalear o al hacer puente de glúteo.</li>
+      <li>Irradiación hacia muslo interno o hacia el pubis.</li>
+      <li>Dificultad para subir escaleras o caminar normal al día siguiente de entrenar.</li>
+      <li>Cualquier sensación nueva que no tenías antes.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ PROGRESIÓN ═══════════════ -->
+<div class="week-content" id="prog">
+  <div class="week-hd">
+    <div class="wtitle">Progresión de cargas</div>
+    <div class="wfocus">Récords 2026 → Inicio mayo → Meta fin de mes</div>
+  </div>
+
+  <div class="prog-grid">
+    <div class="prog-card">
+      <div class="prog-ex">Press pecho vertical</div>
+      <div class="prog-current">Récord: 90 lb × 8</div>
+      <div class="prog-target">Mayo: 80 → 90 lb cómodo</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Jalón polea</div>
+      <div class="prog-current">Récord: 80 lb × 10</div>
+      <div class="prog-target">Mayo: 70 → 80 lb × 12</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Remo sentado</div>
+      <div class="prog-current">Récord: 80 lb</div>
+      <div class="prog-target">Mayo: 75 → 80 lb × 12</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Peso muerto máquina</div>
+      <div class="prog-current">Récord: 60 kg × 8</div>
+      <div class="prog-target">Mayo: 50 → 60 kg × 8</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Dominadas asistidas</div>
+      <div class="prog-current">Récord: 40 lb asist. × 3</div>
+      <div class="prog-target">Meta: 30 lb asist. × 8</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Press hombro manc.</div>
+      <div class="prog-current">Récord: 10 kg</div>
+      <div class="prog-target">Mayo: 10 kg × 12</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Pullface cable</div>
+      <div class="prog-current">Récord: 90 lb × 8</div>
+      <div class="prog-target">Mayo: 80 → 90 lb fluido</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Remo unilateral</div>
+      <div class="prog-current">Récord: 14 kg</div>
+      <div class="prog-target">Mayo: 14 kg × 12</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Hip thrust (condicional)</div>
+      <div class="prog-current">Récord: 80 kg × 6</div>
+      <div class="prog-target warn">Solo si alta fisio: 50→60 kg</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Femoral máquina</div>
+      <div class="prog-current">Sin restricción</div>
+      <div class="prog-target">Progresar con normalidad</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Core: Pallof rotación</div>
+      <div class="prog-current">Introducción S2</div>
+      <div class="prog-target">S4: carga real bilateral</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Ab wheel</div>
+      <div class="prog-current">Desde rodillas</div>
+      <div class="prog-target">Meta: punta de pie S3–S4</div>
+    </div>
+  </div>
+
+  <div class="notes" style="margin-top: 4px">
+    <h4>Estructura semanal recomendada</h4>
+    <ul>
+      <li><strong style="color:var(--text)">Lunes</strong> → Día A (Empuje + Core)</li>
+      <li><strong style="color:var(--text)">Miércoles</strong> → Ciclo indoor</li>
+      <li><strong style="color:var(--text)">Viernes</strong> → Día B (Jale + Core)</li>
+      <li><strong style="color:var(--text)">Sábado/Dom</strong> → Día D (Full Upper + Core intensivo) — opcional</li>
+      <li>Protocolo fisio: DIARIO. En gym antes de sesión, en casa los días de descanso.</li>
+      <li>Regla de oro: si algo genera molestia en ingle durante el ejercicio → para. No "aguantas un poco".</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- fin main -->
+
+<script>
+function showWeek(id, btn) {
+  document.querySelectorAll('.week-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.week-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  // Scroll to top of content
+  document.querySelector('.main').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleDay(hdEl) {
+  const card = hdEl.closest('.day-card');
+  card.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
