@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Plan de Fuerza — Junio 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0a0c10;
+    --bg2:      #111318;
+    --bg3:      #181b22;
+    --card:     #13161d;
+    --border:   rgba(255,255,255,0.07);
+    --border2:  rgba(255,255,255,0.14);
+    --text:     #dde3ef;
+    --text2:    #8a94aa;
+    --text3:    #515a6e;
+    --accent:   #7eb8c9;
+    --accent2:  #a8d8e8;
+    --ac-dim:   rgba(126,184,201,0.10);
+    --gold:     #c9a96e;
+    --gold-dim: rgba(201,169,110,0.10);
+    --green:    #6db88a;
+    --gr-dim:   rgba(109,184,138,0.10);
+    --red:      #c96a6a;
+    --red-dim:  rgba(201,106,106,0.10);
+    --orange:   #d4855a;
+    --or-dim:   rgba(212,133,90,0.10);
+    --purple:   #9b7ec9;
+    --pu-dim:   rgba(155,126,201,0.10);
+    --r: 10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .header {
+    background: var(--bg2);
+    padding: 32px 20px 24px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: 'JUNIO';
+    position: absolute;
+    right: -10px; top: -12px;
+    font-family: 'Playfair Display', serif;
+    font-size: 100px;
+    color: rgba(109,184,138,0.05);
+    pointer-events: none;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    color: var(--accent2);
+    line-height: 1.1;
+    position: relative;
+  }
+
+  .header h1 em {
+    display: block;
+    font-style: italic;
+    color: var(--green);
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .back-btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(109,184,138,0.3);
+    background: rgba(109,184,138,0.07);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: all 0.2s;
+  }
+
+  .back-btn:hover { background: rgba(109,184,138,0.15); border-color: rgba(109,184,138,0.5); }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .chip {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+
+  .chip.blue   { background: var(--ac-dim);   border-color: rgba(126,184,201,0.25); color: var(--accent2); }
+  .chip.gold   { background: var(--gold-dim); border-color: rgba(201,169,110,0.25); color: var(--gold); }
+  .chip.green  { background: var(--gr-dim);   border-color: rgba(109,184,138,0.25); color: var(--green); }
+  .chip.red    { background: var(--red-dim);  border-color: rgba(201,106,106,0.25); color: var(--red); }
+  .chip.orange { background: var(--or-dim);   border-color: rgba(212,133,90,0.25);  color: var(--orange); }
+  .chip.purple { background: var(--pu-dim);   border-color: rgba(155,126,201,0.25); color: var(--purple); }
+
+  .alert {
+    margin: 16px 16px 0;
+    background: var(--red-dim);
+    border: 1px solid rgba(201,106,106,0.2);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  .alert strong { color: var(--red); display: block; margin-bottom: 4px; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; }
+
+  .alert.green-alert {
+    background: var(--gr-dim);
+    border-color: rgba(109,184,138,0.2);
+  }
+  .alert.green-alert strong { color: var(--green); }
+
+  .main { padding: 16px; }
+
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .week-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .week-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text2);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 10px 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.18s;
+    touch-action: manipulation;
+  }
+
+  .week-btn:active { transform: scale(0.97); }
+  .week-btn.active {
+    background: var(--gr-dim);
+    border-color: rgba(109,184,138,0.35);
+    color: var(--green);
+  }
+
+  .week-btn span {
+    display: block;
+    font-size: 9px;
+    color: var(--text3);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  .week-content { display: none; }
+  .week-content.active { display: block; }
+
+  .week-hd {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+
+  .week-hd .wtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--green);
+  }
+
+  .week-hd .wfocus {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* ─── SCHEDULE OVERVIEW ─── */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+
+  .sched-day {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 4px;
+    text-align: center;
+    font-size: 9px;
+  }
+
+  .sched-day .d-name { color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
+  .sched-day .d-type { font-size: 10px; font-weight: 700; margin-top: 4px; line-height: 1.3; }
+  .sched-day .d-icon { font-size: 14px; display: block; margin: 3px 0; }
+
+  .sched-day.piernas { border-color: rgba(109,184,138,0.3); }
+  .sched-day.piernas .d-type { color: var(--green); }
+  .sched-day.upper   { border-color: rgba(126,184,201,0.3); }
+  .sched-day.upper   .d-type { color: var(--accent); }
+  .sched-day.ciclo   { border-color: rgba(109,184,138,0.2); }
+  .sched-day.ciclo   .d-type { color: var(--green); }
+  .sched-day.core    { border-color: rgba(201,169,110,0.3); }
+  .sched-day.core    .d-type { color: var(--gold); }
+  .sched-day.descanso .d-type { color: var(--text3); }
+
+  /* ─── DAY CARD ─── */
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .day-hd {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    gap: 8px;
+    user-select: none;
+  }
+
+  .day-hd:active { background: rgba(255,255,255,0.02); }
+
+  .day-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    flex: 1;
+  }
+
+  .day-tag {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tag-legs   { background: var(--gr-dim);   color: var(--green); }
+  .tag-upper  { background: var(--ac-dim);   color: var(--accent); }
+  .tag-core   { background: var(--gold-dim); color: var(--gold); }
+  .tag-cardio { background: var(--gr-dim);   color: var(--green); }
+  .tag-rest   { background: rgba(255,255,255,0.04); color: var(--text3); }
+
+  .chevron {
+    font-size: 12px;
+    color: var(--text3);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .day-card.open .chevron { transform: rotate(180deg); }
+
+  .day-body { display: none; padding: 0 16px 14px; }
+  .day-card.open .day-body { display: block; }
+
+  .block-label {
+    font-size: 10px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    padding: 10px 0 6px;
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+  }
+
+  .block-label:first-child { border-top: none; margin-top: 0; padding-top: 14px; }
+
+  .ex-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 10px;
+  }
+
+  .ex-item:last-child { border-bottom: none; }
+  .ex-left { flex: 1; }
+
+  .ex-name { font-size: 13px; color: var(--text); line-height: 1.4; }
+  .ex-note { font-size: 11px; color: var(--text3); margin-top: 2px; line-height: 1.4; }
+  .ex-note.warn { color: var(--red); }
+  .ex-note.good { color: var(--green); }
+
+  .ex-right { text-align: right; flex-shrink: 0; }
+  .ex-sets  { font-size: 12px; color: var(--text2); font-weight: 600; }
+  .ex-load  { font-size: 11px; color: var(--gold); margin-top: 2px; }
+
+  /* ─── FISIO SECTION ─── */
+  .fisio-card {
+    background: var(--red-dim);
+    border: 1px solid rgba(201,106,106,0.2);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .fisio-card h3 {
+    font-size: 11px;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .fisio-ex {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(201,106,106,0.1);
+    gap: 8px;
+  }
+
+  .fisio-ex:last-child { border-bottom: none; }
+  .fisio-ex .name { font-size: 12px; color: var(--text2); flex: 1; line-height: 1.4; }
+  .fisio-ex .sets { font-size: 11px; color: var(--red); font-weight: 600; text-align: right; flex-shrink: 0; }
+
+  /* ─── CICLO CARD ─── */
+  .ciclo-card {
+    background: var(--gr-dim);
+    border: 1px solid rgba(109,184,138,0.2);
+    border-radius: var(--r);
+    padding: 20px 16px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .ciclo-icon { font-size: 36px; margin-bottom: 10px; }
+  .ciclo-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--green); }
+  .ciclo-sub { font-size: 12px; color: var(--text2); margin-top: 6px; line-height: 1.5; }
+
+  .ciclo-zones {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  .zone {
+    background: rgba(0,0,0,0.2);
+    border-radius: 6px;
+    padding: 8px 4px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .zone .z-label { color: var(--text3); }
+  .zone .z-time  { font-size: 16px; font-weight: 700; color: var(--green); display: block; margin: 2px 0; }
+
+  /* ─── NOTES ─── */
+  .notes {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 14px 16px;
+    margin-top: 4px;
+  }
+
+  .notes h4 {
+    font-size: 10px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .notes li {
+    font-size: 12px;
+    color: var(--text2);
+    padding: 4px 0 4px 14px;
+    position: relative;
+    line-height: 1.55;
+    list-style: none;
+  }
+
+  .notes li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+  }
+
+  /* ─── REST DAY CARD ─── */
+  .rest-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 20px 16px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  .rest-icon { font-size: 32px; margin-bottom: 8px; }
+  .rest-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text2); }
+  .rest-sub { font-size: 12px; color: var(--text3); margin-top: 6px; line-height: 1.5; }
+
+  /* ─── STEPS BANNER ─── */
+  .steps-banner {
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,169,110,0.2);
+    border-radius: var(--r);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 13px;
+  }
+
+  .steps-banner .icon { font-size: 24px; }
+  .steps-banner strong { color: var(--gold); }
+  .steps-banner span { color: var(--text2); font-size: 12px; }
+
+  /* ─── PROG GRID ─── */
+  .prog-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .prog-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .prog-ex      { font-size: 11px; color: var(--text2); margin-bottom: 5px; }
+  .prog-current { font-size: 13px; color: var(--text); font-weight: 600; }
+  .prog-target  { font-size: 11px; color: var(--green); margin-top: 3px; }
+  .prog-target.warn { color: var(--orange); }
+
+  /* ─── DIVIDER ─── */
+  .divider { height: 1px; background: var(--border); margin: 14px 0; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <h1>Plan de Fuerza
+    <em>Junio 2026</em>
+  </h1>
+  <p class="subtitle">Piernas · Upper · Core · Protocolo fisio</p>
+  <a href="index.html" class="back-btn">← Volver al inicio</a>
+  <div class="chips">
+    <span class="chip green">Piernas x2/semana</span>
+    <span class="chip blue">Upper x1/semana</span>
+    <span class="chip gold">Core en cada sesión</span>
+    <span class="chip green">Ciclo = cardio</span>
+    <span class="chip orange">10.000 pasos/día</span>
+    <span class="chip red">Fisio: protocolo activo</span>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div class="alert">
+  <strong>⚠ Protocolo lesión activa — aductor + psoas derecho</strong>
+  Reintroducción de piernas según criterio del fisio. Hip thrust y femoral permitidos. Prensa, búlgaras, zancadas y cajón unilateral: fuera hasta alta. Hombro izq operado: sin jalón ancho a máxima carga. Muñeca dcha: agarre neutro si hay tensión.
+</div>
+
+<div class="alert green-alert" style="margin-top: 10px; margin-left: 16px; margin-right: 16px;">
+  <strong>✅ Nuevo en junio — Piernas vuelven</strong>
+  Dos días de piernas a la semana con progresión controlada. Goblet squat, hip thrust y femoral como base. Prensa y unilaterales según evolución. El cuerpo lo estaba esperando.
+</div>
+
+<!-- STICKY NAV -->
+<div class="sticky-nav">
+  <div class="week-nav">
+    <button class="week-btn active" onclick="showWeek('s1',this)">S1<span>2–8 jun</span></button>
+    <button class="week-btn" onclick="showWeek('s2',this)">S2<span>9–15 jun</span></button>
+    <button class="week-btn" onclick="showWeek('s3',this)">S3<span>16–22 jun</span></button>
+    <button class="week-btn" onclick="showWeek('s4',this)">S4<span>23–30 jun</span></button>
+    <button class="week-btn" onclick="showWeek('fisio',this)">Fisio<span>protocolo</span></button>
+    <button class="week-btn" onclick="showWeek('prog',this)">Prog<span>cargas</span></button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════ SEMANA 1 ═══════════════ -->
+<div class="week-content active" id="s1">
+  <div class="week-hd">
+    <div class="wtitle">Semana 1 — Reactivación piernas</div>
+    <div class="wfocus">Vuelta cautelosa al trabajo de piernas · RPE máx 7/10 · Upper: carga de mayo mantenida</div>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps-banner">
+    <span class="icon">👟</span>
+    <div><strong>10.000 pasos diarios</strong><br><span>Todos los días, incluso sábado y domingo. Es el hábito del mes.</span></div>
+  </div>
+
+  <!-- Fisio -->
+  <div class="fisio-card">
+    <h3>🩺 Activación fisio — ANTES de cada sesión (5–8 min)</h3>
+    <div class="fisio-ex"><div class="name">Sentadilla estática sin peso + banda sobre rodillas</div><div class="sets">3 × 30 seg</div></div>
+    <div class="fisio-ex"><div class="name">Pasos laterales con banda (Monster walk)</div><div class="sets">3 × 15 pasos</div></div>
+    <div class="fisio-ex"><div class="name">Puente de glúteo con banda (2 seg arriba)</div><div class="sets">3 × 15 rep</div></div>
+  </div>
+
+  <!-- LUNES: PIERNAS 1 -->
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Lunes — Piernas 1 (Glúteo + Posterior)</div>
+      <span class="day-tag tag-legs">Piernas</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Calentamiento — 8 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Movilidad cadera + glúteo (sin aducción forzada)</div></div>
+        <div class="ex-right"><div class="ex-sets">8 min</div></div>
+      </div>
+
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hip thrust barra</div><div class="ex-note">Semana 1: carga moderada. Técnica perfecta.</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">50–60 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Femoral máquina (leg curl)</div><div class="ex-note">Sin restricción. Progresar con normalidad.</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12</div><div class="ex-load">5–6 tabletas</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Goblet squat</div><div class="ex-note">Rango completo si sin dolor. Pies ligeramente abiertos.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">16–18 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Patada glúteo polea</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15/lado</div><div class="ex-load">Carga moderada</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Aductores máquina</div><div class="ex-note warn">⚠ Solo si sin dolor en ingle. 1–2 sets exploratorios.</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 12</div><div class="ex-load">Peso bajo</div></div>
+      </div>
+
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press antirotación</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12/lado</div><div class="ex-load">35–40 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Plancha codos</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 35 seg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dead bug</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8/lado</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARTES: UPPER -->
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Martes — Upper (Empuje + Jale)</div>
+      <span class="day-tag tag-upper">Upper</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Empuje</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press pecho vertical máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8–10</div><div class="ex-load">85–90 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro mancuernas (sentado)</div><div class="ex-note">Hombro izq: rango cómodo.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">10 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Laterales mancuernas</div><div class="ex-note">Muñeca dcha: agarre neutro (pulgar arriba)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">5–6 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Tríceps polea o mancuerna</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">10 kg / cuerda</div></div>
+      </div>
+
+      <div class="block-label">Jale</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Jalón polea (agarre medio)</div><div class="ex-note">Hombro izq: agarre no demasiado ancho.</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8–10</div><div class="ex-load">80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo sentado polea</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pullface cable</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15</div><div class="ex-load">85–90 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dominadas asistidas</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div><div class="ex-load">30–35 lb asist.</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Bíceps mancuernas (alternado)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">8 kg</div></div>
+      </div>
+
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop diagonal</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Crunch cable</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hollow hold</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 30 seg</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MIÉRCOLES: CICLO -->
+  <div class="ciclo-card">
+    <div class="ciclo-icon">🚴</div>
+    <div class="ciclo-title">Miércoles — Ciclo Indoor</div>
+    <div class="ciclo-sub">Cardio sin estrés de ingle. 45–60 min. Intensidad según clase.</div>
+    <div class="ciclo-zones">
+      <div class="zone"><div class="z-label">Caliente</div><span class="z-time">8'</span>Z1–Z2</div>
+      <div class="zone"><div class="z-label">Trabajo</div><span class="z-time">40'</span>Z2–Z3</div>
+      <div class="zone"><div class="z-label">Vuelta</div><span class="z-time">8'</span>Z1</div>
+    </div>
+  </div>
+
+  <!-- JUEVES: PIERNAS 2 -->
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Jueves — Piernas 2 (Cuádriceps + Core)</div>
+      <span class="day-tag tag-legs">Piernas</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Goblet squat (el ejercicio ancla)</div><div class="ex-note good">Punto de partida para recuperar sentadilla. Técnica perfecta.</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">18–20 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cuádriceps máquina rehab (rango parcial → completo)</div><div class="ex-note">Si sin dolor: rango completo. Carga cómoda.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">60–70 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hip thrust barra (variante: enfoque cuádriceps)</div><div class="ex-note">Pies un poco más adelantados que el lunes.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">55–65 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Femoral máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">5–6 tabletas</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Peso muerto máquina (RDL)</div><div class="ex-note">Bisagra de cadera limpia. Sin tensión en ingle.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">50–55 kg</div></div>
+      </div>
+
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press rotación</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Ab wheel (desde rodillas)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Plancha lateral</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 30 seg/lado</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIERNES: CORE + MOVILIDAD -->
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Viernes — Core Suave + Movilidad</div>
+      <span class="day-tag tag-core">Recuperación</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Movilidad — 15 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Stretching cadera (piriforme, psoas, isquio)</div><div class="ex-note">30 seg por posición, sin rebote.</div></div>
+        <div class="ex-right"><div class="ex-sets">2 rondas</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cat-cow + Child's pose</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Apertura de cadera (figura 4 tumbada)</div></div>
+        <div class="ex-right"><div class="ex-sets">45 seg/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Rotaciones torácicas</div></div>
+        <div class="ex-right"><div class="ex-sets">10/lado</div></div>
+      </div>
+
+      <div class="block-label">Core suave — 15 min (sin intensidad)</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dead bug lento</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press antirotación (carga baja)</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 10/lado</div><div class="ex-load">30 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Plancha codos (mantenimiento)</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 30 seg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hollow hold suave</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × 20 seg</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIN DE SEMANA -->
+  <div class="rest-card">
+    <div class="rest-icon">🌿</div>
+    <div class="rest-title">Sábado + Domingo — Descanso</div>
+    <div class="rest-sub">Descanso total del gym. 10.000 pasos cada día si puedes. Protocolos fisio de banda en casa.</div>
+  </div>
+
+  <div class="notes">
+    <h4>Notas semana 1</h4>
+    <ul>
+      <li>RPE máx 7/10 en piernas. El objetivo es reencontrar el patrón motor, no sufrir.</li>
+      <li>Si la ingle da señales en el goblet squat → rango parcial sin negociar. Parar antes que forzar.</li>
+      <li>Upper: cargas de mayo mantenidas. Estamos en junio para subir en piernas, no para machacar upper.</li>
+      <li>Aductores máquina: 1–2 sets exploratorios. Si hay tensión → fuera hasta S2.</li>
+      <li>Fisio de banda: ANTES de cada sesión gym + en casa sábado y domingo.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ SEMANA 2 ═══════════════ -->
+<div class="week-content" id="s2">
+  <div class="week-hd">
+    <div class="wtitle">Semana 2 — Consolidación</div>
+    <div class="wfocus">+5–10% carga piernas · Upper: buscamos récords · Core con resistencia</div>
+  </div>
+
+  <div class="fisio-card">
+    <h3>🩺 Activación fisio — Antes de cada sesión</h3>
+    <div class="fisio-ex"><div class="name">Sentadilla estática + banda rodillas</div><div class="sets">3 × 40 seg</div></div>
+    <div class="fisio-ex"><div class="name">Pasos laterales banda</div><div class="sets">3 × 20 pasos</div></div>
+    <div class="fisio-ex"><div class="name">Puente glúteo banda (pausa 2 seg)</div><div class="sets">3 × 15 rep</div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Lunes — Piernas 1 (Glúteo + Posterior)</div>
+      <span class="day-tag tag-legs">Piernas</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hip thrust barra</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">60–70 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Femoral máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">6 tabletas</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Goblet squat</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">20 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Patada glúteo polea</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Aductores máquina</div><div class="ex-note warn">Solo si S1 fue sin molestia.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">Carga progresiva</div></div>
+      </div>
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof press + Cable woodchop</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12/lado c/u</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Plancha con toque hombro</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8/lado</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Martes — Upper (Intensidad +)</div>
+      <span class="day-tag tag-upper">Upper</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Supersets antagonistas</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">A1: Press pecho vertical + A2: Jalón polea</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10 c/u</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">B1: Press hombro mancuernas + B2: Pullface cable</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10 c/u</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">C1: Remo unilateral + C2: Laterales mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10 c/u</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">D1: Tríceps polea + D2: Bíceps mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12 c/u</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dominadas asistidas</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div><div class="ex-load">30 lb asist.</div></div>
+      </div>
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop + Crunch cable</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12 c/u</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hollow hold progresivo</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 35 seg</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ciclo-card">
+    <div class="ciclo-icon">🚴</div>
+    <div class="ciclo-title">Miércoles — Ciclo Indoor</div>
+    <div class="ciclo-sub">Puedes subir la intensidad si el cuerpo lo pide. Sin dolor de ingle = luz verde.</div>
+    <div class="ciclo-zones">
+      <div class="zone"><div class="z-label">Caliente</div><span class="z-time">8'</span>Z1–Z2</div>
+      <div class="zone"><div class="z-label">Trabajo</div><span class="z-time">40'</span>Z2–Z3+</div>
+      <div class="zone"><div class="z-label">Vuelta</div><span class="z-time">8'</span>Z1</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Jueves — Piernas 2 (Cuádriceps + Fuerza)</div>
+      <span class="day-tag tag-legs">Piernas</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Goblet squat</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">20 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cuádriceps máquina (rango completo)</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12</div><div class="ex-load">65–75 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hip thrust barra</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">65 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Peso muerto máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">55 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Femoral máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">6 tabletas</div></div>
+      </div>
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Ab wheel + Pallof rotación</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10 c/u</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Viernes — Core Suave + Movilidad</div>
+      <span class="day-tag tag-core">Recuperación</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Movilidad + Core suave — 30 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Stretching completo cadera, isquio, psoas</div></div>
+        <div class="ex-right"><div class="ex-sets">15 min</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dead bug + Pallof suave + Plancha</div></div>
+        <div class="ex-right"><div class="ex-sets">2 rondas</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Foam roller piernas (si tienes)</div></div>
+        <div class="ex-right"><div class="ex-sets">10 min</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rest-card">
+    <div class="rest-icon">🌿</div>
+    <div class="rest-title">Sábado + Domingo — Descanso</div>
+    <div class="rest-sub">10.000 pasos. Fisio de banda en casa. El músculo crece cuando descansas.</div>
+  </div>
+
+  <div class="notes">
+    <h4>Notas semana 2</h4>
+    <ul>
+      <li>Supersets en upper: más intensidad en el mismo tiempo. Respira entre supersets.</li>
+      <li>Hip thrust: si el lunes fueron 60 kg sin problema, el jueves probamos 65 kg.</li>
+      <li>Goblet squat: buscamos llegar a 20 kg con rango completo. Si ya estás ahí, añade una serie.</li>
+      <li>RPE 7–8 en piernas. Upper: 8/10.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ SEMANA 3 ═══════════════ -->
+<div class="week-content" id="s3">
+  <div class="week-hd">
+    <div class="wtitle">Semana 3 — Carga real</div>
+    <div class="wfocus">RPE 8/10 en todo · Reintroducción prensa (condicional) · Core al máximo</div>
+  </div>
+
+  <div class="fisio-card">
+    <h3>🩺 Activación fisio — Antes de cada sesión</h3>
+    <div class="fisio-ex"><div class="name">Sentadilla estática + banda (3 series)</div><div class="sets">3 × 40 seg</div></div>
+    <div class="fisio-ex"><div class="name">Pasos laterales banda</div><div class="sets">3 × 20</div></div>
+    <div class="fisio-ex"><div class="name">Puente glúteo banda (pausa 2 seg)</div><div class="sets">3 × 15</div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Lunes — Piernas 1 (Glúteo intenso)</div>
+      <span class="day-tag tag-legs">Piernas</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hip thrust barra</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">70–75 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Femoral máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">6–7 tabletas</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Goblet squat (con pausa abajo)</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">20 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Aductores máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">Carga moderada</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Patada glúteo polea</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15/lado</div></div>
+      </div>
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop + Pallof rotación</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12/lado c/u</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Ab wheel</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Martes — Upper (Récords del mes)</div>
+      <span class="day-tag tag-upper">Upper</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal — Tri-sets</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">A: Press pecho → Jalón → Pullface</div></div>
+        <div class="ex-right"><div class="ex-sets">3 rondas × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">B: Press hombro → Remo sentado → Laterales</div></div>
+        <div class="ex-right"><div class="ex-sets">3 rondas × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">C: Remo unilateral 14 kg + Dominadas + Bíceps</div></div>
+        <div class="ex-right"><div class="ex-sets">3 rondas × 10</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Tríceps superset (mancuerna + polea)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div></div>
+      </div>
+      <div class="block-label">Core — 12 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop alta intensidad</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Ab wheel (buscamos punta de pie)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hollow hold 35 seg</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 35 seg</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ciclo-card">
+    <div class="ciclo-icon">🚴</div>
+    <div class="ciclo-title">Miércoles — Ciclo Indoor</div>
+    <div class="ciclo-sub">Intervalos. Si el cuerpo responde bien, puedes empujar Z4 en los picos.</div>
+    <div class="ciclo-zones">
+      <div class="zone"><div class="z-label">Caliente</div><span class="z-time">8'</span>Z1–Z2</div>
+      <div class="zone"><div class="z-label">Intervalos</div><span class="z-time">35'</span>Z3–Z4</div>
+      <div class="zone"><div class="z-label">Vuelta</div><span class="z-time">8'</span>Z1</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Jueves — Piernas 2 (Cuádriceps + Prensa condicional)</div>
+      <span class="day-tag tag-legs">Piernas</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Goblet squat</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">20 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Prensa cuádriceps (reintroducción)</div><div class="ex-note warn">⚠ Solo si ingle estable. Pies arriba del centro. Empezar con 120 lb. Si hay dolor → cuádriceps máquina.</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">120–140 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hip thrust barra</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">70 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Peso muerto máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">55–60 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Femoral máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">6–7 tabletas</div></div>
+      </div>
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Crunch cable + Pallof rotación</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15 / 3 × 12/lado</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Viernes — Movilidad + Core</div>
+      <span class="day-tag tag-core">Recuperación</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Igual que semanas anteriores — 30 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Stretching cadera + psoas + isquio</div></div>
+        <div class="ex-right"><div class="ex-sets">15 min</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Core suave: Dead bug + Plancha + Hollow hold</div></div>
+        <div class="ex-right"><div class="ex-sets">2 rondas</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rest-card">
+    <div class="rest-icon">🌿</div>
+    <div class="rest-title">Sábado + Domingo — Descanso</div>
+    <div class="rest-sub">10.000 pasos. El cuerpo consolida en el descanso.</div>
+  </div>
+
+  <div class="notes">
+    <h4>Notas semana 3</h4>
+    <ul>
+      <li>Prensa: si en S1–S2 el goblet squat y el hip thrust fueron sin dolor, la prensa puede volver. 120 lb máximo y pies bien colocados (arriba del centro de la plataforma).</li>
+      <li>Tri-sets del martes son exigentes. Si la sesión se alarga, corta 1 ronda del bloque C.</li>
+      <li>Hip thrust: objetivo llegar a 75 kg en alguna serie de S3. Récord era 80 kg, estamos cerca.</li>
+      <li>RPE 8/10 en todo. El cuerpo ya está en ritmo.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ SEMANA 4 ═══════════════ -->
+<div class="week-content" id="s4">
+  <div class="week-hd">
+    <div class="wtitle">Semana 4 — Cierre de ciclo</div>
+    <div class="wfocus">Cargas máximas del mes · Core consolidado · Preparamos julio</div>
+  </div>
+
+  <div class="fisio-card">
+    <h3>🩺 Activación fisio — Se mantiene aunque mejore</h3>
+    <div class="fisio-ex"><div class="name">Sentadilla estática + banda</div><div class="sets">3 × 40 seg</div></div>
+    <div class="fisio-ex"><div class="name">Pasos laterales banda</div><div class="sets">3 × 20</div></div>
+    <div class="fisio-ex"><div class="name">Puente glúteo banda</div><div class="sets">3 × 15</div></div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Lunes — Piernas 1 (Pico glúteo)</div>
+      <span class="day-tag tag-legs">Piernas</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hip thrust barra</div><div class="ex-note good">Objetivo: recuperar 80 kg × 6 del récord.</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">75–80 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Femoral máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">7 tabletas</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Goblet squat</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">20 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Aductores máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">Carga moderada-alta</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Patada glúteo polea (superset ambas piernas)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 15/lado</div></div>
+      </div>
+      <div class="block-label">Core — 12 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop máxima carga del mes</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 12/lado</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Ab wheel + Hollow hold 40 seg</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10 / 3 × 40 seg</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Martes — Upper (Evaluación + Récords)</div>
+      <span class="day-tag tag-upper">Upper</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Test de cargas — ¿Cuánto aguantas con buena técnica?</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press pecho vertical máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">90 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Jalón polea</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Remo sentado polea</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">80 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Press hombro mancuernas</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">10 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Dominadas asistidas (menos asistencia posible)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 8</div><div class="ex-load">25–30 lb asist.</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pullface cable</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div><div class="ex-load">90 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Tríceps + Bíceps superset final</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 12</div></div>
+      </div>
+      <div class="block-label">Core — 15 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Cable woodchop + Crunch cable + Ab wheel</div></div>
+        <div class="ex-right"><div class="ex-sets">3 rondas</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Plancha máxima</div></div>
+        <div class="ex-right"><div class="ex-sets">2 × max</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ciclo-card">
+    <div class="ciclo-icon">🚴</div>
+    <div class="ciclo-title">Miércoles — Ciclo Indoor</div>
+    <div class="ciclo-sub">Última sesión de cardio de junio. Disfrútala.</div>
+    <div class="ciclo-zones">
+      <div class="zone"><div class="z-label">Caliente</div><span class="z-time">8'</span>Z1</div>
+      <div class="zone"><div class="z-label">Trabajo</div><span class="z-time">45'</span>Z2–Z4</div>
+      <div class="zone"><div class="z-label">Vuelta</div><span class="z-time">5'</span>Z1</div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Jueves — Piernas 2 (Pico cuádriceps)</div>
+      <span class="day-tag tag-legs">Piernas</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Bloque principal</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Goblet squat</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">20 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Prensa cuádriceps (si todo bien en S3)</div></div>
+        <div class="ex-right"><div class="ex-sets">3 × 10</div><div class="ex-load">140–160 lb</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Hip thrust barra</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">70–75 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Peso muerto máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 8</div><div class="ex-load">55–60 kg</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Femoral máquina</div></div>
+        <div class="ex-right"><div class="ex-sets">4 × 10</div><div class="ex-load">7 tabletas</div></div>
+      </div>
+      <div class="block-label">Core — 10 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Pallof rotación + Ab wheel + Hollow hold</div></div>
+        <div class="ex-right"><div class="ex-sets">3 rondas</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-card">
+    <div class="day-hd" onclick="toggleDay(this)">
+      <div class="day-name">Viernes — Movilidad Final de Mes</div>
+      <span class="day-tag tag-core">Recuperación</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="day-body">
+      <div class="block-label">Sesión de cierre — 30 min</div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Stretching completo: cadera, isquio, psoas, hombros</div></div>
+        <div class="ex-right"><div class="ex-sets">20 min</div></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-left"><div class="ex-name">Core suave final: Dead bug + Plancha</div></div>
+        <div class="ex-right"><div class="ex-sets">2 rondas</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rest-card">
+    <div class="rest-icon">🏖️</div>
+    <div class="rest-title">Sábado + Domingo — Descanso Total</div>
+    <div class="rest-sub">Cierre de junio. 10.000 pasos si quieres. Julio empieza fresca.</div>
+  </div>
+
+  <div class="notes">
+    <h4>Cierre junio + arranque julio</h4>
+    <ul>
+      <li>Hip thrust: si llegas a 78–80 kg, has recuperado el récord. Apúntalo en el diario.</li>
+      <li>Prensa: si en S4 haces 160 lb sin molestia, julio puede empezar desde 160–170 lb.</li>
+      <li>Upper: si dominadas llegan a 25 lb de asistencia × 8, julio buscamos 20 lb.</li>
+      <li>Goblet squat en 20 kg todo el mes = lista para sentadilla con barra en julio (20 kg técnica).</li>
+      <li>El hábito de los 10.000 pasos es lo más importante que te llevas de junio. No lo pierdas.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ PROTOCOLO FISIO ═══════════════ -->
+<div class="week-content" id="fisio">
+  <div class="week-hd">
+    <div class="wtitle">Protocolo Fisio</div>
+    <div class="wfocus">Aductor derecho + psoas · Ejercicios con banda · Revisión pendiente</div>
+  </div>
+
+  <div class="fisio-card">
+    <h3>📋 Ejercicios banda — Hacer DIARIAMENTE</h3>
+    <div class="fisio-ex"><div class="name">Sentadilla isométrica + banda sobre rodillas<br><span style="font-size:10px;color:var(--text3)">Pies separados, rodillas alineadas, empujar banda hacia afuera.</span></div><div class="sets">3 × 30–40 seg</div></div>
+    <div class="fisio-ex"><div class="name">Pasos laterales con banda (Monster walk)<br><span style="font-size:10px;color:var(--text3)">Banda por encima de rodillas, espalda recta, pasos controlados.</span></div><div class="sets">3 × 15–20 pasos</div></div>
+    <div class="fisio-ex"><div class="name">Puente de glúteo con banda<br><span style="font-size:10px;color:var(--text3)">Lento subiendo, 2 seg arriba, lento bajando. Sin dolor en ingle.</span></div><div class="sets">3 × 15 rep</div></div>
+  </div>
+
+  <div class="notes">
+    <h4>Reglas del protocolo</h4>
+    <ul>
+      <li><strong style="color:var(--red)">PROHIBIDO sin alta fisio</strong>: búlgaras, zancadas, subida al cajón unilateral. Prensa solo si ingle estable.</li>
+      <li><strong style="color:var(--green)">REINTRODUCIDOS en junio</strong>: hip thrust, femoral, goblet squat, cuádriceps máquina, aductores (carga baja).</li>
+      <li><strong style="color:var(--green)">SIN RESTRICCIÓN</strong>: tren superior completo, core, ciclo indoor.</li>
+      <li>Los ejercicios de fisio se hacen ANTES de cada sesión gym + en casa los días de descanso.</li>
+      <li>TENS nocturno: si sigue siendo útil, mantenerlo. Si ya no hay tensión en la zona, puedes reducir a 3–4 veces por semana.</li>
+    </ul>
+  </div>
+
+  <div class="fisio-card" style="margin-top:12px; background: rgba(155,126,201,0.07); border-color: rgba(155,126,201,0.2);">
+    <h3 style="color: #9b7ec9;">⚡ TENS nocturno — Si aún es necesario</h3>
+    <div class="fisio-ex"><div class="name">Electrodos en inserción aductor derecho<br><span style="font-size:10px;color:var(--text3)">Modo CONTINUO — relajación, no contracción.</span></div><div class="sets">20–30 min</div></div>
+    <div class="fisio-ex"><div class="name">Momento: viendo la tele por la noche</div><div class="sets">3–4x/semana</div></div>
+  </div>
+
+  <div class="notes" style="margin-top:12px; border-color: rgba(109,184,138,0.2);">
+    <h4>Señales de alarma — Para y llama al fisio</h4>
+    <ul>
+      <li>Dolor en ingle durante el hip thrust o el goblet squat → parar ese ejercicio ese día.</li>
+      <li>Irradiación hacia muslo interno o pubis durante cualquier ejercicio.</li>
+      <li>Dificultad para caminar con normalidad al día siguiente de una sesión de piernas.</li>
+      <li>Cualquier sensación nueva que no tenías antes.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════ PROGRESIÓN ═══════════════ -->
+<div class="week-content" id="prog">
+  <div class="week-hd">
+    <div class="wtitle">Progresión de cargas</div>
+    <div class="wfocus">Récords 2026 → Inicio junio → Meta fin de mes</div>
+  </div>
+
+  <div class="prog-grid">
+    <div class="prog-card">
+      <div class="prog-ex">Hip thrust barra</div>
+      <div class="prog-current">Récord: 80 kg × 6</div>
+      <div class="prog-target">Jun: 60 → 80 kg</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Goblet squat</div>
+      <div class="prog-current">Récord: 20 kg × 10</div>
+      <div class="prog-target">Jun: Consolidar 20 kg todo el mes</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Prensa cuádriceps</div>
+      <div class="prog-current">Récord: 180 lb × 10</div>
+      <div class="prog-target warn">S3: 120–140 lb · S4: 160 lb</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Peso muerto máquina</div>
+      <div class="prog-current">Récord: 60 kg × 8</div>
+      <div class="prog-target">Jun: 50 → 60 kg × 8</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Press pecho vertical</div>
+      <div class="prog-current">Récord: 90 lb × 8</div>
+      <div class="prog-target">Jun: 90 lb cómodo × 10</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Jalón polea</div>
+      <div class="prog-current">Récord: 80 lb × 10</div>
+      <div class="prog-target">Jun: 80 lb × 12</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Dominadas asistidas</div>
+      <div class="prog-current">Mayo: 30 lb asist.</div>
+      <div class="prog-target">Jun: 25 lb asist. × 8</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Pullface cable</div>
+      <div class="prog-current">Récord: 90 lb × 8</div>
+      <div class="prog-target">Jun: 90 lb fluido × 12</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Remo sentado</div>
+      <div class="prog-current">Récord: 80 lb</div>
+      <div class="prog-target">Jun: 80 lb × 12 limpio</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Core: Ab wheel</div>
+      <div class="prog-current">Mayo: desde rodillas</div>
+      <div class="prog-target">Jun: punta de pie S3–S4</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Core: Hollow hold</div>
+      <div class="prog-current">Mayo: 35 seg</div>
+      <div class="prog-target">Jun: 40 seg sólidos</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-ex">Pasos diarios</div>
+      <div class="prog-current">Nuevo hábito</div>
+      <div class="prog-target">10.000 pasos todos los días</div>
+    </div>
+  </div>
+
+  <div class="notes" style="margin-top: 4px">
+    <h4>Estructura semanal de junio</h4>
+    <ul>
+      <li><strong style="color:var(--text)">Lunes</strong> → Piernas 1 (Glúteo + Posterior)</li>
+      <li><strong style="color:var(--text)">Martes</strong> → Upper (Empuje + Jale completo)</li>
+      <li><strong style="color:var(--text)">Miércoles</strong> → Ciclo indoor</li>
+      <li><strong style="color:var(--text)">Jueves</strong> → Piernas 2 (Cuádriceps + Fuerza)</li>
+      <li><strong style="color:var(--text)">Viernes</strong> → Core suave + Movilidad (recuperación activa)</li>
+      <li><strong style="color:var(--text)">Sábado + Domingo</strong> → Descanso total + 10.000 pasos</li>
+      <li>Protocolo fisio: DIARIO — gym antes de sesión, en casa los días de descanso.</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- fin main -->
+
+<script>
+function showWeek(id, btn) {
+  document.querySelectorAll('.week-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.week-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  document.querySelector('.main').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleDay(hdEl) {
+  const card = hdEl.closest('.day-card');
+  card.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
