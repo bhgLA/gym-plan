@@ -26,3 +26,20 @@ como acceso directo en pantalla de inicio.
 - Historial de planes anteriores accesible desde el hub principal
 
 ## 🗂️ Estructura
+/
+├── index.html                    # Hub principal (pantalla de inicio)
+├── plan_fuerza_junio2026.html    # Plan de fuerza activo
+├── plan_nutricion_junio2026.html # Plan nutricional activo
+├── diario_entrenamiento.html     # Diario y PRs
+├── plan_fuerza_mayo2026.html     # Archivo mayo
+├── plan_fuerza_abril2026.html    # Archivo abril
+└── plan_nutricion_abril_2026.html
+## 🛠️ Stack
+
+HTML + CSS + JavaScript vanilla. Sin dependencias ni build step.
+Desplegado en **GitHub Pages**.
+
+## 📌 Notas
+
+Planes generados mensualmente con progresión de cargas,
+adaptación a lesiones activas y objetivos de recomposición corporal.
