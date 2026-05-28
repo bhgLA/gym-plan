@@ -3,1017 +3,1115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Plan Nutrición · Bego · Junio 2026</title>
+<title>Plan Nutrición Completo · Bego · Junio 2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --pink:       #e91e8c;
-    --pink-dark:  #b5156c;
-    --pink-soft:  #f8a8d4;
-    --pink-bg:    #fff0f7;
-    --pink-card:  #fce4f3;
-    --rose:       #fdf0f8;
-    --text:       #1a0a12;
-    --text2:      #7a4060;
-    --text3:      #b07090;
-    --green:      #2e7d32;
-    --green-bg:   #e8f5e9;
-    --orange:     #e65100;
-    --orange-bg:  #fff3e0;
-    --blue:       #1565c0;
-    --blue-bg:    #e3f2fd;
-    --yellow-bg:  #fffde7;
-    --radius:     18px;
-    --radius-sm:  10px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: #fdf5fa;
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 100px;
-  }
-
-  /* ── HEADER ── */
-  .header {
-    background: linear-gradient(135deg, var(--pink-dark) 0%, var(--pink) 60%, #f472b6 100%);
-    padding: 48px 20px 28px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '';
-    position: absolute;
-    top: -40px; left: -40px;
-    width: 180px; height: 180px;
-    background: rgba(255,255,255,0.07);
-    border-radius: 50%;
-  }
-  .header::after {
-    content: '';
-    position: absolute;
-    bottom: -30px; right: -30px;
-    width: 140px; height: 140px;
-    background: rgba(255,255,255,0.07);
-    border-radius: 50%;
-  }
-  .header-emoji { font-size: 36px; display: block; margin-bottom: 8px; }
-  .header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    color: #fff;
-    line-height: 1.2;
-    position: relative;
-  }
-  .header p {
-    font-size: 12px;
-    color: rgba(255,255,255,0.82);
-    margin-top: 6px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    position: relative;
-  }
-  .header-badges {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 14px;
-    position: relative;
-  }
-  .hbadge {
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff;
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 100px;
-    font-weight: 500;
-  }
-
-  /* ── DAY TABS ── */
-  .tabs-wrap {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: #fff;
-    border-bottom: 1px solid #f0d0e8;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .tabs-wrap::-webkit-scrollbar { display: none; }
-  .tabs {
-    display: flex;
-    padding: 0 12px;
-    gap: 4px;
-    min-width: max-content;
-  }
-  .tab-btn {
-    padding: 14px 14px 12px;
-    border: none;
-    background: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text3);
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-  }
-  .tab-btn .tab-icon { font-size: 16px; }
-  .tab-btn.active {
-    color: var(--pink);
-    border-bottom-color: var(--pink);
-    font-weight: 600;
-  }
-  .tab-btn.rest { }
-  .tab-btn.rest.active { color: var(--text2); border-bottom-color: var(--text2); }
-
-  /* ── MAIN CONTENT ── */
-  .main { padding: 16px 14px; max-width: 480px; margin: 0 auto; }
-
-  /* Day page */
-  .day-page { display: none; }
-  .day-page.active { display: block; }
-
-  /* Day hero */
-  .day-hero {
-    background: linear-gradient(135deg, var(--pink-dark), var(--pink));
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 14px;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .day-hero.rest {
-    background: linear-gradient(135deg, #7b1fa2, #ab47bc);
-  }
-  .day-hero h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    line-height: 1.2;
-  }
-  .day-hero p {
-    font-size: 12px;
-    opacity: 0.85;
-    margin-top: 4px;
-  }
-  .day-macro-pill {
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 12px;
-    padding: 10px 14px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-  .day-macro-pill .kcal { font-size: 20px; font-weight: 700; }
-  .day-macro-pill .kcal-label { font-size: 10px; opacity: 0.8; }
-
-  /* Macro pills row */
-  .macro-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-  .macro-pill {
-    background: #fff;
-    border-radius: var(--radius-sm);
-    padding: 10px 8px;
-    text-align: center;
-    border: 1px solid #f0d0e8;
-  }
-  .macro-pill .mp-val { font-size: 17px; font-weight: 700; color: var(--pink); }
-  .macro-pill .mp-label { font-size: 10px; color: var(--text3); margin-top: 2px; font-weight: 500; }
-
-  /* Meal card */
-  .meal-card {
-    background: #fff;
-    border-radius: var(--radius);
-    margin-bottom: 12px;
-    border: 1px solid #f0d0e8;
-    overflow: hidden;
-  }
-  .meal-header {
-    padding: 14px 16px 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    user-select: none;
-  }
-  .meal-icon {
-    width: 38px; height: 38px;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-  .meal-icon.breakfast { background: #fff8e1; }
-  .meal-icon.snack     { background: #f3e5f5; }
-  .meal-icon.lunch     { background: #e8f5e9; }
-  .meal-icon.post      { background: #e3f2fd; }
-  .meal-icon.dinner    { background: #fce4ec; }
-  .meal-icon.pre       { background: #fff3e0; }
-
-  .meal-title-wrap { flex: 1; }
-  .meal-title { font-size: 14px; font-weight: 600; color: var(--text); }
-  .meal-time  { font-size: 11px; color: var(--text3); margin-top: 1px; }
-  .meal-chevron { font-size: 18px; color: var(--text3); transition: transform 0.25s; }
-  .meal-card.open .meal-chevron { transform: rotate(180deg); }
-
-  .meal-body {
-    display: none;
-    padding: 0 16px 16px;
-    border-top: 1px solid #fce4f3;
-  }
-  .meal-card.open .meal-body { display: block; }
-
-  /* Option tabs inside card */
-  .opt-tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 12px;
-    margin-top: 12px;
-  }
-  .opt-btn {
-    padding: 6px 14px;
-    border-radius: 100px;
-    border: 1.5px solid var(--pink-soft);
-    background: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text3);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .opt-btn.active {
-    background: var(--pink);
-    border-color: var(--pink);
-    color: #fff;
-  }
-  .opt-content { display: none; }
-  .opt-content.active { display: block; }
-
-  /* Food items list */
-  .food-list { list-style: none; }
-  .food-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 6px 0;
-    border-bottom: 1px solid #fce4f3;
-    font-size: 13px;
-    line-height: 1.4;
-  }
-  .food-item:last-child { border-bottom: none; }
-  .food-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--pink-soft);
-    flex-shrink: 0;
-    margin-top: 6px;
-  }
-  .food-amount { color: var(--pink); font-weight: 600; margin-right: 2px; }
-
-  /* Special cards */
-  .pre-card {
-    background: var(--orange-bg);
-    border: 1px solid #ffccbc;
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    margin-bottom: 10px;
-  }
-  .pre-card h4 {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--orange);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .post-card {
-    background: var(--blue-bg);
-    border: 1px solid #bbdefb;
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    margin-bottom: 10px;
-  }
-  .post-card h4 {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--blue);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .creatina-note {
-    background: var(--green-bg);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 12px;
-    color: var(--green);
-    font-weight: 600;
-    margin-top: 8px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .rest-note {
-    background: var(--yellow-bg);
-    border: 1px solid #fff176;
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    margin-bottom: 12px;
-    font-size: 13px;
-    color: #5d4037;
-    display: flex; gap: 8px; align-items: flex-start;
-  }
-
-  /* ── SUPLEMENTACIÓN PAGE ── */
-  .suppl-card {
-    background: #fff;
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 1px solid #f0d0e8;
-  }
-  .suppl-card h3 {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--pink-dark);
-    margin-bottom: 12px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .suppl-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid #fce4f3;
-    font-size: 13px;
-  }
-  .suppl-item:last-child { border-bottom: none; }
-  .s-name { font-weight: 600; color: var(--text); }
-  .s-when { color: var(--text3); }
-
-  /* ── MACROS PAGE ── */
-  .macros-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    color: var(--pink-dark);
-    margin-bottom: 14px;
-  }
-  .macro-week-card {
-    background: #fff;
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 10px;
-    border: 1px solid #f0d0e8;
-  }
-  .mwc-day { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
-  .pw-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
-  .pw-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #fce4f3; font-size: 12px; }
-  .pw-row:last-child { border-bottom: none; }
-  .label { color: var(--text3); }
-  .val { font-weight: 600; color: var(--pink); }
-  .val.alto { color: var(--orange); }
-  .val.medio { color: var(--pink); }
-  .val.bajo { color: var(--blue); }
-  .kcal-badge-big {
-    display: inline-block;
-    background: var(--pink);
-    color: #fff;
-    border-radius: 100px;
-    padding: 3px 12px;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-  /* info box */
-  .info-box {
-    background: var(--pink-bg);
-    border: 1px solid #f8a8d4;
-    border-radius: var(--radius-sm);
-    padding: 14px;
-    margin-bottom: 12px;
-    font-size: 13px;
-    color: var(--text2);
-    line-height: 1.6;
-  }
-  .info-box strong { color: var(--pink-dark); }
-
-  /* section label */
-  .section-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text3);
-    margin: 20px 0 10px;
-  }
-
-  /* bottom nav */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: #fff;
-    border-top: 1px solid #f0d0e8;
-    display: flex;
-    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
-    z-index: 100;
-  }
-  .bnav-btn {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    padding: 6px 0;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 10px;
-    color: var(--text3);
-    font-weight: 500;
-    transition: color 0.2s;
-  }
-  .back-btn {
-    display: inline-block;
-    margin-top: 16px;
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: 1px solid rgba(233, 30, 140, 0.3);
-    background: rgba(233, 30, 140, 0.08);
-    color: var(--pink);
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .back-btn:hover {
-    background: rgba(233, 30, 140, 0.18);
-    border-color: rgba(233, 30, 140, 0.5);
-  }
-  .bnav-btn .bnav-icon { font-size: 22px; }
-  .bnav-btn.active { color: var(--pink); font-weight: 700; }
-
-  .page { display: none; }
-  .page.active { display: block; }
-
-  .notes {
-    background: var(--pink-bg);
-    border: 1px solid #f8a8d4;
-    border-radius: var(--radius-sm);
-    padding: 14px;
-    margin-top: 14px;
-  }
-  .notes h4 {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--pink-dark);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
-  }
-  .notes ul { list-style: none; }
-  .notes li {
-    font-size: 12px;
-    color: var(--text2);
-    padding: 5px 0 5px 16px;
-    position: relative;
-    line-height: 1.5;
-  }
-  .notes li::before {
-    content: '▪';
-    position: absolute;
-    left: 0;
-    color: var(--pink-soft);
-  }
+:root{--pink:#e91e8c;--pink-dark:#b5156c;--pink-soft:#f8a8d4;--pink-bg:#fff0f7;--text:#1a0a12;--text2:#7a4060;--text3:#b07090;--green:#2e7d32;--green-bg:#e8f5e9;--purple:#7b1fa2;--purple-bg:#f3e5f5;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',sans-serif;background:#fdf5fa;color:var(--text);padding-bottom:120px;}
+.header{background:linear-gradient(135deg,var(--pink-dark) 0%,var(--pink) 60%,#f472b6 100%);padding:48px 20px 28px;text-align:center;}
+.header h1{font-family:'Playfair Display',serif;font-size:24px;color:#fff;line-height:1.2;}
+.header p{font-size:11px;color:rgba(255,255,255,0.82);margin-top:6px;letter-spacing:0.06em;text-transform:uppercase;}
+.back-btn{display:inline-block;margin-top:16px;padding:8px 16px;border-radius:8px;border:1px solid rgba(233,30,140,0.3);background:rgba(233,30,140,0.08);color:var(--pink);font-size:13px;font-weight:500;text-decoration:none;}
+.tabs-wrap{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #f0d0e8;}
+.tabs{display:flex;padding:0 8px;gap:2px;min-width:max-content;}
+.tab-btn{padding:11px 11px 9px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;}
+.tab-btn.active{color:var(--pink);border-bottom-color:var(--pink);font-weight:600;}
+.main{padding:14px;max-width:500px;margin:0 auto;}
+.page{display:none;}.page.active{display:block;}
+.day-hero{border-radius:18px;padding:18px;margin-bottom:12px;color:white;display:flex;justify-content:space-between;align-items:center;}
+.day-hero h2{font-family:'Playfair Display',serif;font-size:20px;}
+.day-hero p{font-size:11px;opacity:0.85;margin-top:3px;}
+.hero-alto{background:linear-gradient(135deg,var(--pink-dark),var(--pink));}
+.hero-medio{background:linear-gradient(135deg,#1565c0,#42a5f5);}
+.hero-bajo{background:linear-gradient(135deg,#6a1b9a,#ab47bc);}
+.dmp{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:8px 12px;text-align:center;flex-shrink:0;}
+.dmp .kc{font-size:18px;font-weight:700;}.dmp .kl{font-size:9px;opacity:0.8;}
+.macro-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px;}
+.mp{background:#fff;border-radius:10px;padding:9px 6px;text-align:center;border:1px solid #f0d0e8;}
+.mp .v{font-size:15px;font-weight:700;color:var(--pink);}.mp .l{font-size:10px;color:var(--text3);margin-top:1px;}
+.vdb{display:inline-block;background:#fff8e1;border:1px solid #ffe082;border-radius:6px;padding:2px 7px;font-size:10px;color:#f57f17;font-weight:700;margin-left:4px;}
+.meal{background:#fff;border-radius:16px;margin-bottom:10px;border:1px solid #f0d0e8;}
+.mhdr{padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;background:#fafafa;border-radius:16px 16px 0 0;}
+.mt{font-size:13px;font-weight:600;color:var(--text);}
+.mk{font-size:10px;color:var(--text3);margin-top:1px;}
+.mbody{display:none;padding:0 14px 14px;border-top:1px solid #fce4f3;}
+.meal.open .mbody{display:block;}
+.obt{display:flex;gap:6px;margin:11px 0 10px;}
+.ob{flex:1;padding:6px;border:1.5px solid var(--pink-soft);background:white;color:var(--text3);border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.ob.sel{background:var(--pink);border-color:var(--pink);color:white;}
+.oa{display:block;}.ob2{display:none;}
+.ro{background:#fafafa;border-radius:8px;padding:10px;margin-bottom:6px;}
+.rn{font-size:13px;font-weight:700;color:var(--pink-dark);margin-bottom:6px;}
+.rm{font-size:10px;color:var(--text3);margin-bottom:7px;padding-bottom:6px;border-bottom:1px solid #f0d0e8;}
+.rm strong{color:var(--pink);}
+.il{list-style:none;}
+.ii{display:flex;gap:7px;padding:4px 0;font-size:12px;line-height:1.4;}
+.ia{color:var(--pink);font-weight:600;}
+.pn{font-size:11px;color:var(--text3);margin-top:7px;padding-top:7px;border-top:1px solid #f0d0e8;font-style:italic;}
+.sn{font-size:11px;padding:7px 10px;border-radius:6px;margin-top:8px;}
+.scr{background:var(--green-bg);color:var(--green);}
+.sev{background:#f3e5f5;color:#7b1fa2;}
+.som{background:#e3f2fd;color:#1565c0;}
+.sco{background:#fff8e1;color:#e65100;}
+.notes{background:var(--pink-bg);border:1px solid #f8a8d4;border-radius:10px;padding:12px;margin-top:12px;}
+.notes h4{font-size:11px;font-weight:700;color:var(--pink-dark);text-transform:uppercase;margin-bottom:7px;}
+.notes ul{list-style:none;}
+.notes li{font-size:11px;color:var(--text2);padding:3px 0 3px 12px;position:relative;line-height:1.4;}
+.notes li::before{content:'▪';position:absolute;left:0;color:var(--pink-soft);}
+.mcc{background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;border:1px solid #f0d0e8;}
+.mcd{font-size:13px;font-weight:700;color:var(--text);margin-bottom:9px;}
+.mcr{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #fce4f3;font-size:12px;}
+.mcr:last-child{border-bottom:none;}
+.mcl{color:var(--text3);}.mcv{font-weight:600;color:var(--pink);}
+.spc{background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;border:1px solid #f0d0e8;}
+.spc h3{font-size:14px;font-weight:700;color:var(--pink-dark);margin-bottom:10px;}
+.spi{padding:10px 0;border-bottom:1px solid #fce4f3;font-size:12px;}
+.spi:last-child{border-bottom:none;}
+.spn{font-weight:600;color:var(--text);}
+.spd{color:var(--pink);font-weight:600;display:block;margin-top:2px;}
+.spw{color:var(--text3);font-size:11px;display:block;margin-top:2px;}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #f0d0e8;display:flex;padding:8px 0 max(8px,env(safe-area-inset-bottom));z-index:100;}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border:none;background:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:9px;color:var(--text3);font-weight:500;}
+.nb .bi{font-size:20px;}.nb.active{color:var(--pink);font-weight:700;}
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
 <div class="header">
-  <span class="header-emoji">🌸</span>
-  <h1>Plan Nutricional<br>Junio 2026</h1>
-  <p>Bego · Recomposición corporal</p>
-  <div class="header-badges">
-    <span class="hbadge">59.6 kg · 1,72 m</span>
-    <span class="hbadge">Ciclo carbos</span>
-    <span class="hbadge">Meta: 57.5 kg</span>
-    <span class="hbadge">10K pasos/día</span>
-  </div>
+  <h1>Plan Nutricional Completo<br>Junio 2026</h1>
+  <p>Bego · 7 días + Sin entreno · Opción A &amp; B · VitD incluida</p>
   <a href="index.html" class="back-btn">← Volver al inicio</a>
 </div>
-
-<!-- ══ PÁGINA: PLAN SEMANAL ══ -->
-<div class="page active" id="page-plan">
-
-  <!-- DAY TABS -->
-  <div class="tabs-wrap">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="showDay('alto', this)">
-        <span class="tab-icon">📈</span>ALTO
-      </button>
-      <button class="tab-btn" onclick="showDay('medio', this)">
-        <span class="tab-icon">➡️</span>MEDIO
-      </button>
-      <button class="tab-btn rest" onclick="showDay('bajo', this)">
-        <span class="tab-icon">📉</span>BAJO
-      </button>
-    </div>
+<div class="tabs-wrap">
+  <div class="tabs" id="mainTabs">
+    <button class="tab-btn active" onclick="showPage('plan',this)">📅 Plan</button>
+    <button class="tab-btn" onclick="showPage('macros',this)">📊 Macros</button>
+    <button class="tab-btn" onclick="showPage('suppl',this)">💊 Suplementos</button>
   </div>
+</div>
+<div class="main">
 
-  <div class="main">
-
-    <!-- ── ALTO ── -->
-    <div class="day-page active" id="day-alto">
-      <div class="day-hero">
-        <div>
-          <h2>Días ALTO carbos</h2>
-          <p>Lunes · Martes · Jueves · Miércoles (Ciclo)</p>
-        </div>
-        <div class="day-macro-pill">
-          <div class="kcal">~2.200</div>
-          <div class="kcal-label">kcal</div>
-        </div>
-      </div>
-      <div class="macro-row">
-        <div class="macro-pill"><div class="mp-val">155g</div><div class="mp-label">Proteína</div></div>
-        <div class="macro-pill"><div class="mp-val">250g</div><div class="mp-label">Carbos</div></div>
-        <div class="macro-pill"><div class="mp-val">65g</div><div class="mp-label">Grasa</div></div>
-      </div>
-
-      <!-- DESAYUNO ALTO -->
-      <div class="meal-card open">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon breakfast">☕</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Desayuno</div>
-            <div class="meal-time">~380 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">5–7 claras</span> + 1 yema</span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">45g avena integral</span> en copos (crudo)</span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">125ml yogur griego</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g frutos rojos</span> (frescos o congelados)</span></li>
-            <li class="food-item"><div class="food-dot"></div><span>Canela, café, té sin azúcar</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- MEDIA MAÑANA ALTO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon snack">🍎</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Media Mañana</div>
-            <div class="meal-time">~250 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g pavo/pollo</span> fiambre</span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">4 tortitas de arroz integral</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span>Té verde o café</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- COMIDA ALTO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon lunch">🍽️</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Comida Principal</div>
-            <div class="meal-time">~550 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">200g proteína</span> (pollo, pavo, ternera, pescado)</span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">160g arroz integral</span> o <span class="food-amount">150g boniato</span> cocido</span></li>
-            <li class="food-item"><div class="food-dot"></div><span>Verdura abundante (sin almidón)</span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml AOVE</span></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- MERIENDA ALTO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon post">💪</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Merienda Post-Entreno</div>
-            <div class="meal-time">~380 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">200ml yogur griego</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150g frutos rojos</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">50–60g avena</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">1 puñado almendras</span> (~23g)</span></li>
-          </ul>
-          <div class="creatina-note">💊 Creatina 3–5g con esta comida (post-entreno)</div>
-        </div>
-      </div>
-
-      <!-- CENA ALTO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon dinner">🌙</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Cena</div>
-            <div class="meal-time">~550 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">250g pescado blanco</span> o merluza</span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">Patata mediana cocida</span> (~150g)</span></li>
-            <li class="food-item"><div class="food-dot"></div><span>Ensalada grande sin límite</span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g cottage</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml AOVE</span></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="notes">
-        <h4>Notas días ALTO</h4>
-        <ul>
-          <li>Los días altos son dónde comes carbohidratos de verdad y disfrutas del entreno.</li>
-          <li>La patata en cena es fija incluso en ALTO para mantener la rutina anti-ansiedad.</li>
-          <li>El total de comidas es de 5 (desayuno, media mañana, comida, merienda, cena). Si un día no entrenas pero es "día ALTO", omite la merienda post-entreno y redistribuye esas calorías en comida y cena.</li>
-        </ul>
-      </div>
-    </div><!-- fin alto -->
-
-    <!-- ── MEDIO ── -->
-    <div class="day-page" id="day-medio">
-      <div class="day-hero">
-        <div>
-          <h2>Días MEDIO carbos</h2>
-          <p>Viernes · Algunos miércoles</p>
-        </div>
-        <div class="day-macro-pill">
-          <div class="kcal">~1.850</div>
-          <div class="kcal-label">kcal</div>
-        </div>
-      </div>
-      <div class="macro-row">
-        <div class="macro-pill"><div class="mp-val">150g</div><div class="mp-label">Proteína</div></div>
-        <div class="macro-pill"><div class="mp-val">180g</div><div class="mp-label">Carbos</div></div>
-        <div class="macro-pill"><div class="mp-val">55g</div><div class="mp-label">Grasa</div></div>
-      </div>
-
-      <!-- DESAYUNO MEDIO -->
-      <div class="meal-card open">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon breakfast">☕</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Desayuno</div>
-            <div class="meal-time">~340 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">4–5 claras</span> + 1 yema</span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">35g avena</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">125ml yogur griego</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g frutos rojos</span></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- MEDIA MAÑANA MEDIO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon snack">🍎</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Media Mañana</div>
-            <div class="meal-time">~200 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g pavo</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">2–3 tortitas arroz</span></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- COMIDA MEDIO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon lunch">🍽️</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Comida Principal</div>
-            <div class="meal-time">~480 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180g proteína</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">120g arroz integral</span> o <span class="food-amount">100g boniato</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span>Verdura abundante</span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml AOVE</span></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- MERIENDA MEDIO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon snack">🥑</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Merienda</div>
-            <div class="meal-time">~280 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150ml yogur griego</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g frutos rojos</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">1 puñado almendras</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">30g avena</span></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- CENA MEDIO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon dinner">🌙</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Cena</div>
-            <div class="meal-time">~550 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">220g pescado blanco</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">Patata mediana cocida</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span>Ensalada grande</span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g cottage</span></span></li>
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml AOVE</span></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="notes">
-        <h4>Notas días MEDIO</h4>
-        <ul>
-          <li>Punto medio entre ALTO y BAJO. Más flexibilidad pero con control.</li>
-          <li>La patata sigue siendo tu aliada anti-ansiedad nocturna.</li>
-        </ul>
-      </div>
-    </div><!-- fin medio -->
-
-    <!-- ── BAJO ── -->
-    <div class="day-page" id="day-bajo">
-      <div class="day-hero rest">
-        <div>
-          <h2>Días BAJO carbos</h2>
-          <p>Viernes (Core) · Sábado · Domingo</p>
-        </div>
-        <div class="day-macro-pill">
-          <div class="kcal">~1.600</div>
-          <div class="kcal-label">kcal</div>
-        </div>
-      </div>
-      <div class="macro-row">
-        <div class="macro-pill"><div class="mp-val">145g</div><div class="mp-label">Proteína</div></div>
-        <div class="macro-pill"><div class="mp-val">120g</div><div class="mp-label">Carbos</div></div>
-        <div class="macro-pill"><div class="mp-val">45g</div><div class="mp-label">Grasa</div></div>
-      </div>
-
-      <!-- DESAYUNO BAJO -->
-      <div class="meal-card open">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon breakfast">☕</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Desayuno</div>
-            <div class="meal-time">~380 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">4–5 claras</span> + 35g avena + yogur griego 125g + frutos rojos 100g</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- COMIDA BAJO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon lunch">🍽️</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Comida</div>
-            <div class="meal-time">~450 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180g proteína</span> (pollo, pavo, atún) + verdura abundante sin almidón + boniato pequeño (~80g) o legumbre pequeña + <span class="food-amount">AOVE 1 cda</span></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- MERIENDA BAJO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon snack">🥑</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Merienda (si hay hambre)</div>
-            <div class="meal-time">~200 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span>Yogur griego 150g + frutos rojos 80g. <strong>Sin tortitas ni crackers.</strong></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- CENA BAJO -->
-      <div class="meal-card">
-        <div class="meal-header" onclick="toggleMeal(this)">
-          <div class="meal-icon dinner">🌙</div>
-          <div class="meal-title-wrap">
-            <div class="meal-title">Cena</div>
-            <div class="meal-time">~480 kcal</div>
-          </div>
-          <div class="meal-chevron">⌄</div>
-        </div>
-        <div class="meal-body">
-          <ul class="food-list">
-            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">200g pescado blanco</span> o merluza + <strong style="color: var(--green);">patata mediana cocida</strong> + ensalada grande + cottage 100g + <span class="food-amount">AOVE 1 cda</span>. <strong>SIN pan. SIN aguacate.</strong></span></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="notes">
-        <h4>Notas días BAJO</h4>
-        <ul>
-          <li>Los días bajos son donde se genera el déficit real. No pases hambre: el volumen de verdura y proteína es alto, las calorías son bajas.</li>
-          <li>La patata en cena se mantiene incluso en días de descanso. La ansiedad post-cena no entiende de ciclos.</li>
-          <li>Sin creatina sábado y domingo.</li>
-          <li>10.000 pasos el sábado también cuentan: los días de descanso con pasos son los que más contribuyen al gasto semanal.</li>
-        </ul>
-      </div>
-    </div><!-- fin bajo -->
-
+<div class="page active" id="pg-plan">
+  <div style="overflow-x:auto;white-space:nowrap;margin-bottom:14px;padding:6px 0;">
+    <div style="display:inline-flex;gap:6px;"><button onclick="showDay('lun',this)" class="dt" style="padding:8px 12px;border-radius:20px;border:1.5px solid var(--pink);background:var(--pink);color:white;font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">🦵 Lun</button><button onclick="showDay('mar',this)" class="dt" style="padding:8px 12px;border-radius:20px;border:1.5px solid #f0d0e8;background:white;color:var(--text3);font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">💪 Mar</button><button onclick="showDay('mie',this)" class="dt" style="padding:8px 12px;border-radius:20px;border:1.5px solid #f0d0e8;background:white;color:var(--text3);font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">🚴 Mié</button><button onclick="showDay('jue',this)" class="dt" style="padding:8px 12px;border-radius:20px;border:1.5px solid #f0d0e8;background:white;color:var(--text3);font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">🦵 Jue</button><button onclick="showDay('vie',this)" class="dt" style="padding:8px 12px;border-radius:20px;border:1.5px solid #f0d0e8;background:white;color:var(--text3);font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">🧘 Vie</button><button onclick="showDay('sab',this)" class="dt" style="padding:8px 12px;border-radius:20px;border:1.5px solid #f0d0e8;background:white;color:var(--text3);font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">🛋️ Sáb</button><button onclick="showDay('dom',this)" class="dt" style="padding:8px 12px;border-radius:20px;border:1.5px solid #f0d0e8;background:white;color:var(--text3);font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">🛋️ Dom</button><button onclick="showDay('noent',this)" class="dt" style="padding:8px 12px;border-radius:20px;border:1.5px solid #f0d0e8;background:white;color:var(--text3);font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;">⏸️ Sin gym</button></div>
+  </div>
+  
+<div class="dp  active" id="d-lun">
+  
+<div class="day-hero hero-alto">
+  <div><h2>Lunes</h2><p>🦵 Piernas 1 · Glúteo + Posterior</p></div>
+  <div class="dmp"><div class="kc">2.200</div><div class="kl">kcal ALTO</div></div>
+</div>
+  <div class="macro-row">
+  <div class="mp"><div class="v">155g</div><div class="l">Proteína</div></div>
+  <div class="mp"><div class="v">250g</div><div class="l">Carbos</div></div>
+  <div class="mp"><div class="v">65g</div><div class="l">Grasa</div></div>
+</div>
+  
+<div class="meal open">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">☕</span>
+    <div style="flex:1"><div class="mt">Desayuno</div><div class="mk">~420 kcal · P:40g · C:50g · G:10g</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Revuelto de Salmón con Avena y Fresas <span class='vdb'>☀️ VIT D</span></div>
+      <div class="rm"><strong>P:</strong>42g | <strong>C:</strong>48g | <strong>G:</strong>12g</div>
+      <ul class="il"><li class="ii"><span class="ia">7 claras</span> revueltas en sartén sin aceite</li><li class="ii"><span class="ia">80g salmón fresco</span> a la plancha o enlatado</li><li class="ii"><span class="ia">45g avena integral</span> cocida con agua</li><li class="ii"><span class="ia">125g yogur griego 0%</span></li><li class="ii"><span class="ia">150g fresas</span> frescas o congeladas</li><li class="ii"><span class="ia">Sal, pimienta, limón, eneldo</span></li></ul><div class="sn sco">💊 Colágeno polvo 20-30g mezclado en el yogur griego</div><div class="pn">Claras a fuego medio sin aceite. Salmón 2 min plancha fuerte. El salmón aporta vitamina D3 directamente.</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Tortitas de Claras con Plátano y Cacao</div>
+      <div class="rm"><strong>P:</strong>40g | <strong>C:</strong>52g | <strong>G:</strong>9g</div>
+      <ul class="il"><li class="ii"><span class="ia">6 claras</span> batidas</li><li class="ii"><span class="ia">30g harina de avena</span></li><li class="ii"><span class="ia">10g cacao puro</span> sin azúcar</li><li class="ii"><span class="ia">100g plátano</span> maduro</li><li class="ii"><span class="ia">125g yogur griego 0%</span> encima</li><li class="ii"><span class="ia">100g arándanos</span></li><li class="ii"><span class="ia">Canela, stevia, spray antiadherente</span></li></ul><div class="sn sco">💊 Colágeno polvo 20-30g con el yogur</div><div class="pn">Mezcla claras + harina + cacao + stevia. Sartén con spray, 2 min/lado.</div>
+    </div></div>
   </div>
 </div>
 
-<!-- ══ PÁGINA: SUPLEMENTACIÓN ══ -->
-<div class="page" id="page-suppl">
-  <div class="main">
-    <p class="section-label" style="margin-top: 0;">💊 Protocolo de suplementación</p>
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍎</span>
+    <div style="flex:1"><div class="mt">Media Mañana</div><div class="mk">~280 kcal · P:30g · C:34g · G:5g</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody"><div class="ro"><ul class="il"><li class="ii"><span class="ia">120g pecho de pavo</span> fiambre bajo en sal</li><li class="ii"><span class="ia">4 tortitas de arroz integral</span></li><li class="ii"><span class="ia">1 manzana mediana</span> (~180g) de postre</li><li class="ii"><span class="ia">Café solo o té verde</span></li></ul></div></div>
+</div>
 
-    <div class="suppl-card">
-      <h3>📋 Diariamente</h3>
-      <div class="suppl-item"><div class="s-name">Curcumina</div><div class="s-when">Con comida</div></div>
-      <div class="suppl-item"><div class="s-name">Colágeno marino + Vitamina C</div><div class="s-when">Desayuno o antes de dormir</div></div>
-      <div class="suppl-item"><div class="s-name">Omega-3</div><div class="s-when">Con comida grasa (comida o cena)</div></div>
-      <div class="suppl-item"><div class="s-name">Magnesio + D3 + K2 + B6</div><div class="s-when">Antes de dormir</div></div>
-      <div class="suppl-item"><div class="s-name">Omega-7 (espino amarillo)</div><div class="s-when">Con comida</div></div>
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍽️</span>
+    <div style="flex:1"><div class="mt">Comida Principal</div><div class="mk">~650 kcal · P:52g · C:73g · G:14g</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
     </div>
-
-    <div class="suppl-card" style="background: var(--blue-bg); border-color: #bbdefb;">
-      <h3 style="color: var(--blue);">💪 Solo días de entreno</h3>
-      <div class="suppl-item"><div class="s-name">Creatina monohidrato 3–5g</div><div class="s-when">Post-entreno con comida</div></div>
-    </div>
-
-    <div class="notes">
-      <h4>Notas suplementación</h4>
-      <ul>
-        <li>Creatina: no hace falta carga ni timing preciso. Con la comida post-entreno es suficiente.</li>
-        <li>Colágeno: la vitamina C mejora la síntesis. Puedes tomarlo con zumo de limón o naranja natural.</li>
-        <li>Omega-3: con cena es ideal (comida con grasa mejora la absorción).</li>
-        <li>Magnesio antes de dormir: también ayuda a la calidad del sueño, relevante para la recuperación.</li>
-      </ul>
-    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Pollo al Limón con Arroz Integral y Brócoli</div>
+      <div class="rm"><strong>P:</strong>54g | <strong>C:</strong>72g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">220g pechuga de pollo</span> a la plancha</li><li class="ii"><span class="ia">170g arroz integral</span> cocido (~60g crudo)</li><li class="ii"><span class="ia">Brócoli, judías verdes</span> al vapor sin límite</li><li class="ii"><span class="ia">10ml AOVE</span> para aliñar</li><li class="ii"><span class="ia">Limón, ajo, perejil, sal</span></li></ul><div class="sn som">💊 Omega-3 (1 cápsula) después de esta comida</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Merluza al Horno con Boniato y Verduras</div>
+      <div class="rm"><strong>P:</strong>48g | <strong>C:</strong>70g | <strong>G:</strong>12g</div>
+      <ul class="il"><li class="ii"><span class="ia">260g merluza</span> al horno</li><li class="ii"><span class="ia">180g boniato</span> cocido (~140g crudo)</li><li class="ii"><span class="ia">Calabacín, pimiento, champiñones</span> asados</li><li class="ii"><span class="ia">10ml AOVE</span></li><li class="ii"><span class="ia">Sal, pimienta, ajo en polvo</span></li></ul><div class="sn som">💊 Omega-3 (1 cápsula) después de esta comida</div>
+    </div></div>
   </div>
 </div>
 
-<!-- ══ PÁGINA: PROGRESIÓN ══ -->
-<div class="page" id="page-macros">
-  <div class="main">
-    <h2 class="macros-title">Progresión de calorías</h2>
-    <p class="section-label" style="margin-top: 0;">4 semanas · Ajuste gradual · Meta: 57.5–58 kg fin de mes</p>
-
-    <div class="macro-week-card">
-      <div class="pw-title">Semana 1 · 2–8 jun</div>
-      <div class="pw-row"><span class="label">Días ALTO:</span><span class="val alto">2.200 kcal</span></div>
-      <div class="pw-row"><span class="label">Días MEDIO:</span><span class="val medio">1.850 kcal</span></div>
-      <div class="pw-row"><span class="label">Días BAJO:</span><span class="val bajo">1.600 kcal</span></div>
-      <div class="pw-row"><span class="label">Media semanal:</span><span class="val" style="color: var(--text2);">~1.890 kcal</span></div>
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">💪</span>
+    <div style="flex:1"><div class="mt">Merienda Post-Entreno</div><div class="mk">~420 kcal · P:35g · C:50g · G:12g</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
     </div>
-
-    <div class="macro-week-card">
-      <div class="pw-title">Semana 2 · 9–15 jun</div>
-      <div class="pw-row"><span class="label">Días ALTO:</span><span class="val alto">2.150 kcal</span></div>
-      <div class="pw-row"><span class="label">Días MEDIO:</span><span class="val medio">1.800 kcal</span></div>
-      <div class="pw-row"><span class="label">Días BAJO:</span><span class="val bajo">1.550 kcal</span></div>
-      <div class="pw-row"><span class="label">Media semanal:</span><span class="val" style="color: var(--text2);">~1.840 kcal</span></div>
-    </div>
-
-    <div class="macro-week-card">
-      <div class="pw-title">Semana 3 · 16–22 jun</div>
-      <div class="pw-row"><span class="label">Días ALTO:</span><span class="val alto">2.100 kcal</span></div>
-      <div class="pw-row"><span class="label">Días MEDIO:</span><span class="val medio">1.750 kcal</span></div>
-      <div class="pw-row"><span class="label">Días BAJO:</span><span class="val bajo">1.500 kcal</span></div>
-      <div class="pw-row"><span class="label">Media semanal:</span><span class="val" style="color: var(--text2);">~1.790 kcal</span></div>
-    </div>
-
-    <div class="macro-week-card">
-      <div class="pw-title">Semana 4 · 23–30 jun</div>
-      <div class="pw-row"><span class="label">Días ALTO:</span><span class="val alto">2.100 kcal</span></div>
-      <div class="pw-row"><span class="label">Días MEDIO:</span><span class="val medio">1.750 kcal</span></div>
-      <div class="pw-row"><span class="label">Días BAJO:</span><span class="val bajo">1.500 kcal</span></div>
-      <div class="pw-row"><span class="label">Meta peso:</span><span class="val" style="color: var(--green);">57.5–58 kg</span></div>
-    </div>
-
-    <div class="notes">
-      <h4>Lógica de la progresión</h4>
-      <ul>
-        <li>S1 empieza un poco más alta (2.200 kcal ALTO) para no hacer un corte brusco después de mayo. El cuerpo lo agradece.</li>
-        <li>La bajada es gradual: ~50 kcal menos cada semana en los días ALTO. No drástica.</li>
-        <li>El gasto estimado con los 10.000 pasos diarios + 4 sesiones de gym + 1 ciclo es ~2.200–2.400 kcal/día. La media nutricional de ~1.800 kcal/día crea un déficit real de ~400–600 kcal/día → ~0.3–0.5 kg/semana de pérdida grasa.</li>
-        <li>Si a finales de S2 el peso no se mueve, se ajusta: reducimos 100 kcal en los días BAJO primero.</li>
-        <li>Si hay mucha fatiga en el entreno, los días ALTO no se tocan. Se ajusta solo el BAJO.</li>
-      </ul>
-    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Bowl Yogur Griego con Frutos Rojos y Almendras</div>
+      <div class="rm"><strong>P:</strong>36g | <strong>C:</strong>48g | <strong>G:</strong>12g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g yogur griego 0%</span></li><li class="ii"><span class="ia">180g frutos rojos</span> (frambuesas, moras, arándanos)</li><li class="ii"><span class="ia">60g avena integral</span> en copos crudos</li><li class="ii"><span class="ia">25g almendras</span> naturales</li><li class="ii"><span class="ia">Canela, vainilla</span></li></ul><div class="sn scr">💊 CREATINA 5g mezclada aquí · Omega-3 (1 cápsula)</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Batido Helado Queso 0.0 con Frutos Rojos</div>
+      <div class="rm"><strong>P:</strong>38g | <strong>C:</strong>46g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g queso batido 0.0</span></li><li class="ii"><span class="ia">200g frutos rojos congelados</span></li><li class="ii"><span class="ia">50g avena</span></li><li class="ii"><span class="ia">100ml leche desnatada</span></li><li class="ii"><span class="ia">Stevia, hielo</span></li></ul><div class="sn scr">💊 CREATINA 5g añadida al batido · Omega-3</div><div class="pn">Bate todo en batidora con hielo. Queda tipo granizado cremoso.</div>
+    </div></div>
   </div>
 </div>
 
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-  <button class="bnav-btn active" onclick="showPage('plan', this)">
-    <span class="bnav-icon">📅</span>Plan
-  </button>
-  <button class="bnav-btn" onclick="showPage('suppl', this)">
-    <span class="bnav-icon">💊</span>Suplementos
-  </button>
-  <button class="bnav-btn" onclick="showPage('macros', this)">
-    <span class="bnav-icon">📊</span>Progresión
-  </button>
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🌙</span>
+    <div style="flex:1"><div class="mt">Cena</div><div class="mk">~430 kcal · P:46g · C:40g · G:12g</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Dorada al Horno con Patata y Ensalada</div>
+      <div class="rm"><strong>P:</strong>48g | <strong>C:</strong>42g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">300g dorada</span> entera al horno (papel sulfurizado)</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida — OBLIGATORIA siempre</li><li class="ii"><span class="ia">Ensalada lechuga, tomate, pepino</span> sin límite</li><li class="ii"><span class="ia">100g cottage cheese</span> bajo en grasa</li><li class="ii"><span class="ia">5ml AOVE</span> para ensalada</li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Antes de dormir: Magnesio</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Pechuga de Pavo con Boniato y Verdura</div>
+      <div class="rm"><strong>P:</strong>50g | <strong>C:</strong>40g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">280g pechuga de pavo</span> a la plancha</li><li class="ii"><span class="ia">⭐ 1 boniato mediano</span> (~140g) — OBLIGATORIO</li><li class="ii"><span class="ia">Ensalada de col, zanahoria, manzana</span></li><li class="ii"><span class="ia">80g cottage</span></li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+  </div>
+</div>
+  <div class="notes"><h4>Lunes — Piernas ALTO</h4><ul><li>Salmón en desayuno → doble función: proteína completa + vitamina D3 natural.</li><li>Patata/boniato en cena es FIJA toda la semana sin excepción.</li><li>Creatina 5g con la merienda post-entreno.</li></ul></div>
 </div>
 
+<div class="dp" id="d-mar">
+  
+<div class="day-hero hero-alto">
+  <div><h2>Martes</h2><p>💪 Upper · Empuje + Jale</p></div>
+  <div class="dmp"><div class="kc">2.200</div><div class="kl">kcal ALTO</div></div>
+</div>
+  <div class="macro-row">
+  <div class="mp"><div class="v">155g</div><div class="l">Proteína</div></div>
+  <div class="mp"><div class="v">250g</div><div class="l">Carbos</div></div>
+  <div class="mp"><div class="v">65g</div><div class="l">Grasa</div></div>
+</div>
+  
+<div class="meal open">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">☕</span>
+    <div style="flex:1"><div class="mt">Desayuno</div><div class="mk">~420 kcal · P:40g · C:48g · G:10g</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Bizcocho Fit de Avena, Claras y Cacao</div>
+      <div class="rm"><strong>P:</strong>38g | <strong>C:</strong>50g | <strong>G:</strong>9g</div>
+      <ul class="il"><li class="ii"><span class="ia">5 claras de huevo</span></li><li class="ii"><span class="ia">50g harina de avena</span></li><li class="ii"><span class="ia">15g cacao puro</span> sin azúcar</li><li class="ii"><span class="ia">100g yogur griego 0%</span> da jugosidad</li><li class="ii"><span class="ia">Stevia + 1 cdita levadura</span></li><li class="ii"><span class="ia">150g fresas</span> de acompañamiento</li></ul><div class="sn sco">💊 Colágeno polvo 20-30g en agua tibia o en la masa</div><div class="pn">Mezcla todo, vierte en molde. Micro 3-4 min o horno 175°C 20 min. Prepáralo el domingo.</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Helado de Queso 0.0 Batido con Frutos Rojos</div>
+      <div class="rm"><strong>P:</strong>40g | <strong>C:</strong>46g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g queso batido 0.0</span></li><li class="ii"><span class="ia">200g frutos rojos congelados</span> (frambuesas + moras)</li><li class="ii"><span class="ia">40g avena integral</span> encima crujiente</li><li class="ii"><span class="ia">10g cacao puro</span> espolvoreado</li><li class="ii"><span class="ia">Stevia o miel de agave (poca)</span></li></ul><div class="sn sco">💊 Colágeno polvo 20-30g mezclado en el queso antes de la fruta</div><div class="pn">Bate queso con frutos rojos congelados → queda tipo helado cremoso. Avena cruda encima para textura.</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍎</span>
+    <div style="flex:1"><div class="mt">Media Mañana</div><div class="mk">~280 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody"><div class="ro"><ul class="il"><li class="ii"><span class="ia">100g pavo fiambre</span></li><li class="ii"><span class="ia">4 tortitas de arroz</span></li><li class="ii"><span class="ia">1 naranja entera</span> (vitamina C potencia la absorción del colágeno)</li></ul></div></div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍽️</span>
+    <div style="flex:1"><div class="mt">Comida Principal</div><div class="mk">~650 kcal · P:52g · C:72g · G:14g</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Solomillo de Ternera con Arroz Basmati y Brócoli</div>
+      <div class="rm"><strong>P:</strong>54g | <strong>C:</strong>70g | <strong>G:</strong>14g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g solomillo de ternera</span> o filete magro</li><li class="ii"><span class="ia">170g arroz basmati</span> cocido</li><li class="ii"><span class="ia">Brócoli, tomate cherry, espárragos</span> al vapor</li><li class="ii"><span class="ia">10ml AOVE</span></li><li class="ii"><span class="ia">Ajo, romero, sal gruesa</span></li></ul><div class="sn som">💊 Omega-3 (1 cápsula) después de comer</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Atún Fresco a la Plancha con Patata Nueva <span class='vdb'>☀️ VIT D</span></div>
+      <div class="rm"><strong>P:</strong>52g | <strong>C:</strong>72g | <strong>G:</strong>12g</div>
+      <ul class="il"><li class="ii"><span class="ia">220g atún fresco</span> a la plancha 2 min/lado</li><li class="ii"><span class="ia">200g patata nueva</span> cocida con piel</li><li class="ii"><span class="ia">Judías verdes, zanahoria</span> al vapor</li><li class="ii"><span class="ia">10ml AOVE</span></li><li class="ii"><span class="ia">Sal, pimienta, sésamo</span></li></ul><div class="sn som">💊 Omega-3 (1 cápsula) después de comer</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">💪</span>
+    <div style="flex:1"><div class="mt">Merienda Post-Entreno</div><div class="mk">~420 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Porridge de Avena con Almendras y Plátano</div>
+      <div class="rm"><strong>P:</strong>36g | <strong>C:</strong>50g | <strong>G:</strong>12g</div>
+      <ul class="il"><li class="ii"><span class="ia">60g avena</span> cocida con leche desnatada</li><li class="ii"><span class="ia">200g yogur griego 0%</span> mezclado o encima</li><li class="ii"><span class="ia">100g plátano</span> en rodajas</li><li class="ii"><span class="ia">25g almendras laminadas</span></li><li class="ii"><span class="ia">Canela, stevia</span></li></ul><div class="sn scr">💊 CREATINA 5g · Omega-3 (1 cápsula)</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Queso 0.0 con Sandía y Avena</div>
+      <div class="rm"><strong>P:</strong>38g | <strong>C:</strong>48g | <strong>G:</strong>6g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g queso batido 0.0</span></li><li class="ii"><span class="ia">300g sandía</span> en cubos (refrescante)</li><li class="ii"><span class="ia">50g avena</span> encima</li><li class="ii"><span class="ia">10g semillas de chía</span></li></ul><div class="sn scr">💊 CREATINA 5g · Omega-3</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🌙</span>
+    <div style="flex:1"><div class="mt">Cena</div><div class="mk">~430 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Bacalao al Horno con Pimientos y Patata</div>
+      <div class="rm"><strong>P:</strong>48g | <strong>C:</strong>40g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">280g bacalao desalado</span> al horno</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">Pimientos rojo y verde</span> asados al horno</li><li class="ii"><span class="ia">100g cottage</span></li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Gambas a la Plancha con Patata y Ensalada</div>
+      <div class="rm"><strong>P:</strong>46g | <strong>C:</strong>38g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">300g gambas o langostinos</span> a la plancha</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">Ensalada rúcula, tomate cherry, pepino</span></li><li class="ii"><span class="ia">80g cottage</span></li><li class="ii"><span class="ia">5ml AOVE</span> + limón</li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+  </div>
+</div>
+  <div class="notes"><h4>Martes — Upper ALTO</h4><ul><li>El bizcocho de cacao puede prepararse el domingo para tener el desayuno del lunes y martes listo.</li><li>La naranja a media mañana potencia la absorción del colágeno: vitamina C necesaria para sintetizar colágeno en tendones.</li><li>Gambas y langostinos: proteína muy completa, casi sin grasa. Buena opción en cena.</li></ul></div>
+</div>
+
+<div class="dp" id="d-mie">
+  
+<div class="day-hero hero-alto">
+  <div><h2>Miércoles</h2><p>🚴 Ciclo Indoor · Cardio sin impacto</p></div>
+  <div class="dmp"><div class="kc">2.200</div><div class="kl">kcal ALTO</div></div>
+</div>
+  <div class="macro-row">
+  <div class="mp"><div class="v">155g</div><div class="l">Proteína</div></div>
+  <div class="mp"><div class="v">250g</div><div class="l">Carbos</div></div>
+  <div class="mp"><div class="v">65g</div><div class="l">Grasa</div></div>
+</div>
+  
+<div class="meal open">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">☕</span>
+    <div style="flex:1"><div class="mt">Desayuno</div><div class="mk">~420 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Bowl de Sandía con Queso 0.0 y Avena</div>
+      <div class="rm"><strong>P:</strong>38g | <strong>C:</strong>50g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">300g sandía</span> en cubos</li><li class="ii"><span class="ia">200g queso batido 0.0</span></li><li class="ii"><span class="ia">45g avena</span> cruda encima</li><li class="ii"><span class="ia">10g semillas de chía</span></li><li class="ii"><span class="ia">Menta fresca, lima</span></li></ul><div class="sn sco">💊 Colágeno polvo 20-30g mezclado en el queso 0.0</div><div class="pn">Dispón la sandía en bol, vierte queso con colágeno, añade avena cruda y chía. Fresco y diferente.</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Tortitas de Claras con Melón y Yogur Griego</div>
+      <div class="rm"><strong>P:</strong>40g | <strong>C:</strong>52g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">6 claras de huevo</span></li><li class="ii"><span class="ia">30g harina de avena</span></li><li class="ii"><span class="ia">200g melón</span> en cubos</li><li class="ii"><span class="ia">125g yogur griego 0%</span> por encima</li><li class="ii"><span class="ia">Canela, spray antiadherente</span></li></ul><div class="sn sco">💊 Colágeno polvo 20-30g con el yogur</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍎</span>
+    <div style="flex:1"><div class="mt">Media Mañana</div><div class="mk">~280 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody"><div class="ro"><ul class="il"><li class="ii"><span class="ia">120g pavo fiambre</span></li><li class="ii"><span class="ia">25g nueces</span></li><li class="ii"><span class="ia">1 pera o manzana</span></li></ul></div></div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍽️</span>
+    <div style="flex:1"><div class="mt">Comida Principal</div><div class="mk">~660 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Salmón al Horno con Arroz Basmati y Espárragos <span class='vdb'>☀️ VIT D</span></div>
+      <div class="rm"><strong>P:</strong>52g | <strong>C:</strong>74g | <strong>G:</strong>16g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g salmón fresco</span> al horno con papel</li><li class="ii"><span class="ia">170g arroz basmati</span> cocido</li><li class="ii"><span class="ia">Espárragos trigueros, tomate cherry</span> asados</li><li class="ii"><span class="ia">10ml AOVE</span></li><li class="ii"><span class="ia">Eneldo, limón, alcaparras opcionales</span></li></ul><div class="sn som">💊 Omega-3 después de comer</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Caballa al Horno con Boniato y Pimientos <span class='vdb'>☀️ VIT D ⭐</span></div>
+      <div class="rm"><strong>P:</strong>50g | <strong>C:</strong>70g | <strong>G:</strong>15g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g caballa fresca</span> al horno (la más rica en VD3 y omega3)</li><li class="ii"><span class="ia">180g boniato</span> asado</li><li class="ii"><span class="ia">Pimientos de colores</span> asados</li><li class="ii"><span class="ia">10ml AOVE</span></li><li class="ii"><span class="ia">Ajo, tomillo, pimentón dulce</span></li></ul><div class="sn som">💊 Omega-3 después de comer</div><div class="pn">Caballa: 15-20µg VD3 por 100g. Horno 200°C 15-18 min. Si tienes VD baja, prioriza esta opción.</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">💪</span>
+    <div style="flex:1"><div class="mt">Merienda Post-Ciclo</div><div class="mk">~420 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Yogur Griego con Melón y Granola de Avena</div>
+      <div class="rm"><strong>P:</strong>35g | <strong>C:</strong>50g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g yogur griego 0%</span></li><li class="ii"><span class="ia">200g melón</span> en cubos</li><li class="ii"><span class="ia">60g avena</span> tostada sin aceite</li><li class="ii"><span class="ia">20g almendras</span></li></ul><div class="sn scr">💊 CREATINA 5g · Omega-3</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Batido Sandía + Queso 0.0 Helado</div>
+      <div class="rm"><strong>P:</strong>38g | <strong>C:</strong>46g | <strong>G:</strong>6g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g queso batido 0.0</span></li><li class="ii"><span class="ia">250g sandía congelada</span> en cubos</li><li class="ii"><span class="ia">50g avena</span></li><li class="ii"><span class="ia">Hielo, stevia</span></li></ul><div class="sn scr">💊 CREATINA 5g · Omega-3</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🌙</span>
+    <div style="flex:1"><div class="mt">Cena</div><div class="mk">~420 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Lubina a la Sal con Patata y Rúcula</div>
+      <div class="rm"><strong>P:</strong>46g | <strong>C:</strong>38g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">300g lubina entera</span> cocinada a la sal</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">Ensalada rúcula, tomate, pepino</span></li><li class="ii"><span class="ia">100g cottage</span></li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Merluza con Sofrito de Tomate y Patata</div>
+      <div class="rm"><strong>P:</strong>44g | <strong>C:</strong>40g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">280g merluza</span></li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">Sofrito: cebolla + tomate + ajo</span> sin aceite extra</li><li class="ii"><span class="ia">80g cottage</span></li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+  </div>
+</div>
+  <div class="notes"><h4>Miércoles — Ciclo ALTO</h4><ul><li>Caballa: el pescado más rico en VD3. Con analítica baja, priorízala al menos 1-2 veces por semana.</li><li>La sandía reduce inflamación muscular post-esfuerzo — perfecta en verano post-ciclo.</li></ul></div>
+</div>
+
+<div class="dp" id="d-jue">
+  
+<div class="day-hero hero-alto">
+  <div><h2>Jueves</h2><p>🦵 Piernas 2 · Cuádriceps</p></div>
+  <div class="dmp"><div class="kc">2.200</div><div class="kl">kcal ALTO</div></div>
+</div>
+  <div class="macro-row">
+  <div class="mp"><div class="v">155g</div><div class="l">Proteína</div></div>
+  <div class="mp"><div class="v">250g</div><div class="l">Carbos</div></div>
+  <div class="mp"><div class="v">65g</div><div class="l">Grasa</div></div>
+</div>
+  
+<div class="meal open">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">☕</span>
+    <div style="flex:1"><div class="mt">Desayuno</div><div class="mk">~420 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Porridge de Avena con Manzana Asada y Canela</div>
+      <div class="rm"><strong>P:</strong>38g | <strong>C:</strong>54g | <strong>G:</strong>9g</div>
+      <ul class="il"><li class="ii"><span class="ia">60g avena integral</span> cocida con 250ml leche desnatada</li><li class="ii"><span class="ia">150g manzana</span> asada (3 min microondas con canela)</li><li class="ii"><span class="ia">150g yogur griego 0%</span> mezclado o encima</li><li class="ii"><span class="ia">10g semillas de lino</span></li><li class="ii"><span class="ia">Canela abundante, stevia</span></li></ul><div class="sn sco">💊 Colágeno polvo 20-30g disuelto en la leche caliente antes de cocinar la avena</div><div class="pn">Disuelve colágeno en leche caliente primero, luego avena. Manzana al micro 3 min es como postre.</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Claras Revueltas con Setas y Pan de Centeno</div>
+      <div class="rm"><strong>P:</strong>42g | <strong>C:</strong>46g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">7 claras de huevo</span> revueltas</li><li class="ii"><span class="ia">200g setas o champiñones</span> salteados sin aceite</li><li class="ii"><span class="ia">60g pan de centeno integral</span> (2 rebanadas)</li><li class="ii"><span class="ia">125g yogur griego 0%</span> de acompañamiento</li><li class="ii"><span class="ia">Tomillo, ajo en polvo, sal</span></li></ul><div class="sn sco">💊 Colágeno polvo 20-30g con el yogur</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍎</span>
+    <div style="flex:1"><div class="mt">Media Mañana</div><div class="mk">~280 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody"><div class="ro"><ul class="il"><li class="ii"><span class="ia">100g pavo fiambre</span></li><li class="ii"><span class="ia">4 tortitas arroz</span></li><li class="ii"><span class="ia">1 kiwi</span> (el doble de vitamina C que la naranja)</li></ul></div></div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍽️</span>
+    <div style="flex:1"><div class="mt">Comida Principal</div><div class="mk">~650 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Pavo Estofado con Boniato y Cúrcuma</div>
+      <div class="rm"><strong>P:</strong>52g | <strong>C:</strong>72g | <strong>G:</strong>12g</div>
+      <ul class="il"><li class="ii"><span class="ia">220g pechuga de pavo</span> en dados</li><li class="ii"><span class="ia">180g boniato</span> en dados</li><li class="ii"><span class="ia">Cebolla, zanahoria, apio, pimiento rojo</span></li><li class="ii"><span class="ia">10ml AOVE</span> para el sofrito base</li><li class="ii"><span class="ia">Caldo de verduras, cúrcuma, pimienta negra</span></li></ul><div class="sn som">💊 Omega-3</div><div class="pn">Sofríe verduras 5 min, añade pavo, cubre con caldo. 20 min tapado. La cúrcuma es antiinflamatoria: clave para tus lesiones.</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Pollo al Limón con Arroz Basmati y Alcachofas</div>
+      <div class="rm"><strong>P:</strong>52g | <strong>C:</strong>74g | <strong>G:</strong>11g</div>
+      <ul class="il"><li class="ii"><span class="ia">220g pechuga de pollo</span></li><li class="ii"><span class="ia">170g arroz basmati</span> cocido</li><li class="ii"><span class="ia">Alcachofas y judías verdes</span></li><li class="ii"><span class="ia">10ml AOVE</span></li><li class="ii"><span class="ia">Limón, ajo, perejil</span></li></ul><div class="sn som">💊 Omega-3</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">💪</span>
+    <div style="flex:1"><div class="mt">Merienda Post-Entreno</div><div class="mk">~420 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Cottage con Frutos Rojos, Avena y Almendras</div>
+      <div class="rm"><strong>P:</strong>36g | <strong>C:</strong>48g | <strong>G:</strong>12g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g cottage cheese</span></li><li class="ii"><span class="ia">200g frutos rojos</span></li><li class="ii"><span class="ia">55g avena</span></li><li class="ii"><span class="ia">25g almendras</span></li></ul><div class="sn scr">💊 CREATINA 5g · Omega-3</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Yogur Griego con Plátano y Granola de Avena</div>
+      <div class="rm"><strong>P:</strong>34g | <strong>C:</strong>52g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g yogur griego 0%</span></li><li class="ii"><span class="ia">120g plátano</span></li><li class="ii"><span class="ia">50g avena tostada</span> (granola casera sin aceite)</li><li class="ii"><span class="ia">15g nueces</span></li></ul><div class="sn scr">💊 CREATINA 5g · Omega-3</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🌙</span>
+    <div style="flex:1"><div class="mt">Cena</div><div class="mk">~430 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Sardinas Frescas al Horno con Escalivada y Patata <span class='vdb'>☀️ VIT D</span></div>
+      <div class="rm"><strong>P:</strong>48g | <strong>C:</strong>40g | <strong>G:</strong>12g</div>
+      <ul class="il"><li class="ii"><span class="ia">300g sardinas frescas</span> al horno 15 min a 200°C</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">Escalivada</span> (pimientos y berenjenas asados al horno)</li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Dorada a la Plancha con Ensalada y Patata</div>
+      <div class="rm"><strong>P:</strong>44g | <strong>C:</strong>38g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">280g dorada</span> a la plancha</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">Ensalada lechuga, tomate, pepino, rábanos</span></li><li class="ii"><span class="ia">80g cottage</span></li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+  </div>
+</div>
+  <div class="notes"><h4>Jueves — Piernas 2 ALTO</h4><ul><li>Cúrcuma en el estofado → antiinflamatoria. Favorece la recuperación del aductor y tendones.</li><li>Sardinas frescas: ricas en VD3. Si no encuentras, latas en aceite de oliva también valen.</li></ul></div>
+</div>
+
+<div class="dp" id="d-vie">
+  
+<div class="day-hero hero-medio">
+  <div><h2>Viernes</h2><p>🧘 Core + Movilidad · Recuperación</p></div>
+  <div class="dmp"><div class="kc">1.750</div><div class="kl">kcal MEDIO</div></div>
+</div>
+  <div class="macro-row">
+  <div class="mp"><div class="v">150g</div><div class="l">Proteína</div></div>
+  <div class="mp"><div class="v">170g</div><div class="l">Carbos</div></div>
+  <div class="mp"><div class="v">50g</div><div class="l">Grasa</div></div>
+</div>
+  
+<div class="meal open">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">☕</span>
+    <div style="flex:1"><div class="mt">Desayuno</div><div class="mk">~380 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Tortitas Fit de Queso 0.0 con Frutos Rojos</div>
+      <div class="rm"><strong>P:</strong>38g | <strong>C:</strong>40g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">5 claras de huevo</span></li><li class="ii"><span class="ia">150g queso batido 0.0</span> en la masa</li><li class="ii"><span class="ia">25g harina de avena</span></li><li class="ii"><span class="ia">150g frutos rojos</span> como topping</li><li class="ii"><span class="ia">Canela, stevia, spray</span></li></ul><div class="sn sco">💊 Colágeno polvo</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Bizcocho Pequeño de Avena y Cacao</div>
+      <div class="rm"><strong>P:</strong>36g | <strong>C:</strong>42g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">4 claras de huevo</span></li><li class="ii"><span class="ia">40g harina de avena</span></li><li class="ii"><span class="ia">15g cacao puro</span></li><li class="ii"><span class="ia">100g queso batido 0.0</span></li><li class="ii"><span class="ia">100g fresas</span> frescas al lado</li><li class="ii"><span class="ia">Stevia, levadura</span></li></ul><div class="sn sco">💊 Colágeno polvo disuelto</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍎</span>
+    <div style="flex:1"><div class="mt">Media Mañana (reducida)</div><div class="mk">~220 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody"><div class="ro"><ul class="il"><li class="ii"><span class="ia">100g pavo</span></li><li class="ii"><span class="ia">2 tortitas de arroz</span> (mitad que días ALTO)</li><li class="ii"><span class="ia">Café o té</span></li></ul></div></div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍽️</span>
+    <div style="flex:1"><div class="mt">Comida Principal</div><div class="mk">~580 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Conejo al Ajillo con Arroz Integral</div>
+      <div class="rm"><strong>P:</strong>52g | <strong>C:</strong>60g | <strong>G:</strong>12g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g conejo</span> troceado al ajillo</li><li class="ii"><span class="ia">140g arroz integral</span> cocido</li><li class="ii"><span class="ia">Judías verdes, tomate</span></li><li class="ii"><span class="ia">10ml AOVE</span></li><li class="ii"><span class="ia">Ajo, tomillo, vino blanco opcional</span></li></ul><div class="sn som">💊 Omega-3</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Pez Espada a la Plancha con Arroz Basmati</div>
+      <div class="rm"><strong>P:</strong>50g | <strong>C:</strong>62g | <strong>G:</strong>11g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g pez espada</span> a la plancha</li><li class="ii"><span class="ia">140g arroz basmati</span> cocido</li><li class="ii"><span class="ia">Espárragos y berros</span></li><li class="ii"><span class="ia">10ml AOVE</span></li></ul><div class="sn som">💊 Omega-3</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🥗</span>
+    <div style="flex:1"><div class="mt">Merienda Ligera (sin creatina)</div><div class="mk">~220 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Yogur Griego con Frutos Rojos</div>
+      <div class="rm"><strong>P:</strong>28g | <strong>C:</strong>25g | <strong>G:</strong>5g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g yogur griego 0%</span></li><li class="ii"><span class="ia">150g frutos rojos</span></li><li class="ii"><span class="ia">30g avena</span></li></ul>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Queso 0.0 con Sandía y Nueces</div>
+      <div class="rm"><strong>P:</strong>28g | <strong>C:</strong>22g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">150g queso batido 0.0</span></li><li class="ii"><span class="ia">200g sandía</span></li><li class="ii"><span class="ia">20g nueces</span></li></ul>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🌙</span>
+    <div style="flex:1"><div class="mt">Cena</div><div class="mk">~370 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Merluza al Vapor con Patata y Espinacas</div>
+      <div class="rm"><strong>P:</strong>44g | <strong>C:</strong>36g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g merluza</span> al vapor o microondas</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">200g espinacas</span> salteadas</li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Pollo al Horno con Patata y Champiñones</div>
+      <div class="rm"><strong>P:</strong>46g | <strong>C:</strong>36g | <strong>G:</strong>9g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g pechuga de pollo</span> al horno con hierbas</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">200g champiñones</span> al horno</li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+  </div>
+</div>
+  <div class="notes"><h4>Viernes — Core MEDIO</h4><ul><li>450 kcal menos que días ALTO. Core + movilidad no requieren esa carga energética.</li><li>Sin creatina: no hay entreno intenso.</li><li>Merienda ligera como transición hacia el fin de semana BAJO.</li></ul></div>
+</div>
+
+<div class="dp" id="d-sab">
+  
+<div class="day-hero hero-bajo">
+  <div><h2>Sábado</h2><p>🛋️ Descanso Total · 10.000 pasos</p></div>
+  <div class="dmp"><div class="kc">1.550</div><div class="kl">kcal BAJO</div></div>
+</div>
+  <div class="macro-row">
+  <div class="mp"><div class="v">145g</div><div class="l">Proteína</div></div>
+  <div class="mp"><div class="v">120g</div><div class="l">Carbos</div></div>
+  <div class="mp"><div class="v">45g</div><div class="l">Grasa</div></div>
+</div>
+  
+<div class="meal open">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">☕</span>
+    <div style="flex:1"><div class="mt">Desayuno</div><div class="mk">~380 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Claras Revueltas con Espinacas y Avena</div>
+      <div class="rm"><strong>P:</strong>40g | <strong>C:</strong>36g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">7 claras de huevo</span> revueltas</li><li class="ii"><span class="ia">150g espinacas frescas</span> salteadas</li><li class="ii"><span class="ia">35g avena</span> cocida</li><li class="ii"><span class="ia">125g yogur griego 0%</span></li><li class="ii"><span class="ia">Sal, ajo, pimienta</span></li></ul><div class="sn sco">💊 Colágeno polvo</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Bowl de Yogur con Sandía y Semillas</div>
+      <div class="rm"><strong>P:</strong>38g | <strong>C:</strong>34g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g yogur griego 0%</span></li><li class="ii"><span class="ia">250g sandía</span> en cubos</li><li class="ii"><span class="ia">35g avena</span> cruda</li><li class="ii"><span class="ia">15g semillas de calabaza</span></li><li class="ii"><span class="ia">Menta fresca</span></li></ul><div class="sn sco">💊 Colágeno polvo 20-30g</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍽️</span>
+    <div style="flex:1"><div class="mt">Comida Principal</div><div class="mk">~500 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Ensalada Completa de Atún y Garbanzos</div>
+      <div class="rm"><strong>P:</strong>50g | <strong>C:</strong>38g | <strong>G:</strong>12g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g atún al natural</span> escurrido</li><li class="ii"><span class="ia">80g garbanzos cocidos</span></li><li class="ii"><span class="ia">Lechuga, tomate, pepino, cebolla morada</span> sin límite</li><li class="ii"><span class="ia">2 huevos duros</span> (las yemas aportan VD3)</li><li class="ii"><span class="ia">10ml AOVE</span> + vinagre de manzana</li></ul><div class="sn som">💊 Omega-3</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Pollo con Ensalada Templada de Alubias</div>
+      <div class="rm"><strong>P:</strong>50g | <strong>C:</strong>35g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g pechuga de pollo</span></li><li class="ii"><span class="ia">80g alubias blancas cocidas</span></li><li class="ii"><span class="ia">Tomate cherry, pepino, canónigos</span></li><li class="ii"><span class="ia">10ml AOVE</span></li></ul><div class="sn som">💊 Omega-3</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🥗</span>
+    <div style="flex:1"><div class="mt">Merienda (solo si hay hambre)</div><div class="mk">~180 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody"><div class="ro"><ul class="il"><li class="ii"><span class="ia">150g yogur griego 0%</span> o queso batido 0.0</li><li class="ii"><span class="ia">100g frutos rojos</span> o melón</li><li class="ii"><span class="ia">Si no tienes hambre</span> no comas — escucha al cuerpo.</li></ul></div></div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🌙</span>
+    <div style="flex:1"><div class="mt">Cena</div><div class="mk">~400 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Bacalao al Horno con Pimientos y Patata</div>
+      <div class="rm"><strong>P:</strong>46g | <strong>C:</strong>38g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">260g bacalao desalado</span> al horno</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">Pimientos asados</span> sin aceite</li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Merluza al Vapor con Patata y Verduras</div>
+      <div class="rm"><strong>P:</strong>44g | <strong>C:</strong>36g | <strong>G:</strong>7g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g merluza</span></li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">200g espinacas o brócoli</span></li><li class="ii"><span class="ia">80g cottage</span></li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+  </div>
+</div>
+  <div class="notes"><h4>Sábado — Descanso BAJO</h4><ul><li>Sábado es el primer día de déficit real. Sin entreno = sin carbos altos.</li><li>Los 10.000 pasos cuentan: 2 paseos de 30 min aportan ~400 kcal adicionales al déficit.</li><li>Sin creatina en días de descanso.</li></ul></div>
+</div>
+
+<div class="dp" id="d-dom">
+  
+<div class="day-hero hero-bajo">
+  <div><h2>Domingo</h2><p>🛋️ Descanso Total · 10.000 pasos</p></div>
+  <div class="dmp"><div class="kc">1.550</div><div class="kl">kcal BAJO</div></div>
+</div>
+  <div class="macro-row">
+  <div class="mp"><div class="v">145g</div><div class="l">Proteína</div></div>
+  <div class="mp"><div class="v">120g</div><div class="l">Carbos</div></div>
+  <div class="mp"><div class="v">45g</div><div class="l">Grasa</div></div>
+</div>
+  
+<div class="meal open">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">☕</span>
+    <div style="flex:1"><div class="mt">Desayuno</div><div class="mk">~360 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Revuelto de Claras con Queso 0.0 y Cacao</div>
+      <div class="rm"><strong>P:</strong>40g | <strong>C:</strong>32g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">7 claras</span> revueltas</li><li class="ii"><span class="ia">100g queso batido 0.0</span> encima en frío</li><li class="ii"><span class="ia">35g avena</span> cocida</li><li class="ii"><span class="ia">10g cacao puro</span> espolvoreado</li><li class="ii"><span class="ia">100g frutos rojos</span></li></ul><div class="sn sco">💊 Colágeno polvo</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Tortitas Integrales con Arándanos y Queso 0.0</div>
+      <div class="rm"><strong>P:</strong>38g | <strong>C:</strong>34g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">5 claras</span></li><li class="ii"><span class="ia">25g avena</span></li><li class="ii"><span class="ia">120g queso batido 0.0</span> para untar encima</li><li class="ii"><span class="ia">150g arándanos</span></li></ul><div class="sn sco">💊 Colágeno polvo mezclado en el queso 0.0</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍽️</span>
+    <div style="flex:1"><div class="mt">Comida Principal</div><div class="mk">~490 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Lentejas con Pavo y Cúrcuma</div>
+      <div class="rm"><strong>P:</strong>44g | <strong>C:</strong>50g | <strong>G:</strong>9g</div>
+      <ul class="il"><li class="ii"><span class="ia">80g lentejas cocidas</span></li><li class="ii"><span class="ia">150g pechuga de pavo</span> picada</li><li class="ii"><span class="ia">Zanahoria, cebolla, apio, tomate</span></li><li class="ii"><span class="ia">5ml AOVE</span></li><li class="ii"><span class="ia">Comino, pimentón, cúrcuma</span></li></ul><div class="sn som">💊 Omega-3</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Sardinas con Ensalada y Boniato Pequeño <span class='vdb'>☀️ VIT D</span></div>
+      <div class="rm"><strong>P:</strong>44g | <strong>C:</strong>36g | <strong>G:</strong>14g</div>
+      <ul class="il"><li class="ii"><span class="ia">2 latas sardinas</span> en aceite de oliva (escurridas)</li><li class="ii"><span class="ia">80g boniato</span> pequeño cocido</li><li class="ii"><span class="ia">Ensalada grande rúcula, tomate, pepino</span></li><li class="ii"><span class="ia">10ml AOVE</span> (incluyendo el de la lata)</li></ul><div class="sn som">💊 Omega-3</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🥗</span>
+    <div style="flex:1"><div class="mt">Merienda (opcional)</div><div class="mk">~180 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody"><div class="ro"><ul class="il"><li class="ii"><span class="ia">150g yogur 0%</span> + 100g fruta de temporada</li><li class="ii"><span class="ia">Si no tienes hambre</span> omítela.</li></ul></div></div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🌙</span>
+    <div style="flex:1"><div class="mt">Cena</div><div class="mk">~400 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Dorada al Horno con Verduras y Patata</div>
+      <div class="rm"><strong>P:</strong>46g | <strong>C:</strong>38g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">280g dorada</span> entera al horno</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">Judías verdes y zanahoria</span> al vapor</li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Lenguado al Limón con Patata y Espárragos</div>
+      <div class="rm"><strong>P:</strong>44g | <strong>C:</strong>36g | <strong>G:</strong>7g</div>
+      <ul class="il"><li class="ii"><span class="ia">300g lenguado</span> (muy magro, alto en proteína)</li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">Espárragos verdes</span></li><li class="ii"><span class="ia">80g cottage</span></li><li class="ii"><span class="ia">5ml AOVE</span> + limón</li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+  </div>
+</div>
+  <div class="notes"><h4>Domingo — Descanso BAJO</h4><ul><li>Lentejas: fuente diferente de proteína + carbohidrato complejo para variar.</li><li>Sardinas en lata: forma rápida y económica de VD3 los fines de semana sin cocinar.</li></ul></div>
+</div>
+
+<div class="dp" id="d-noent">
+  
+<div class="day-hero hero-bajo">
+  <div><h2>Sin Entreno</h2><p>⏸️ Cualquier día que no vayas al gym</p></div>
+  <div class="dmp"><div class="kc">1.550</div><div class="kl">kcal BAJO</div></div>
+</div>
+  <div class="macro-row">
+  <div class="mp"><div class="v">145g</div><div class="l">Proteína</div></div>
+  <div class="mp"><div class="v">120g</div><div class="l">Carbos</div></div>
+  <div class="mp"><div class="v">45g</div><div class="l">Grasa</div></div>
+</div>
+  
+<div class="meal open">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">☕</span>
+    <div style="flex:1"><div class="mt">Desayuno</div><div class="mk">~360 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Yogur Griego con Cacao, Avena y Fresas</div>
+      <div class="rm"><strong>P:</strong>38g | <strong>C:</strong>34g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g yogur griego 0%</span></li><li class="ii"><span class="ia">10g cacao puro</span> espolvoreado</li><li class="ii"><span class="ia">35g avena</span> cruda encima</li><li class="ii"><span class="ia">150g fresas</span></li><li class="ii"><span class="ia">Stevia</span></li></ul><div class="sn sco">💊 Colágeno polvo mezclado en el yogur</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Claras con Tomate y Pan de Centeno</div>
+      <div class="rm"><strong>P:</strong>40g | <strong>C:</strong>32g | <strong>G:</strong>7g</div>
+      <ul class="il"><li class="ii"><span class="ia">7 claras</span> revueltas</li><li class="ii"><span class="ia">2 rebanadas pan centeno</span> integral 60g</li><li class="ii"><span class="ia">2 tomates grandes</span> en rodajas</li><li class="ii"><span class="ia">125g yogur griego 0%</span></li><li class="ii"><span class="ia">Orégano, sal</span></li></ul><div class="sn sco">💊 Colágeno polvo con el yogur</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🍽️</span>
+    <div style="flex:1"><div class="mt">Comida Principal</div><div class="mk">~490 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Pollo al Horno Mediterráneo con Alubias</div>
+      <div class="rm"><strong>P:</strong>50g | <strong>C:</strong>35g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">220g pechuga de pollo</span> al horno</li><li class="ii"><span class="ia">80g alubias blancas cocidas</span></li><li class="ii"><span class="ia">Verdura asada: pimiento, cebolla, tomate</span></li><li class="ii"><span class="ia">10ml AOVE</span></li><li class="ii"><span class="ia">Romero, tomillo, ajo, limón</span></li></ul><div class="sn som">💊 Omega-3</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Atún al Natural con Pasta Integral Pequeña</div>
+      <div class="rm"><strong>P:</strong>48g | <strong>C:</strong>38g | <strong>G:</strong>10g</div>
+      <ul class="il"><li class="ii"><span class="ia">200g atún al natural</span> escurrido</li><li class="ii"><span class="ia">60g pasta integral</span> cocida</li><li class="ii"><span class="ia">Tomate cherry, albahaca fresca</span></li><li class="ii"><span class="ia">10ml AOVE</span></li><li class="ii"><span class="ia">Ajo en polvo, pimienta</span></li></ul><div class="sn som">💊 Omega-3</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🥗</span>
+    <div style="flex:1"><div class="mt">Merienda (si hay hambre)</div><div class="mk">~180 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody"><div class="ro"><ul class="il"><li class="ii"><span class="ia">150g yogur griego 0%</span></li><li class="ii"><span class="ia">100g sandía o melón</span></li><li class="ii"><span class="ia">Si no tienes hambre</span> omítela sin problema.</li></ul></div></div>
+</div>
+
+<div class="meal">
+  <div class="mhdr" onclick="tm(this)">
+    <span style="font-size:20px">🌙</span>
+    <div style="flex:1"><div class="mt">Cena</div><div class="mk">~380 kcal</div></div>
+    <span style="font-size:13px;color:var(--text3)">▼</span>
+  </div>
+  <div class="mbody">
+    <div class="obt">
+      <button class="ob sel" onclick="so(this)">Opción A</button>
+      <button class="ob" onclick="so(this)">Opción B</button>
+    </div>
+    <div class="oa"><div class="ro">
+      <div class="rn">Merluza con Patata y Ensalada Variada</div>
+      <div class="rm"><strong>P:</strong>44g | <strong>C:</strong>36g | <strong>G:</strong>7g</div>
+      <ul class="il"><li class="ii"><span class="ia">250g merluza</span></li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida — SIEMPRE</li><li class="ii"><span class="ia">Ensalada variada</span> sin límite</li><li class="ii"><span class="ia">80g cottage</span></li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+    <div class="ob2"><div class="ro">
+      <div class="rn">Bacalao con Pimientos y Patata</div>
+      <div class="rm"><strong>P:</strong>46g | <strong>C:</strong>38g | <strong>G:</strong>8g</div>
+      <ul class="il"><li class="ii"><span class="ia">260g bacalao desalado</span></li><li class="ii"><span class="ia">⭐ 150g patata</span> cocida</li><li class="ii"><span class="ia">Pimientos asados</span></li><li class="ii"><span class="ia">5ml AOVE</span></li></ul><div class="sn sev">🌙 Glicina 5-7g + Omega-3 · Magnesio antes de dormir</div>
+    </div></div>
+  </div>
+</div>
+  <div class="notes"><h4>Día Sin Entreno</h4><ul><li>Aplica cuando no vayas al gym por cualquier motivo.</li><li>SIN creatina cuando no entrenas.</li><li>10.000 pasos igualmente: pasear no es entrenar, pero quema calorías.</li></ul></div>
+</div>
+</div>
+
+<div class="page" id="pg-macros">
+  
+<h2 style="font-family:'Playfair Display',serif;font-size:22px;color:var(--pink-dark);margin-bottom:14px;">Macros por Día</h2>
+
+<div class="mcc">
+  <div class="mcd">Lunes — 🦵 Piernas 1 (ALTO)</div>
+  <div class="mcr"><span class="mcl">Calorías</span><span class="mcv">2.200 kcal</span></div>
+  <div class="mcr"><span class="mcl">Proteína</span><span class="mcv">155g</span></div>
+  <div class="mcr"><span class="mcl">Carbohidratos</span><span class="mcv">250g</span></div>
+  <div class="mcr"><span class="mcl">Grasas</span><span class="mcv">65g</span></div>
+</div>
+<div class="mcc">
+  <div class="mcd">Martes — 💪 Upper (ALTO)</div>
+  <div class="mcr"><span class="mcl">Calorías</span><span class="mcv">2.200 kcal</span></div>
+  <div class="mcr"><span class="mcl">Proteína</span><span class="mcv">155g</span></div>
+  <div class="mcr"><span class="mcl">Carbohidratos</span><span class="mcv">250g</span></div>
+  <div class="mcr"><span class="mcl">Grasas</span><span class="mcv">65g</span></div>
+</div>
+<div class="mcc">
+  <div class="mcd">Miércoles — 🚴 Ciclo (ALTO)</div>
+  <div class="mcr"><span class="mcl">Calorías</span><span class="mcv">2.200 kcal</span></div>
+  <div class="mcr"><span class="mcl">Proteína</span><span class="mcv">155g</span></div>
+  <div class="mcr"><span class="mcl">Carbohidratos</span><span class="mcv">250g</span></div>
+  <div class="mcr"><span class="mcl">Grasas</span><span class="mcv">65g</span></div>
+</div>
+<div class="mcc">
+  <div class="mcd">Jueves — 🦵 Piernas 2 (ALTO)</div>
+  <div class="mcr"><span class="mcl">Calorías</span><span class="mcv">2.200 kcal</span></div>
+  <div class="mcr"><span class="mcl">Proteína</span><span class="mcv">155g</span></div>
+  <div class="mcr"><span class="mcl">Carbohidratos</span><span class="mcv">250g</span></div>
+  <div class="mcr"><span class="mcl">Grasas</span><span class="mcv">65g</span></div>
+</div>
+<div class="mcc">
+  <div class="mcd">Viernes — 🧘 Core/Movilidad (MEDIO)</div>
+  <div class="mcr"><span class="mcl">Calorías</span><span class="mcv">1.750 kcal</span></div>
+  <div class="mcr"><span class="mcl">Proteína</span><span class="mcv">150g</span></div>
+  <div class="mcr"><span class="mcl">Carbohidratos</span><span class="mcv">170g</span></div>
+  <div class="mcr"><span class="mcl">Grasas</span><span class="mcv">50g</span></div>
+</div>
+<div class="mcc">
+  <div class="mcd">Sábado — 🛋️ Descanso (BAJO)</div>
+  <div class="mcr"><span class="mcl">Calorías</span><span class="mcv">1.550 kcal</span></div>
+  <div class="mcr"><span class="mcl">Proteína</span><span class="mcv">145g</span></div>
+  <div class="mcr"><span class="mcl">Carbohidratos</span><span class="mcv">120g</span></div>
+  <div class="mcr"><span class="mcl">Grasas</span><span class="mcv">45g</span></div>
+</div>
+<div class="mcc">
+  <div class="mcd">Domingo — 🛋️ Descanso (BAJO)</div>
+  <div class="mcr"><span class="mcl">Calorías</span><span class="mcv">1.550 kcal</span></div>
+  <div class="mcr"><span class="mcl">Proteína</span><span class="mcv">145g</span></div>
+  <div class="mcr"><span class="mcl">Carbohidratos</span><span class="mcv">120g</span></div>
+  <div class="mcr"><span class="mcl">Grasas</span><span class="mcv">45g</span></div>
+</div>
+<div class="mcc">
+  <div class="mcd">⏸️ Sin Entreno (BAJO)</div>
+  <div class="mcr"><span class="mcl">Calorías</span><span class="mcv">1.550 kcal</span></div>
+  <div class="mcr"><span class="mcl">Proteína</span><span class="mcv">145g</span></div>
+  <div class="mcr"><span class="mcl">Carbohidratos</span><span class="mcv">120g</span></div>
+  <div class="mcr"><span class="mcl">Grasas</span><span class="mcv">45g</span></div>
+</div>
+<div class="mcc" style="background:var(--green-bg);border:1.5px solid var(--green);">
+  <div class="mcd" style="color:var(--green)">📊 Promedio semanal</div>
+  <div class="mcr"><span class="mcl">Media/día</span><span class="mcv" style="color:var(--green)">~1.900 kcal</span></div>
+  <div class="mcr"><span class="mcl">Gasto estimado</span><span class="mcv" style="color:var(--green)">~2.300–2.500 kcal/día</span></div>
+  <div class="mcr"><span class="mcl">Déficit/semana</span><span class="mcv" style="color:var(--green)">~2.800 kcal</span></div>
+  <div class="mcr"><span class="mcl">Pérdida estimada</span><span class="mcv" style="color:var(--green)">~0.3–0.4 kg/sem</span></div>
+</div>
+<div style="background:var(--pink-bg);border:1px solid #f8a8d4;border-radius:10px;padding:12px;margin-top:4px;font-size:12px;color:var(--text2);line-height:1.6;">
+  <strong style="color:var(--pink-dark)">☀️ Vitamina D baja</strong> — Come pescado azul 3-4x/semana: caballa, salmón, sardinas. 
+  Además, 20 min de sol directo (sin protector) a mediodía sintetiza VD3 de forma natural.
+</div>
+</div>
+
+<div class="page" id="pg-suppl">
+  
+<h2 style="font-family:'Playfair Display',serif;font-size:22px;color:var(--pink-dark);margin-bottom:14px;">Protocolo Suplementación</h2>
+<div class="spc">
+  <h3>☕ DESAYUNO — Todos los días</h3>
+  <div class="spi"><div class="spn">Colágeno Marino en Polvo</div><div class="spd">20-30g</div><div class="spw">Mezclado en yogur griego, queso 0.0 o agua tibia. La vitamina C del desayuno (fresas, kiwi, naranja) potencia su absorción en tendones y articulaciones.</div></div>
+</div>
+<div class="spc">
+  <h3>🍽️ DESPUÉS DE COMIDAS — Todos los días</h3>
+  <div class="spi"><div class="spn">Omega-3 (EPA+DHA)</div><div class="spd">2 cápsulas/día (1+1)</div><div class="spw">1 cápsula después de comida + 1 después de cena. Con grasa mejora la absorción. Antiinflamatorio directo para aductor y hombro.</div></div>
+</div>
+<div class="spc" style="background:var(--green-bg);border-color:var(--green)">
+  <h3 style="color:var(--green)">💪 POST-ENTRENO — Solo Lun, Mar, Mié, Jue</h3>
+  <div class="spi"><div class="spn">Creatina Monohidrato</div><div class="spd">5g</div><div class="spw">Con la merienda post-entreno. Sin carga ni timing exacto. NO en descanso (Vie no hay entreno fuerte, Sáb-Dom no hay entreno).</div></div>
+</div>
+<div class="spc" style="background:var(--purple-bg);border-color:#ce93d8">
+  <h3 style="color:var(--purple)">🌙 DESPUÉS DE CENAR — Todos los días</h3>
+  <div class="spi"><div class="spn">Glicina</div><div class="spd">5-7g</div><div class="spw">30 min después de cenar con agua tibia. Mejora el sueño profundo y la recuperación muscular nocturna. También es precursora del colágeno.</div></div>
+  <div class="spi"><div class="spn">Magnesio (Bisglicinato o Citrato)</div><div class="spd">300-400mg</div><div class="spw">Justo antes de dormir. Relaja musculatura, mejora sueño reparador. Clave durante lesiones activas.</div></div>
+</div>
+<div style="background:var(--pink-bg);border:1px solid #f8a8d4;border-radius:10px;padding:12px;margin-top:4px;font-size:12px;color:var(--text2);line-height:1.6;">
+  <strong style="color:var(--pink-dark)">💡 Por qué esta combinación funciona para ti</strong><br><br>
+  <strong>Colágeno+VitC:</strong> Reconstruye tendones y ligamentos (aductor, hombro operado). Máxima eficacia en desayuno.<br><br>
+  <strong>Omega-3:</strong> Reduce inflamación crónica en inserciones tendinosas. Tu aductor lleva meses inflamado — el omega-3 hace trabajo silencioso cada día.<br><br>
+  <strong>Creatina:</strong> Mejora recuperación y fuerza. Solo días de entreno porque sin estímulo muscular su captación es menor.<br><br>
+  <strong>Glicina+Magnesio:</strong> El sueño profundo es cuando el cuerpo repara músculo y tendón. La glicina alarga las fases de sueño lento. El magnesio relaja la tensión muscular acumulada.
+</div>
+</div>
+
+</div>
+<div class="bnav">
+  <button class="nb active" onclick="showPage('plan',this)"><span class="bi">📅</span>Plan</button>
+  <button class="nb" onclick="showPage('macros',this)"><span class="bi">📊</span>Macros</button>
+  <button class="nb" onclick="showPage('suppl',this)"><span class="bi">💊</span>Suplementos</button>
+</div>
 <script>
-function showPage(id, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pg-'+id).classList.add('active');
   btn.classList.add('active');
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
-
-function showDay(id, btn) {
-  document.querySelectorAll('.day-page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('day-' + id).classList.add('active');
-  btn.classList.add('active');
-  btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function showDay(id,btn){
+  document.querySelectorAll('.dp').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.dt').forEach(b=>{
+    b.style.background='white';b.style.color='var(--text3)';b.style.borderColor='#f0d0e8';
+  });
+  document.getElementById('d-'+id).classList.add('active');
+  btn.style.background='var(--pink)';btn.style.color='white';btn.style.borderColor='var(--pink)';
+  btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function toggleMeal(header) {
-  header.parentElement.classList.toggle('open');
+function tm(h){h.parentElement.classList.toggle('open');}
+function so(btn){
+  const mc=btn.closest('.mbody');
+  mc.querySelectorAll('.ob').forEach(x=>x.classList.remove('sel'));
+  btn.classList.add('sel');
+  const a=mc.querySelector('.oa');const b=mc.querySelector('.ob2');
+  if(btn.textContent.trim()==='Opción A'){a.style.display='block';b.style.display='none';}
+  else{a.style.display='none';b.style.display='block';}
 }
 </script>
-
 </body>
 </html>
