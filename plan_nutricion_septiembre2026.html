@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Plan Nutrición · Bego · Septiembre 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink:       #e91e8c;
+    --pink-dark:  #b5156c;
+    --pink-soft:  #f8a8d4;
+    --pink-bg:    #fff0f7;
+    --pink-card:  #fce4f3;
+    --rose:       #fdf0f8;
+    --text:       #1a0a12;
+    --text2:      #7a4060;
+    --text3:      #b07090;
+    --green:      #2e7d32;
+    --green-bg:   #e8f5e9;
+    --orange:     #e65100;
+    --orange-bg:  #fff3e0;
+    --blue:       #1565c0;
+    --blue-bg:    #e3f2fd;
+    --yellow-bg:  #fffde7;
+    --radius:     18px;
+    --radius-sm:  10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body { font-family: 'DM Sans', sans-serif; background: #fdf5fa; color: var(--text); min-height: 100vh; padding-bottom: 100px; }
+
+  .header {
+    background: linear-gradient(135deg, var(--pink-dark) 0%, var(--pink) 60%, #f472b6 100%);
+    padding: 48px 20px 28px; text-align: center; position: relative; overflow: hidden;
+  }
+  .header::before { content: ''; position: absolute; top: -40px; left: -40px; width: 180px; height: 180px; background: rgba(255,255,255,0.07); border-radius: 50%; }
+  .header::after { content: ''; position: absolute; bottom: -30px; right: -30px; width: 140px; height: 140px; background: rgba(255,255,255,0.07); border-radius: 50%; }
+  .header-emoji { font-size: 36px; display: block; margin-bottom: 8px; }
+  .header h1 { font-family: 'Playfair Display', serif; font-size: 26px; color: #fff; line-height: 1.2; position: relative; }
+  .header p { font-size: 12px; color: rgba(255,255,255,0.82); margin-top: 6px; letter-spacing: 0.06em; text-transform: uppercase; position: relative; }
+  .header-badges { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 14px; position: relative; }
+  .hbadge { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 11px; padding: 4px 10px; border-radius: 100px; font-weight: 500; }
+
+  .tabs-wrap { position: sticky; top: 0; z-index: 50; background: #fff; border-bottom: 1px solid #f0d0e8; overflow-x: auto; scrollbar-width: none; }
+  .tabs-wrap::-webkit-scrollbar { display: none; }
+  .tabs { display: flex; padding: 0 12px; gap: 4px; min-width: max-content; }
+  .tab-btn {
+    padding: 14px 14px 12px; border: none; background: none; font-family: 'DM Sans', sans-serif; font-size: 13px;
+    font-weight: 500; color: var(--text3); cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s;
+    white-space: nowrap; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  }
+  .tab-btn .tab-icon { font-size: 16px; }
+  .tab-btn.active { color: var(--pink); border-bottom-color: var(--pink); font-weight: 600; }
+  .tab-btn.rest.active { color: var(--text2); border-bottom-color: var(--text2); }
+
+  .main { padding: 16px 14px; max-width: 480px; margin: 0 auto; }
+  .day-page { display: none; }
+  .day-page.active { display: block; }
+
+  .day-hero {
+    background: linear-gradient(135deg, var(--pink-dark), var(--pink)); border-radius: var(--radius); padding: 20px;
+    margin-bottom: 14px; color: white; display: flex; justify-content: space-between; align-items: center;
+  }
+  .day-hero.rest { background: linear-gradient(135deg, #7b1fa2, #ab47bc); }
+  .day-hero h2 { font-family: 'Playfair Display', serif; font-size: 22px; line-height: 1.2; }
+  .day-hero p { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+  .day-macro-pill { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 10px 14px; text-align: center; flex-shrink: 0; }
+  .day-macro-pill .kcal { font-size: 20px; font-weight: 700; }
+  .day-macro-pill .kcal-label { font-size: 10px; opacity: 0.8; }
+
+  .macro-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
+  .macro-pill { background: #fff; border-radius: var(--radius-sm); padding: 10px 8px; text-align: center; border: 1px solid #f0d0e8; }
+  .macro-pill .mp-val { font-size: 17px; font-weight: 700; color: var(--pink); }
+  .macro-pill .mp-label { font-size: 10px; color: var(--text3); margin-top: 2px; font-weight: 500; }
+
+  .meal-card { background: #fff; border-radius: var(--radius); margin-bottom: 12px; border: 1px solid #f0d0e8; overflow: hidden; }
+  .meal-header { padding: 14px 16px 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+  .meal-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .meal-icon.breakfast { background: #fff8e1; }
+  .meal-icon.snack     { background: #f3e5f5; }
+  .meal-icon.lunch     { background: #e8f5e9; }
+  .meal-icon.post      { background: #e3f2fd; }
+  .meal-icon.dinner    { background: #fce4ec; }
+
+  .meal-title-wrap { flex: 1; }
+  .meal-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .meal-time  { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .meal-chevron { font-size: 18px; color: var(--text3); transition: transform 0.25s; }
+  .meal-card.open .meal-chevron { transform: rotate(180deg); }
+  .meal-body { display: none; padding: 0 16px 16px; border-top: 1px solid #fce4f3; }
+  .meal-card.open .meal-body { display: block; }
+
+  .food-list { list-style: none; }
+  .food-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 1px solid #fce4f3; font-size: 13px; line-height: 1.4; }
+  .food-item:last-child { border-bottom: none; }
+  .food-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pink-soft); flex-shrink: 0; margin-top: 6px; }
+  .food-amount { color: var(--pink); font-weight: 600; margin-right: 2px; }
+
+  .creatina-note { background: var(--green-bg); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: var(--green); font-weight: 600; margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+
+  .suppl-card { background: #fff; border-radius: var(--radius); padding: 16px; margin-bottom: 12px; border: 1px solid #f0d0e8; }
+  .suppl-card h3 { font-size: 14px; font-weight: 700; color: var(--pink-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .suppl-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #fce4f3; font-size: 13px; }
+  .suppl-item:last-child { border-bottom: none; }
+  .s-name { font-weight: 600; color: var(--text); }
+  .s-when { color: var(--text3); }
+
+  .macros-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--pink-dark); margin-bottom: 14px; }
+  .macro-week-card { background: #fff; border-radius: var(--radius); padding: 16px; margin-bottom: 10px; border: 1px solid #f0d0e8; }
+  .pw-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .pw-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #fce4f3; font-size: 12px; }
+  .pw-row:last-child { border-bottom: none; }
+  .label { color: var(--text3); }
+  .val { font-weight: 600; color: var(--pink); }
+  .val.alto { color: var(--orange); }
+  .val.medio { color: var(--pink); }
+  .val.bajo { color: var(--blue); }
+
+  .info-box { background: var(--pink-bg); border: 1px solid #f8a8d4; border-radius: var(--radius-sm); padding: 14px; margin-bottom: 12px; font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .info-box strong { color: var(--pink-dark); }
+
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text3); margin: 20px 0 10px; }
+
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; border-top: 1px solid #f0d0e8; display: flex; padding: 8px 0 max(8px, env(safe-area-inset-bottom)); z-index: 100; }
+  .bnav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 0; border: none; background: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--text3); font-weight: 500; transition: color 0.2s; }
+  .back-btn { display: inline-block; margin-top: 16px; padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(233, 30, 140, 0.3); background: rgba(233, 30, 140, 0.08); color: var(--pink); font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+  .bnav-btn .bnav-icon { font-size: 22px; }
+  .bnav-btn.active { color: var(--pink); font-weight: 700; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .notes { background: var(--pink-bg); border: 1px solid #f8a8d4; border-radius: var(--radius-sm); padding: 14px; margin-top: 14px; }
+  .notes h4 { font-size: 12px; font-weight: 700; color: var(--pink-dark); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .notes ul { list-style: none; }
+  .notes li { font-size: 12px; color: var(--text2); padding: 5px 0 5px 16px; position: relative; line-height: 1.5; }
+  .notes li::before { content: '▪'; position: absolute; left: 0; color: var(--pink-soft); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-emoji">🌸</span>
+  <h1>Plan Nutricional<br>Septiembre 2026</h1>
+  <p>Bego · Nueva temporada · Recomposición</p>
+  <div class="header-badges">
+    <span class="hbadge">Ciclo carbos</span>
+    <span class="hbadge">155g proteína fija</span>
+    <span class="hbadge">Sin déficit agresivo</span>
+    <span class="hbadge">Mes de estrés laboral</span>
+  </div>
+  <a href="index.html" class="back-btn">← Volver al inicio</a>
+</div>
+
+<!-- ══ PLAN SEMANAL ══ -->
+<div class="page active" id="page-plan">
+
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showDay('alto', this)"><span class="tab-icon">📈</span>ALTO</button>
+      <button class="tab-btn" onclick="showDay('medio', this)"><span class="tab-icon">➡️</span>MEDIO</button>
+      <button class="tab-btn rest" onclick="showDay('bajo', this)"><span class="tab-icon">📉</span>BAJO</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- ── ALTO ── -->
+    <div class="day-page active" id="day-alto">
+      <div class="day-hero">
+        <div>
+          <h2>Días ALTO carbos</h2>
+          <p>Lunes (Piernas) · Jueves (Full Body) · Viernes (HIIT)</p>
+        </div>
+        <div class="day-macro-pill"><div class="kcal">~2.150</div><div class="kcal-label">kcal</div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="mp-val">155g</div><div class="mp-label">Proteína</div></div>
+        <div class="macro-pill"><div class="mp-val">240g</div><div class="mp-label">Carbos</div></div>
+        <div class="macro-pill"><div class="mp-val">62g</div><div class="mp-label">Grasa</div></div>
+      </div>
+
+      <div class="meal-card open">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon breakfast">☕</div>
+          <div class="meal-title-wrap"><div class="meal-title">Desayuno</div><div class="meal-time">~380 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">5–7 claras</span> + 1 yema</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">45g avena integral</span> en copos</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">125ml yogur griego</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g frutos rojos</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span>Canela, café o té sin azúcar</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon snack">🍎</div>
+          <div class="meal-title-wrap"><div class="meal-title">Media Mañana</div><div class="meal-time">~250 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g pavo/pollo</span> fiambre</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">4 tortitas de arroz integral</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span>Té verde o café</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon lunch">🍽️</div>
+          <div class="meal-title-wrap"><div class="meal-title">Comida Principal</div><div class="meal-time">~530 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">190g proteína</span> (pollo, pavo, ternera, pescado)</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150g arroz integral</span> o <span class="food-amount">140g boniato</span> cocido</span></li>
+            <li class="food-item"><div class="food-dot"></div><span>Verdura abundante (sin almidón)</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml AOVE</span></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon post">💪</div>
+          <div class="meal-title-wrap"><div class="meal-title">Merienda Post-Entreno</div><div class="meal-time">~370 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">200ml yogur griego</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150g frutos rojos</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">50g avena</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">1 puñado almendras</span> (~23g)</span></li>
+          </ul>
+          <div class="creatina-note">💊 Creatina 3–5g con esta comida (post-entreno)</div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-title-wrap"><div class="meal-title">Cena</div><div class="meal-time">~540 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">240g pescado blanco</span> o merluza</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">Patata mediana cocida</span> (~150g)</span></li>
+            <li class="food-item"><div class="food-dot"></div><span>Ensalada grande sin límite</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g cottage</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml AOVE</span></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notes">
+        <h4>Notas días ALTO</h4>
+        <ul>
+          <li>El viernes de HIIT es el día más exigente metabólicamente de la semana — no lo trates como "menos importante" solo porque no hay pesas.</li>
+          <li>La patata en cena es fija todos los días, también en ALTO.</li>
+          <li>Si el trabajo aprieta y algún ALTO se queda en oficina todo el día sin moverte tanto, no pasa nada — la comida sigue igual, el cuerpo la usa para recuperar, no solo para moverse.</li>
+        </ul>
+      </div>
+    </div><!-- fin alto -->
+
+    <!-- ── MEDIO ── -->
+    <div class="day-page" id="day-medio">
+      <div class="day-hero">
+        <div>
+          <h2>Días MEDIO carbos</h2>
+          <p>Martes (Upper) · Miércoles (Ciclo)</p>
+        </div>
+        <div class="day-macro-pill"><div class="kcal">~1.850</div><div class="kcal-label">kcal</div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="mp-val">150g</div><div class="mp-label">Proteína</div></div>
+        <div class="macro-pill"><div class="mp-val">175g</div><div class="mp-label">Carbos</div></div>
+        <div class="macro-pill"><div class="mp-val">55g</div><div class="mp-label">Grasa</div></div>
+      </div>
+
+      <div class="meal-card open">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon breakfast">☕</div>
+          <div class="meal-title-wrap"><div class="meal-title">Desayuno</div><div class="meal-time">~340 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">4–5 claras</span> + 1 yema</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">35g avena</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">125ml yogur griego</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g frutos rojos</span></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon snack">🍎</div>
+          <div class="meal-title-wrap"><div class="meal-title">Media Mañana</div><div class="meal-time">~200 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g pavo</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">2–3 tortitas arroz</span></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon lunch">🍽️</div>
+          <div class="meal-title-wrap"><div class="meal-title">Comida Principal</div><div class="meal-time">~480 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180g proteína</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">120g arroz integral</span> o <span class="food-amount">100g boniato</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span>Verdura abundante</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml AOVE</span></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon snack">🥑</div>
+          <div class="meal-title-wrap"><div class="meal-title">Merienda</div><div class="meal-time">~280 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">150ml yogur griego</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g frutos rojos</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">1 puñado almendras</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">30g avena</span></span></li>
+          </ul>
+          <div class="creatina-note">💊 Creatina 3–5g si has entrenado ese día</div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-title-wrap"><div class="meal-title">Cena</div><div class="meal-time">~550 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">220g pescado blanco</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">Patata mediana cocida</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span>Ensalada grande</span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">100g cottage</span></span></li>
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">10ml AOVE</span></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notes">
+        <h4>Notas días MEDIO</h4>
+        <ul>
+          <li>El miércoles de ciclo puede sentirse "solo cardio", pero 45-50 min de bici sigue pidiendo carbos — no lo bajes a nivel BAJO.</li>
+          <li>La patata en cena, igual que siempre.</li>
+        </ul>
+      </div>
+    </div><!-- fin medio -->
+
+    <!-- ── BAJO ── -->
+    <div class="day-page" id="day-bajo">
+      <div class="day-hero rest">
+        <div>
+          <h2>Días BAJO carbos</h2>
+          <p>Sábado · Domingo</p>
+        </div>
+        <div class="day-macro-pill"><div class="kcal">~1.650</div><div class="kcal-label">kcal</div></div>
+      </div>
+      <div class="macro-row">
+        <div class="macro-pill"><div class="mp-val">150g</div><div class="mp-label">Proteína</div></div>
+        <div class="macro-pill"><div class="mp-val">125g</div><div class="mp-label">Carbos</div></div>
+        <div class="macro-pill"><div class="mp-val">48g</div><div class="mp-label">Grasa</div></div>
+      </div>
+
+      <div class="meal-card open">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon breakfast">☕</div>
+          <div class="meal-title-wrap"><div class="meal-title">Desayuno</div><div class="meal-time">~380 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">4–5 claras</span> + 35g avena + yogur griego 125g + frutos rojos 100g</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon lunch">🍽️</div>
+          <div class="meal-title-wrap"><div class="meal-title">Comida</div><div class="meal-time">~460 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">180g proteína</span> + verdura abundante sin almidón + boniato pequeño (~80g) o legumbre pequeña + <span class="food-amount">AOVE 1 cda</span></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon snack">🥑</div>
+          <div class="meal-title-wrap"><div class="meal-title">Merienda (si hay hambre)</div><div class="meal-time">~200 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span>Yogur griego 150g + frutos rojos 80g. <strong>Sin tortitas ni crackers.</strong></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header" onclick="toggleMeal(this)">
+          <div class="meal-icon dinner">🌙</div>
+          <div class="meal-title-wrap"><div class="meal-title">Cena</div><div class="meal-time">~490 kcal</div></div>
+          <div class="meal-chevron">⌄</div>
+        </div>
+        <div class="meal-body">
+          <ul class="food-list">
+            <li class="food-item"><div class="food-dot"></div><span><span class="food-amount">200g pescado blanco</span> o merluza + <strong style="color: var(--green);">patata mediana cocida</strong> + ensalada grande + cottage 100g + <span class="food-amount">AOVE 1 cda</span>. <strong>Sin pan. Sin aguacate.</strong></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="notes">
+        <h4>Notas días BAJO</h4>
+        <ul>
+          <li>Sábado y domingo, sin creatina.</li>
+          <li>La patata en cena se mantiene también en fin de semana — la ansiedad post-cena no entiende de ciclos.</li>
+          <li>Si el sábado sales a caminar o mueves el cuerpo, cuenta como gasto real aunque sea "día de descanso".</li>
+        </ul>
+      </div>
+    </div><!-- fin bajo -->
+
+  </div>
+</div>
+
+<!-- ══ SUPLEMENTACIÓN ══ -->
+<div class="page" id="page-suppl">
+  <div class="main">
+    <p class="section-label" style="margin-top: 0;">💊 Protocolo de suplementación</p>
+
+    <div class="suppl-card">
+      <h3>📋 Diariamente</h3>
+      <div class="suppl-item"><div class="s-name">Curcumina</div><div class="s-when">Con comida</div></div>
+      <div class="suppl-item"><div class="s-name">Colágeno marino + Vitamina C</div><div class="s-when">Desayuno o antes de dormir</div></div>
+      <div class="suppl-item"><div class="s-name">Omega-3</div><div class="s-when">Con comida grasa (comida o cena)</div></div>
+      <div class="suppl-item"><div class="s-name">Magnesio + D3 + K2 + B6</div><div class="s-when">Antes de dormir</div></div>
+      <div class="suppl-item"><div class="s-name">Omega-7 (espino amarillo)</div><div class="s-when">Con comida</div></div>
+    </div>
+
+    <div class="suppl-card" style="background: var(--blue-bg); border-color: #bbdefb;">
+      <h3 style="color: var(--blue);">💪 Solo días de entreno (incluye HIIT del viernes)</h3>
+      <div class="suppl-item"><div class="s-name">Creatina monohidrato 3–5g</div><div class="s-when">Post-entreno con comida</div></div>
+    </div>
+
+    <div class="notes">
+      <h4>Notas suplementación</h4>
+      <ul>
+        <li>El viernes de HIIT cuenta como día de entreno para la creatina, igual que piernas, upper o full body.</li>
+        <li>Magnesio antes de dormir ayuda especialmente este mes: con más estrés de trabajo, la calidad del sueño se resiente antes.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROGRESIÓN ══ -->
+<div class="page" id="page-macros">
+  <div class="main">
+    <h2 class="macros-title">Enfoque calórico — Septiembre</h2>
+    <p class="section-label" style="margin-top: 0;">Mes de mucho estrés laboral · sin recortar de más</p>
+
+    <div class="info-box">
+      <strong>Por qué no bajamos calorías este mes:</strong> con estrés alto de trabajo, el cortisol ya está elevado. Meter un déficit agresivo encima es pedirle al cuerpo que gestione dos frentes a la vez — y ahí es donde se estanca el peso pese a "hacerlo todo bien" o donde el hambre emocional gana la partida. Este mes se mantiene un déficit suave, no se persigue bajar de peso a toda costa.
+    </div>
+
+    <div class="macro-week-card">
+      <div class="pw-title">Media semanal</div>
+      <div class="pw-row"><span class="label">Días ALTO (×3):</span><span class="val alto">2.150 kcal</span></div>
+      <div class="pw-row"><span class="label">Días MEDIO (×2):</span><span class="val medio">1.850 kcal</span></div>
+      <div class="pw-row"><span class="label">Días BAJO (×2):</span><span class="val bajo">1.650 kcal</span></div>
+      <div class="pw-row"><span class="label">Media semanal:</span><span class="val" style="color: var(--text2);">~1.940 kcal</span></div>
+    </div>
+
+    <div class="notes">
+      <h4>Lógica de septiembre</h4>
+      <ul>
+        <li>Con 5 sesiones (3 de ellas de alta demanda: piernas, full body, HIIT), el gasto semanal es alto. La media de ~1.940 kcal sigue creando déficit, pero moderado — no un corte fuerte.</li>
+        <li>Proteína fija en 150-155g todos los días, entrene o no, sea ALTO, MEDIO o BAJO. Eso no se negocia.</li>
+        <li>Si a mitad de mes notas mucha ansiedad o el sueño se resiente, avísame — se ajusta el BAJO antes que tocar los ALTO, que son los que sostienen el entreno.</li>
+        <li>El objetivo de septiembre no es bajar de peso rápido, es sostener el nuevo ritmo de entreno sin que la comida se convierta en otro frente de estrés.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <button class="bnav-btn active" onclick="showPage('plan', this)"><span class="bnav-icon">📅</span>Plan</button>
+  <button class="bnav-btn" onclick="showPage('suppl', this)"><span class="bnav-icon">💊</span>Suplementos</button>
+  <button class="bnav-btn" onclick="showPage('macros', this)"><span class="bnav-icon">📊</span>Enfoque</button>
+</div>
+
+<script>
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showDay(id, btn) {
+  document.querySelectorAll('.day-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('day-' + id).classList.add('active');
+  btn.classList.add('active');
+  btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleMeal(header) {
+  header.parentElement.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
