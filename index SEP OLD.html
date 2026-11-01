@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bego Fit">
+<meta name="theme-color" content="#C2185B">
+<title>Bego Fit · Septiembre 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink:      #e91e8c;
+    --pink-dark: #C2185B;
+    --pink-soft: #f8a8d4;
+    --pink-bg:   #fff0f7;
+    --text:      #1a0a12;
+    --text2:     #7a4060;
+    --text3:     #b07090;
+    --green:     #2e7d32;
+    --blue:      #1565c0;
+    --orange:    #e65100;
+    --teal:      #00796b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #fdf5fa;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero {
+    background: linear-gradient(150deg, #8b0057 0%, var(--pink-dark) 40%, var(--pink) 75%, #f472b6 100%);
+    padding: 52px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .hero::before { content: ''; position: absolute; top: -60px; left: -60px; width: 220px; height: 220px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+  .hero::after { content: ''; position: absolute; bottom: -40px; right: -40px; width: 160px; height: 160px; background: rgba(255,255,255,0.06); border-radius: 50%; }
+  .hero-logo {
+    width: 68px; height: 68px; background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 34px;
+    margin: 0 auto 16px; position: relative; backdrop-filter: blur(10px); animation: pulse-ring 2.5s ease-out infinite;
+  }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: 30px; color: #fff; line-height: 1.15; position: relative; }
+  .hero h1 em { font-style: italic; opacity: 0.85; }
+  .hero p { font-size: 12px; color: rgba(255,255,255,0.78); margin-top: 6px; letter-spacing: 0.06em; text-transform: uppercase; position: relative; }
+  .hero-badges { display: flex; gap: 7px; justify-content: center; flex-wrap: wrap; margin-top: 14px; position: relative; }
+  .hbadge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.28); color: #fff; font-size: 11px; padding: 4px 11px; border-radius: 100px; font-weight: 500; backdrop-filter: blur(6px); }
+  .hbadge.new { background: rgba(255,255,255,0.28); border-color: rgba(255,255,255,0.5); font-weight: 700; }
+
+  .main { flex: 1; padding: 24px 16px 40px; max-width: 460px; margin: 0 auto; width: 100%; }
+
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text3);
+    margin-bottom: 12px; margin-top: 24px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-label:first-of-type { margin-top: 0; }
+  .section-label .s-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+  .s-badge.active { background: #fce4f3; color: var(--pink-dark); }
+  .s-badge.archive { background: #f5f5f5; color: #999; }
+
+  .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 24px; }
+  .stat-card { background: #fff; border-radius: 14px; padding: 12px 8px; text-align: center; border: 1px solid #f0d0e8; }
+  .stat-val { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--pink-dark); font-weight: 700; }
+  .stat-label { font-size: 10px; color: var(--text3); margin-top: 3px; font-weight: 500; line-height: 1.3; }
+
+  .app-card {
+    display: flex; align-items: center; gap: 14px; background: #fff; border-radius: 18px; padding: 18px 16px;
+    margin-bottom: 12px; text-decoration: none; color: inherit; border: 1.5px solid #f0d0e8;
+    transition: transform 0.15s, box-shadow 0.15s; position: relative; overflow: hidden;
+  }
+  .app-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 18px 18px 0 0; }
+  .app-card.nutrition::before { background: linear-gradient(90deg, var(--pink-dark), var(--pink)); }
+  .app-card.training::before  { background: linear-gradient(90deg, #1a237e, #3949ab); }
+  .app-card.diary::before     { background: linear-gradient(90deg, var(--green), #66bb6a); }
+  .app-card.archive-card::before { background: linear-gradient(90deg, #bbb, #ddd); }
+  .app-card:active { transform: scale(0.97); }
+  .app-card.featured { border-color: var(--pink-soft); box-shadow: 0 4px 16px rgba(233,30,140,0.10); }
+
+  .app-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+  .app-icon.nutrition { background: linear-gradient(135deg, #fce4f3, #f8bbd0); }
+  .app-icon.training  { background: linear-gradient(135deg, #e8eaf6, #c5cae9); }
+  .app-icon.diary     { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+  .app-icon.archive   { background: #f5f5f5; }
+
+  .app-info { flex: 1; min-width: 0; }
+  .app-name { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.2; }
+  .app-desc { font-size: 12px; color: var(--text3); margin-top: 3px; line-height: 1.4; }
+  .app-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 7px; }
+  .app-tag { font-size: 10px; padding: 2px 7px; border-radius: 100px; font-weight: 600; }
+  .app-tag.pink   { background: #fce4f3; color: var(--pink-dark); }
+  .app-tag.blue   { background: #e8eaf6; color: #3949ab; }
+  .app-tag.green  { background: #e8f5e9; color: var(--green); }
+  .app-tag.orange { background: #fff3e0; color: var(--orange); }
+  .app-tag.gray   { background: #f5f5f5; color: #888; }
+
+  .app-arrow { font-size: 20px; color: var(--text3); flex-shrink: 0; }
+
+  .historial-toggle {
+    width: 100%; background: #f9f0f5; border: 1.5px solid #f0d0e8; border-radius: 14px; padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 600; color: var(--text2); touch-action: manipulation; margin-bottom: 0;
+    -webkit-tap-highlight-color: transparent; transition: background 0.15s;
+  }
+  .historial-toggle:active { background: #f0e0ec; }
+  .historial-toggle .toggle-left { display: flex; align-items: center; gap: 10px; }
+  .historial-toggle .toggle-icon { font-size: 18px; }
+  .historial-toggle .toggle-count { font-size: 10px; background: #f0d0e8; color: var(--pink-dark); padding: 2px 8px; border-radius: 100px; font-weight: 700; }
+  .chevron-hist { font-size: 14px; color: var(--text3); transition: transform 0.25s; }
+  .historial-toggle.open .chevron-hist { transform: rotate(180deg); }
+  .historial-body { display: none; padding-top: 8px; }
+  .historial-body.open { display: block; }
+
+  .archive-card { opacity: 0.75; border-color: #eeeeee; }
+  .archive-card .app-name { font-size: 14px; color: #666; }
+  .archive-card .app-desc { font-size: 11px; }
+
+  .footer { text-align: center; padding: 0 20px 32px; font-size: 11px; color: var(--text3); line-height: 1.8; }
+  .footer strong { color: var(--pink-dark); }
+
+  @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(233,30,140,0.3); } 70% { box-shadow: 0 0 0 12px rgba(233,30,140,0); } 100% { box-shadow: 0 0 0 0 rgba(233,30,140,0); } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .app-card { animation: slideUp 0.35s ease both; }
+  .app-card:nth-child(1) { animation-delay: 0.04s; }
+  .app-card:nth-child(2) { animation-delay: 0.12s; }
+  .app-card:nth-child(3) { animation-delay: 0.20s; }
+  .app-card:nth-child(4) { animation-delay: 0.28s; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-logo">🌸</div>
+  <h1>Bego <em>Fit</em></h1>
+  <p>Nutrición &amp; Entrenamiento · Septiembre 2026</p>
+  <div class="hero-badges">
+    <span class="hbadge new">Nueva temporada ✨</span>
+    <span class="hbadge">5 sesiones/semana</span>
+    <span class="hbadge">Máx 60-65 min</span>
+    <span class="hbadge">by BHG 👌</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-val">5</div>
+      <div class="stat-label">sesiones / semana</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">155g</div>
+      <div class="stat-label">proteína / día</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">60-65</div>
+      <div class="stat-label">min máx / sesión</div>
+    </div>
+  </div>
+
+  <div class="section-label">
+    Planes activos
+    <span class="s-badge active">Septiembre 2026</span>
+  </div>
+
+  <a class="app-card training featured" href="plan_fuerza_septiembre2026.html">
+    <div class="app-icon training">🏋️</div>
+    <div class="app-info">
+      <div class="app-name">Plan de Fuerza — Septiembre</div>
+      <div class="app-desc">Piernas · Upper · Ciclo · Full Body · HIIT · Fisio integrado</div>
+      <div class="app-tags">
+        <span class="app-tag blue">Lun/Mar/Mié/Jue/Vie</span>
+        <span class="app-tag orange">4 semanas</span>
+        <span class="app-tag blue">Nueva temporada</span>
+      </div>
+    </div>
+    <div class="app-arrow">›</div>
+  </a>
+
+  <a class="app-card nutrition featured" href="plan_nutricion_septiembre2026.html">
+    <div class="app-icon nutrition">🍽️</div>
+    <div class="app-info">
+      <div class="app-name">Plan Nutricional — Septiembre</div>
+      <div class="app-desc">Ciclo carbos alineado con las 5 sesiones · Sin déficit agresivo</div>
+      <div class="app-tags">
+        <span class="app-tag pink">Recomposición</span>
+        <span class="app-tag orange">155g proteína</span>
+      </div>
+    </div>
+    <div class="app-arrow">›</div>
+  </a>
+
+  <div class="section-label">Herramientas</div>
+
+  <a class="app-card diary" href="diario_entrenamiento.html">
+    <div class="app-icon diary">📓</div>
+    <div class="app-info">
+      <div class="app-name">Diario de Entrenamiento</div>
+      <div class="app-desc">Sesiones · PRs · Medidas · Historial</div>
+      <div class="app-tags">
+        <span class="app-tag green">Mis registros</span>
+        <span class="app-tag green">PRs</span>
+        <span class="app-tag green">Estadísticas</span>
+      </div>
+    </div>
+    <div class="app-arrow">›</div>
+  </a>
+
+  <div class="section-label" style="margin-top: 24px;">Historial</div>
+
+  <button class="historial-toggle" onclick="toggleHistorial(this)">
+    <div class="toggle-left">
+      <span class="toggle-icon">🗂️</span>
+      <span>Planes anteriores</span>
+      <span class="toggle-count">revisa antes de subir</span>
+    </div>
+    <span class="chevron-hist">▼</span>
+  </button>
+
+  <div class="historial-body" id="historialBody">
+
+    <a class="app-card training archive-card" href="plan_fuerza_agosto2026.html">
+      <div class="app-icon archive">🏋️</div>
+      <div class="app-info">
+        <div class="app-name">Fuerza — Agosto 2026</div>
+        <div class="app-desc">Mes de mantenimiento · vacaciones y sierra</div>
+        <div class="app-tags"><span class="app-tag gray">Completado</span></div>
+      </div>
+      <div class="app-arrow">›</div>
+    </a>
+
+    <a class="app-card training archive-card" href="plan_fuerza_julio2026.html">
+      <div class="app-icon archive">🏋️</div>
+      <div class="app-info">
+        <div class="app-name">Fuerza — Julio 2026</div>
+        <div class="app-desc">Reintroducción búlgaras y prensa exploratoria</div>
+        <div class="app-tags"><span class="app-tag gray">Completado</span></div>
+      </div>
+      <div class="app-arrow">›</div>
+    </a>
+
+    <a class="app-card training archive-card" href="plan_fuerza_junio2026.html">
+      <div class="app-icon archive">🏋️</div>
+      <div class="app-info">
+        <div class="app-name">Fuerza — Junio 2026</div>
+        <div class="app-desc">Piernas vuelven · Ciclo carbos · Protocolo aductor</div>
+        <div class="app-tags"><span class="app-tag gray">Completado</span></div>
+      </div>
+      <div class="app-arrow">›</div>
+    </a>
+
+    <a class="app-card nutrition archive-card" href="plan_nutricion_junio2026.html">
+      <div class="app-icon archive">🍽️</div>
+      <div class="app-info">
+        <div class="app-name">Nutrición — Junio 2026</div>
+        <div class="app-desc">Ciclo de carbos · 5 comidas</div>
+        <div class="app-tags"><span class="app-tag gray">Vigente hasta actualizar</span></div>
+      </div>
+      <div class="app-arrow">›</div>
+    </a>
+
+    <a class="app-card training archive-card" href="plan_fuerza_mayo2026.html">
+      <div class="app-icon archive">🏋️</div>
+      <div class="app-info">
+        <div class="app-name">Fuerza — Mayo 2026</div>
+        <div class="app-desc">Upper body · Core intensivo · Protocolo aductor</div>
+        <div class="app-tags"><span class="app-tag gray">Completado</span></div>
+      </div>
+      <div class="app-arrow">›</div>
+    </a>
+
+    <a class="app-card training archive-card" href="plan_fuerza_abril2026.html">
+      <div class="app-icon archive">🏋️</div>
+      <div class="app-info">
+        <div class="app-name">Fuerza — Abril 2026</div>
+        <div class="app-desc">Push/Pull/Legs · Reactivación tras lesión ingle</div>
+        <div class="app-tags"><span class="app-tag gray">Completado</span></div>
+      </div>
+      <div class="app-arrow">›</div>
+    </a>
+
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Bego Fit · Septiembre 2026</strong><br>
+  Plan personalizado de nutrición y fuerza<br>
+  con 💗 por Cris Uceda
+</div>
+
+<script>
+function toggleHistorial(btn) {
+  btn.classList.toggle('open');
+  const body = document.getElementById('historialBody');
+  body.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
